@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mind Number — MindRush</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Rajdhani:wght@600;700&family=DM+Sans:wght@400;500&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:linear-gradient(145deg,#14100a,#1a1608,#100c05);min-height:100vh;display:flex;flex-direction:column;align-items:center;font-family:'DM Sans',sans-serif;}
+.nav{width:100%;max-width:780px;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;}
+.nav-back{display:flex;align-items:center;gap:8px;text-decoration:none;color:#a08030;font-size:14px;font-weight:600;transition:color .15s;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
+.nav-back:hover{color:#f5c842}
+.nav-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:#555;letter-spacing:.5px;}
+.nav-logo span{color:#777}
+.game-wrap{font-family:'DM Sans',sans-serif;background:#1a1608;border-radius:16px;padding:20px;color:#f8ecd0;min-height:460px;max-width:740px;width:calc(100% - 32px);margin:0 auto 32px;position:relative;}
+.g-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.g-hdr-left{display:flex;align-items:center;gap:10px;}
+.g-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;letter-spacing:.5px;}
+.g-hdr-right{display:flex;align-items:center;gap:8px;}
+.badge{font-size:11px;background:#C9920A;color:#2a1e00;padding:4px 12px;border-radius:20px;white-space:nowrap;font-weight:700;}
+.rules-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid #4a3800;background:#221a05;color:#a08030;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.rules-btn:hover{border-color:#C9920A;color:#f5c842;background:#3a2c00;}
+.diff-row{display:flex;gap:0;margin-bottom:14px;border-radius:8px;overflow:hidden;border:2px solid #4a3800;}
+.diff-row button{flex:1;padding:9px 0;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,color .2s;background:#221a05;color:#a08030;}
+.diff-row button:not(:last-child){border-right:1px solid #4a3800;}
+.diff-row button.ON{background:#C9920A!important;color:#1a1200!important;font-weight:700!important;}
+.diff-row button:hover:not(.ON){background:#3a2c00;color:#f5c842;}
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.sc{background:#151005;border:1.5px solid #3a2c00;border-radius:12px;padding:12px 16px;}
+.sc-you{border-left:4px solid #2196F3}
+.sc-comp{border-left:4px solid #C62828}
+.sc-top{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.sc-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;}
+.sc-label-you{color:#64B5F6}.sc-label-comp{color:#EF9A9A}
+.htag{font-size:9px;background:#C9920A;color:#1a1200;padding:2px 7px;border-radius:10px;font-weight:700;}
+.sc-val{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff;line-height:1;}
+.sc-word{font-size:12px;color:#a08030;margin-top:3px;min-height:16px;}
+.info{background:#221a05;border:1px solid #3a2c00;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#c0a050;text-align:center;line-height:1.5;}
+.info strong{color:#f5c842;}
+.tbar-w{height:5px;background:#3a2c00;border-radius:3px;margin-bottom:14px;overflow:hidden;}
+.tbar{height:100%;background:#C9920A;border-radius:3px;transition:width 1s linear;}
+.rules-ov{display:none;position:absolute;inset:0;background:rgba(12,9,0,.97);border-radius:16px;z-index:100;padding:24px;overflow-y:auto;flex-direction:column;}
+.rules-ov.show{display:flex;}
+.rules-close{align-self:flex-end;background:none;border:1.5px solid #4a3800;color:#a08030;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-bottom:12px;}
+.rules-close:hover{border-color:#C9920A;color:#fff;background:#3a2c00;}
+.rules-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#f5c842;margin-bottom:12px;}
+.rules-body{font-size:13px;color:#c0a050;line-height:1.7;}
+.rules-body strong{color:#f5c842;}
+.rules-body .rb-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #2a2000;margin-bottom:2px;}
+.rules-body .rb-row:last-child{border-bottom:none;}
+.rules-body .rb-val{color:#f5c842;font-weight:600;}
+/* Game-specific styles */
+.lbl{font-size:10px;color:#a08030;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:8px;}
+.drum-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:.7rem;}
+.drum{width:60px;height:70px;background:#221a05;border:2px solid #4a3800;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:border-color .12s,background .12s;}
+.drum:hover:not(.stopped){border-color:#E8A812;background:rgba(232,168,18,.1);}
+.drum.stopped{border-color:#C9920A;background:rgba(201,146,10,.18);}
+.dv{font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:#f5c842;line-height:1;min-width:44px;text-align:center;}
+.dv.sp{animation:blip .05s steps(2) infinite;}
+@keyframes blip{0%{opacity:1;transform:translateY(-1px);}50%{opacity:.5;transform:translateY(1px);}100%{opacity:1;}}
+.ds{font-size:8px;color:#a08030;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.tgt{text-align:center;margin-bottom:1rem;}
+.tgt-lbl{font-size:10px;color:#a08030;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px;}
+.tgt-num{font-family:'Rajdhani',sans-serif;font-size:5rem;font-weight:700;color:#f5c842;line-height:1;text-shadow:0 0 50px rgba(201,146,10,.45);}
+.tm{display:flex;align-items:center;gap:10px;margin-bottom:.9rem;}
+.tm-bar{flex:1;height:5px;background:#3a2c00;border-radius:3px;}
+.tm-fill{height:5px;background:#C9920A;border-radius:3px;transition:width 1s linear;}
+.tm-txt{font-family:'DM Mono',monospace;font-size:1rem;color:#E8A812;min-width:26px;text-align:right;}
+.avail{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:.9rem;}
+.nt{width:52px;height:52px;border-radius:10px;border:2px solid #4a3800;background:#151005;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;cursor:pointer;transition:all .12s;color:#f8ecd0;user-select:none;}
+.nt:hover:not(.used){border-color:#E8A812;background:rgba(201,146,10,.2);color:#f5c842;transform:translateY(-2px);}
+.nt.used{opacity:.18;cursor:not-allowed;transform:none;}
+.nt.big{border-color:#7a5500;color:#E8A812;}
+.ops{display:flex;gap:7px;justify-content:center;margin-bottom:.9rem;}
+.op{width:44px;height:44px;border-radius:8px;border:2px solid #4a3800;background:#151005;display:flex;align-items:center;justify-content:center;font-size:1.15rem;cursor:pointer;color:#a08030;transition:all .12s;font-family:'DM Mono',monospace;}
+.op:hover{border-color:#C9920A;color:#f5c842;background:rgba(201,146,10,.15);}
+.exb{background:#151005;border:2px solid #4a3800;border-radius:10px;padding:10px 14px;min-height:50px;margin-bottom:.9rem;font-family:'DM Mono',monospace;font-size:1rem;color:#f8ecd0;display:flex;align-items:center;flex-wrap:wrap;gap:4px;}
+.et{padding:3px 8px;border-radius:5px;}
+.en{background:#221a05;color:#f5c842;border:1px solid #7a5500;}
+.eo{color:#bbb;}.ep{color:#8ac;}.eh{color:#a08030;font-size:12px;}
+.acts{display:flex;gap:8px;justify-content:center;margin-bottom:.8rem;}
+.gbtn{padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;transition:all .12s;}
+.bg{background:#C9920A;color:#1a1200;}.bg:hover{background:#E8A812;}
+.bgh{background:transparent;border:1.5px solid #4a3800;color:#a08030;}.bgh:hover{border-color:#a08030;color:#f8ecd0;}
+.prog{font-size:11px;color:#a08030;text-align:center;margin:.5rem 0;}
+/* Overlay (round result) */
+#OVERLAY{display:none;position:absolute;inset:0;background:rgba(12,9,0,.97);border-radius:16px;flex-direction:column;align-items:center;justify-content:center;z-index:99;padding:2rem;text-align:center;}
+.ov-h{font-family:'Rajdhani',sans-serif;font-size:3rem;font-weight:700;margin-bottom:.3rem;}
+.c-win{color:#4ade80;}.c-lose{color:#f87171;}.c-tie{color:#facc15;}
+.reveal{display:flex;gap:10px;width:100%;max-width:320px;margin-bottom:.9rem;}
+.rv-card{flex:1;background:#221a05;border:1.5px solid #4a3800;border-radius:10px;padding:10px;text-align:center;}
+.rv-card.winner{border-color:#C9920A;background:rgba(201,146,10,.14);}
+.rv-name{font-size:9px;color:#a08030;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.rv-num{font-family:'Rajdhani',sans-serif;font-size:2.2rem;font-weight:700;color:#f5c842;line-height:1;}
+.rv-off{font-size:11px;color:#a08030;margin-top:2px;}
+.rv-pts{font-size:12px;font-weight:700;margin-top:4px;}
+.ai-box{background:#151005;border:1px solid #4a3800;border-radius:8px;padding:9px 16px;margin-bottom:.9rem;font-size:12px;width:100%;max-width:340px;}
+.ai-lbl{font-size:9px;color:#a08030;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Menu</a>
+  <div class="nav-logo"><span>Mind</span>Rush</div>
+</nav>
+<div class="game-wrap" id="mw">
+  <div class="g-hdr">
+    <div class="g-hdr-left"><div class="g-title"><span style="color:#E8A812">Mind</span><span style="color:#C9920A">Number</span></div></div>
+    <div class="g-hdr-right"><div class="badge" id="rbadge">Round 1 of 2</div><button class="rules-btn" id="rulesBtn" title="Rules">ⓘ</button></div>
+  </div>
+  <div class="diff-row" id="diff-row"></div>
+  <div class="scores">
+    <div class="sc sc-you"><div class="sc-top"><span class="sc-label sc-label-you">You</span><span class="htag" id="yh" style="display:none">HOST</span></div><div class="sc-val" id="SY">0</div><div class="sc-word" id="pw">—</div></div>
+    <div class="sc sc-comp"><div class="sc-top"><span class="sc-label sc-label-comp">Computer</span><span class="htag" id="ah" style="display:none">HOST</span></div><div class="sc-val" id="SAI">0</div><div class="sc-word" id="aw">—</div></div>
+  </div>
+  <div class="info" id="info">Starting round...</div>
+  <div class="tbar-w"><div class="tbar" id="tb" style="width:0%"></div></div>
+  <div id="MC"></div>
+  <div id="OVERLAY">
+    <div class="ov-h" id="OV_HEAD"></div>
+    <div id="OV_TGT" style="font-size:11px;color:#a08030;margin-bottom:.8rem;"></div>
+    <div class="reveal" id="OV_CARDS"></div>
+    <div class="ai-box"><div class="ai-lbl">Computer expression</div><div id="OV_AIEXPR" style="color:#E8A812;font-family:'DM Mono',monospace;font-size:11px;word-break:break-all;"></div></div>
+    <div id="OV_SCORE" style="font-size:12px;color:#a08030;margin-bottom:1rem;"></div>
+    <div id="OV_BTNS" style="display:flex;gap:10px;flex-direction:column;align-items:center;"></div>
+  </div>
+  <div class="rules-ov" id="rulesOv">
+    <button class="rules-close" id="rulesClose">✕</button>
+    <div class="rules-title">Mind Number — Rules</div>
+    <div class="rules-body">
+      <p style="margin-bottom:10px">Based on <strong>Moj Broj</strong> from the Serbian TV quiz show Slagalica.</p>
+      <p style="margin-bottom:10px"><strong>How to play:</strong> First stop 3 spinning drums to form a 3-digit target (100–999). Then stop 6 number drums (4 singles 1–9, one mid 10/15/20, one big 25/50/75/100). Use +, −, ×, ÷ and parentheses to reach the target in 30 seconds.</p>
+      <p style="margin-bottom:10px"><strong>2 rounds:</strong> Round 1 — You pick target & numbers (HOST). Round 2 — Computer picks (HOST).</p>
+      <p style="margin-bottom:8px"><strong>Scoring (Slagalica rules):</strong></p>
+      <div class="rb-row"><span>Closest to target wins</span><span class="rb-val">10 pts</span></div>
+      <div class="rb-row"><span>Tie distance</span><span class="rb-val">HOST wins</span></div>
+      <div class="rb-row"><span>Loser</span><span class="rb-val">0 pts</span></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var el=function(id){return document.getElementById(id);};
+  el('rulesBtn').addEventListener('click',function(){el('rulesOv').classList.add('show');});
+  el('rulesClose').addEventListener('click',function(){el('rulesOv').classList.remove('show');});
+
+  // Difficulty
+  var diffBtns=[];
+  (function(){
+    var row=el('diff-row');
+    ['easy','medium','hard'].forEach(function(d){
+      var b=document.createElement('button');b.textContent=d.charAt(0).toUpperCase()+d.slice(1);
+      b.addEventListener('click',function(){setDiff(d);});
+      diffBtns.push({el:b,val:d});row.appendChild(b);
+    });
+  })();
+  function setDiff(d){
+    G.diff=d;
+    diffBtns.forEach(function(x){if(x.val===d)x.el.classList.add('ON');else x.el.classList.remove('ON');});
+  }
+
+  var SINGLES=[1,2,3,4,5,6,7,8,9];
+  var MID=[10,15,20];
+  var BIG=[25,50,75,100];
+  var G={diff:'easy',round:1,scY:0,scAI:0,phase:'',numbers:[],target:0,expr:[],usedIdx:[],timer:null,timeLeft:30,tDigits:[0,0,0],tIvs:[],tStopped:0,nIvs:[],nStopped:0};
+  var ri=function(a,b){return Math.floor(Math.random()*(b-a+1))+a;};
+  var rEl=function(a){return a[Math.floor(Math.random()*a.length)];};
+
+  function updateTags(){
+    el('yh').style.display=(G.round===1)?'':'none';
+    el('ah').style.display=(G.round===2)?'':'none';
+    el('rbadge').textContent='Round '+G.round+' of 2';
+  }
+
+  function showOverlay(){el('OVERLAY').style.display='flex';}
+  function hideOverlay(){el('OVERLAY').style.display='none';}
+
+  // Solver
+  function solveNums(nums,target){
+    var best=null,bDiff=Infinity,bExpr='',bLen=Infinity;
+    function go(av,cur,expr,depth){
+      if(cur!==null){var d=Math.abs(cur-target);if(d<bDiff||(d===bDiff&&depth<bLen)){bDiff=d;best=cur;bExpr=expr;bLen=depth;}if(d===0&&depth<=bLen)return;}
+      if(av.length===0)return;
+      for(var i=0;i<av.length;i++){
+        var a=av[i],rest=av.slice(0,i).concat(av.slice(i+1));
+        if(cur===null){go(rest,a,''+a,1);continue;}
+        var e='('+expr+')';
+        var ops=[[cur+a,e+'+'+a],[cur-a,e+'-'+a],[cur*a,e+'\u00d7'+a],[a-cur,a+'-'+e]];
+        if(a>0&&cur%a===0&&cur/a>0)ops.push([cur/a,e+'\u00f7'+a]);
+        if(cur>0&&a%cur===0&&a/cur>0)ops.push([a/cur,a+'\u00f7'+e]);
+        for(var j=0;j<ops.length;j++){var v=ops[j][0],ex=ops[j][1];if(Number.isInteger(v)&&v>0)go(rest,v,ex,depth+1);}
+      }
+    }
+    go(nums,null,'',0);
+    return{best:best!==null?best:nums[0],bDiff:bDiff,bExpr:bExpr||''+nums[0]};
+  }
+
+  function verifyExpr(exprStr,expected){
+    try{var r=Function('"use strict";return ('+exprStr.replace(/\u00d7/g,'*').replace(/\u00f7/g,'/')+')')();return r===expected;}catch(e){return false;}
+  }
+
+  function getAI(){
+    var vals=G.numbers.map(function(n){return n.val;});
+    var sol=solveNums(vals,G.target);
+    if(G.diff==='hard')return{v:sol.best,d:sol.bDiff,e:sol.bExpr};
+    var solveExact=(G.diff==='medium'&&sol.bDiff===0&&Math.random()<0.60)||(G.diff==='easy'&&sol.bDiff===0&&Math.random()<0.20);
+    if(solveExact)return{v:sol.best,d:0,e:sol.bExpr};
+    var minErr=G.diff==='medium'?(sol.bDiff===0?2:sol.bDiff):(sol.bDiff===0?8:sol.bDiff);
+    var maxErr=G.diff==='medium'?(sol.bDiff===0?10:sol.bDiff+15):(sol.bDiff===0?30:sol.bDiff+30);
+    var err=ri(minErr,maxErr);var sign=Math.random()<.5?1:-1;
+    var wrongTarget=Math.max(100,G.target+sign*err);
+    var ws=solveNums(vals,wrongTarget);
+    var expr=verifyExpr(ws.bExpr,ws.best)?ws.bExpr:''+ws.best;
+    return{v:ws.best,d:Math.abs(ws.best-G.target),e:expr};
+  }
+
+  // Expression UI
+  function renderEx(){
+    var b=el('EXB');if(!b)return;
+    if(!G.expr.length){b.innerHTML='<span class="eh">Build your expression here...</span>';return;}
+    b.innerHTML='';
+    G.expr.forEach(function(tk){
+      var s=document.createElement('span'),c='et ',v=tk.val;
+      if(tk.type==='num')c+='en';else if(tk.type==='op'){c+='eo';if(v==='*')v='\u00d7';if(v==='/')v='\u00f7';}else c+='ep';
+      s.className=c;s.textContent=v;b.appendChild(s);
+    });
+  }
+  function addNum(v,i){if(G.phase!=='solve'||G.usedIdx.indexOf(i)>=0)return;G.usedIdx.push(i);var t=el('AV'+i);if(t)t.classList.add('used');G.expr.push({type:'num',val:v,idx:i});renderEx();}
+  function addOp(op){if(G.phase!=='solve'||!G.expr.length)return;if(G.expr[G.expr.length-1].type==='op')return;G.expr.push({type:'op',val:op});renderEx();}
+  function addParen(p){if(G.phase==='solve'){G.expr.push({type:'paren',val:p});renderEx();}}
+  function undoLast(){if(!G.expr.length)return;var l=G.expr.pop();if(l.type==='num'){G.usedIdx=G.usedIdx.filter(function(x){return x!==l.idx;});var t=el('AV'+l.idx);if(t)t.classList.remove('used');}renderEx();}
+  function clearExpr(){G.expr=[];G.usedIdx=[];G.numbers.forEach(function(_,i){var t=el('AV'+i);if(t)t.classList.remove('used');});renderEx();}
+
+  // Phase 1: Target
+  function startTarget(){
+    G.phase='target';G.tIvs=[];G.tStopped=0;G.tDigits=[0,0,0];
+    var you=G.round===1;
+    el('info').innerHTML=you?'<strong>Round 1:</strong> Click each drum to stop the target':'<strong>Round 2:</strong> Computer is picking the target...';
+    var ranges=[[1,9],[0,9],[0,9]];
+    el('MC').innerHTML='<div class="lbl">Target number \u2014 stop each spinning digit</div><div class="drum-row" id="TD_ROW"></div><div class="prog" id="TPROG">0 / 3 stopped</div>';
+    var row=el('TD_ROW');
+    for(var i=0;i<3;i++){
+      var d=document.createElement('div');d.className='drum';d.id='TD'+i;
+      d.innerHTML='<div class="dv sp" id="TDV'+i+'">?</div><div class="ds">digit '+(i+1)+'</div>';
+      if(you)(function(idx,rng){d.addEventListener('click',function(){stopTD(idx,rng);});})(i,ranges[i]);
+      row.appendChild(d);
+      (function(idx,rng){G.tIvs.push(setInterval(function(){var e=el('TDV'+idx);if(e)e.textContent=ri(rng[0],rng[1]);},50));})(i,ranges[i]);
+    }
+    if(!you){[700,1150,1600].forEach(function(ms,i){setTimeout(function(){stopTD(i,ranges[i]);},ms+ri(0,200));});}
+    updateTags();
+  }
+  function stopTD(i,range){
+    var d=el('TD'+i);if(!d||d.classList.contains('stopped'))return;
+    clearInterval(G.tIvs[i]);
+    var v=ri(range[0],range[1]);var ve=el('TDV'+i);if(ve){ve.textContent=v;ve.classList.remove('sp');}
+    d.classList.add('stopped');G.tDigits[i]=v;G.tStopped++;
+    var p=el('TPROG');if(p)p.textContent=G.tStopped+' / 3 stopped';
+    if(G.tStopped===3){G.tIvs.forEach(function(iv){clearInterval(iv);});G.target=G.tDigits[0]*100+G.tDigits[1]*10+G.tDigits[2];setTimeout(startNumbers,600);}
+  }
+
+  // Phase 2: Numbers
+  function startNumbers(){
+    G.phase='numbers';G.nIvs=[];G.nStopped=0;G.numbers=[];
+    var you=G.round===1;
+    el('info').innerHTML=you?'<strong>Stop your 6 numbers</strong>':'<strong>Computer is picking numbers...</strong>';
+    var slots=[{pool:SINGLES,lbl:'1\u20139',big:false},{pool:SINGLES,lbl:'1\u20139',big:false},{pool:SINGLES,lbl:'1\u20139',big:false},{pool:SINGLES,lbl:'1\u20139',big:false},{pool:MID,lbl:'10/15/20',big:false},{pool:BIG,lbl:'25\u2013100',big:true}];
+    el('MC').innerHTML='<div class="tgt"><div class="tgt-lbl">Target</div><div class="tgt-num">'+G.target+'</div></div><div class="lbl">Stop 6 drums'+(you?' \u2014 click each':'')+'</div><div class="drum-row" id="ND_ROW"></div><div class="prog" id="NPROG">0 / 6 stopped</div>';
+    var row=el('ND_ROW');
+    for(var i=0;i<6;i++){
+      var s=slots[i];
+      var d=document.createElement('div');d.className='drum';d.id='ND'+i;
+      d.innerHTML='<div class="dv sp" id="NDV'+i+'">?</div><div class="ds">'+s.lbl+'</div>';
+      if(you)(function(idx,pool,big){d.addEventListener('click',function(){stopND(idx,pool,big);});})(i,s.pool,s.big);
+      row.appendChild(d);
+      (function(idx,pool){G.nIvs.push(setInterval(function(){var e=el('NDV'+idx);if(e)e.textContent=rEl(pool);},50));})(i,s.pool);
+    }
+    if(!you){for(var j=0;j<6;j++){(function(idx,sl){setTimeout(function(){stopND(idx,sl.pool,sl.big);},600+idx*350+ri(0,150));})(j,slots[j]);}}
+  }
+  function stopND(i,pool,isBig){
+    var d=el('ND'+i);if(!d||d.classList.contains('stopped'))return;
+    clearInterval(G.nIvs[i]);var v=rEl(pool);
+    var ve=el('NDV'+i);if(ve){ve.textContent=v;ve.classList.remove('sp');}
+    d.classList.add('stopped');G.numbers.push({val:v,big:isBig,idx:G.numbers.length});G.nStopped++;
+    var p=el('NPROG');if(p)p.textContent=G.nStopped+' / 6 stopped';
+    if(G.nStopped===6){G.nIvs.forEach(function(iv){clearInterval(iv);});setTimeout(startSolve,600);}
+  }
+
+  // Phase 3: Solve
+  function startSolve(){
+    G.phase='solve';G.expr=[];G.usedIdx=[];clearInterval(G.timer);
+    el('info').innerHTML='<strong>Solve!</strong> Reach '+G.target+' \u2014 30 seconds';
+    el('tb').style.width='100%';
+    el('MC').innerHTML='<div class="tgt"><div class="tgt-lbl">Target</div><div class="tgt-num">'+G.target+'</div></div><div class="tm"><div class="tm-bar"><div class="tm-fill" id="TF" style="width:100%"></div></div><div class="tm-txt" id="TT">30</div></div><div class="avail" id="AVAIL"></div><div class="ops" id="OPS_ROW"></div><div class="exb" id="EXB"><span class="eh">Build your expression here...</span></div><div class="acts" id="ACTS_ROW"></div><div style="font-size:10px;color:#a08030;text-align:center;margin-top:.3rem;">You don\'t need to use all numbers</div>';
+    G.numbers.forEach(function(n,i){
+      var t=document.createElement('div');t.className='nt'+(n.big?' big':'');t.id='AV'+i;t.textContent=n.val;
+      t.addEventListener('click',function(){addNum(n.val,i);});el('AVAIL').appendChild(t);
+    });
+    [{l:'+',v:'+'},{l:'\u2212',v:'-'},{l:'\u00d7',v:'*'},{l:'\u00f7',v:'/'},{l:'(',v:'('},{l:')',v:')'}].forEach(function(o){
+      var b=document.createElement('button');b.className='op';b.textContent=o.l;
+      b.addEventListener('click',function(){o.v==='('||o.v===')'?addParen(o.v):addOp(o.v);});
+      el('OPS_ROW').appendChild(b);
+    });
+    [{l:'\u232b Undo',c:'gbtn bgh',f:undoLast},{l:'\u2715 Clear',c:'gbtn bgh',f:clearExpr},{l:'Submit \u2713',c:'gbtn bg',f:doSubmit}].forEach(function(def){
+      var b=document.createElement('button');b.className=def.c;b.textContent=def.l;
+      b.addEventListener('click',def.f);el('ACTS_ROW').appendChild(b);
+    });
+    G.timeLeft=30;
+    G.timer=setInterval(function(){
+      G.timeLeft--;var tf=el('TF'),tt=el('TT');
+      if(tf)tf.style.width=(G.timeLeft/30*100)+'%';
+      if(tt)tt.textContent=G.timeLeft;
+      el('tb').style.width=(G.timeLeft/30*100)+'%';
+      if(G.timeLeft<=8)el('tb').style.background='#b45309';
+      if(G.timeLeft<=0){clearInterval(G.timer);doSubmit();}
+    },1000);
+  }
+
+  // Submit
+  function doSubmit(){
+    if(G.phase!=='solve')return;
+    clearInterval(G.timer);G.phase='done';
+    var pv=evalEx(),pd=pv!==null?Math.abs(pv-G.target):Infinity;
+    var ai=getAI(),ad=ai.d;
+    var winner;
+    if(pd<ad)winner='you';else if(ad<pd)winner='ai';else winner=G.round===1?'you':'ai';
+    if(winner==='you')G.scY+=10;else G.scAI+=10;
+    el('SY').textContent=G.scY;el('SAI').textContent=G.scAI;
+    var poff=pd===Infinity?'no answer':pd===0?'exact!':'off by '+pd;
+    var aoff=ad===0?'exact!':'off by '+ad;
+    var isTie=pd===ad;
+    var hd=el('OV_HEAD');
+    if(winner==='you'){hd.className='ov-h c-win';hd.textContent='You Win!';}
+    else{hd.className='ov-h c-lose';hd.textContent='Computer Wins';}
+    el('OV_TGT').innerHTML='Target: <strong style="color:#f5c842;font-family:Rajdhani,sans-serif;font-size:1.4rem;">'+G.target+'</strong>'+(isTie?' <span style="font-size:10px;color:#a08030">(tie \u2192 '+(G.round===1?'you':'Computer')+' picked)</span>':'');
+    el('OV_CARDS').innerHTML='<div class="rv-card '+(winner==='you'?'winner':'')+'"><div class="rv-name">You</div><div class="rv-num">'+(pv!==null?pv:'\u2014')+'</div><div class="rv-off">'+poff+'</div><div class="rv-pts" style="color:'+(winner==='you'?'#4ade80':'#a08030')+'">'+(winner==='you'?'+10 pts':'0 pts')+'</div></div><div class="rv-card '+(winner==='ai'?'winner':'')+'"><div class="rv-name">Computer</div><div class="rv-num">'+ai.v+'</div><div class="rv-off">'+aoff+'</div><div class="rv-pts" style="color:'+(winner==='ai'?'#4ade80':'#a08030')+'">'+(winner==='ai'?'+10 pts':'0 pts')+'</div></div>';
+    el('OV_AIEXPR').textContent=ai.e;
+    el('OV_SCORE').innerHTML='Score: You <strong style="color:#f5c842">'+G.scY+'</strong> \u2014 Computer <strong style="color:#a08030">'+G.scAI+'</strong>';
+    el('info').innerHTML='<strong>Score:</strong> You '+G.scY+' \u2014 Computer '+G.scAI;
+    el('pw').textContent=pv!==null?pv:'\u2014';el('aw').textContent=ai.v;
+    var btns=el('OV_BTNS');btns.innerHTML='';
+    if(G.round<2){
+      var b=document.createElement('button');b.className='gbtn bg';b.textContent='Round 2 \u25b6';
+      b.addEventListener('click',startRound2);btns.appendChild(b);
+    }else{
+      var fin=document.createElement('div');
+      fin.style.cssText='font-family:Rajdhani,sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:2px;margin-bottom:.5rem;';
+      fin.style.color=G.scY>G.scAI?'#4ade80':G.scY<G.scAI?'#f87171':'#facc15';
+      fin.textContent=G.scY>G.scAI?'You Win the Match!':G.scY<G.scAI?'Computer Wins the Match.':'Match Draw!';
+      btns.appendChild(fin);
+      var b2=document.createElement('button');b2.className='gbtn bg';b2.textContent='Play Again';
+      b2.addEventListener('click',resetGame);btns.appendChild(b2);
+    }
+    showOverlay();
+  }
+
+  function evalEx(){
+    try{if(!G.expr.length)return null;
+    var s=G.expr.map(function(t){return t.val;}).join(' ').replace(/[^0-9+\-*\/().\s]/g,'');
+    if(!s.trim())return null;
+    var ds=s.match(/\d+\s*\/\s*\d+/g);
+    if(ds){for(var i=0;i<ds.length;i++){var parts=ds[i].split('/');var a=parseInt(parts[0]),b=parseInt(parts[1]);if(b===0||a%b!==0)return null;}}
+    var r=Function('"use strict";return ('+s+')')();
+    return(Number.isInteger(r)&&r>0)?r:null;}catch(e){return null;}
+  }
+
+  function startRound2(){
+    hideOverlay();G.round=2;G.numbers=[];G.expr=[];G.usedIdx=[];
+    G.tDigits=[0,0,0];G.tStopped=0;G.nStopped=0;G.tIvs=[];G.nIvs=[];
+    el('tb').style.width='0%';el('tb').style.background='#C9920A';
+    startTarget();
+  }
+  function resetGame(){
+    hideOverlay();G.round=1;G.scY=0;G.scAI=0;G.numbers=[];G.expr=[];G.usedIdx=[];
+    G.tDigits=[0,0,0];G.tStopped=0;G.nStopped=0;G.tIvs=[];G.nIvs=[];
+    el('SY').textContent=0;el('SAI').textContent=0;el('pw').textContent='\u2014';el('aw').textContent='\u2014';
+    el('tb').style.width='0%';el('tb').style.background='#C9920A';
+    el('info').innerHTML='Starting round...';
+    setDiff(G.diff);startTarget();
+  }
+
+  setDiff('easy');updateTags();startTarget();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindCode — MindRush</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Rajdhani:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:linear-gradient(145deg,#0a1407,#0e1a07,#081205);min-height:100vh;display:flex;flex-direction:column;align-items:center;font-family:'DM Sans',sans-serif;}
+.nav{width:100%;max-width:780px;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;}
+.nav-back{display:flex;align-items:center;gap:8px;text-decoration:none;color:#5a8a2a;font-size:14px;font-weight:600;transition:color .15s;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
+.nav-back:hover{color:#97C459}
+.nav-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:#555;letter-spacing:.5px;}
+.nav-logo span{color:#777}
+.game-wrap{font-family:'DM Sans',sans-serif;background:linear-gradient(145deg,#0e1a07,#0a1205,#111a06);border-radius:16px;padding:20px;color:#d4f0a0;min-height:460px;max-width:740px;width:calc(100% - 32px);margin:0 auto 32px;position:relative;border:1px solid #2a4a10;}
+.g-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.g-hdr-left{display:flex;align-items:center;gap:10px;}
+.g-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;letter-spacing:.5px;}
+.g-hdr-right{display:flex;align-items:center;gap:8px;}
+.badge{font-size:11px;background:#3B6D11;color:#c8f07a;padding:4px 12px;border-radius:20px;white-space:nowrap;font-weight:700;}
+.rules-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid #2a4a10;background:#152309;color:#5a8a2a;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.rules-btn:hover{border-color:#639922;color:#97C459;background:#1d320d;}
+.diff-row{display:flex;gap:0;margin-bottom:14px;border-radius:8px;overflow:hidden;border:2px solid #2a4a10;}
+.diff-row button{flex:1;padding:9px 0;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,color .2s;background:#152309;color:#5a8a2a;}
+.diff-row button:not(:last-child){border-right:1px solid #2a4a10;}
+.diff-row button.ON{background:#3B6D11!important;color:#c8f07a!important;font-weight:700!important;}
+.diff-row button:hover:not(.ON){background:#1d320d;color:#97C459;}
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.sc{background:#0a1205;border:1.5px solid #2a4a10;border-radius:12px;padding:12px 16px;}
+.sc-you{border-left:4px solid #2196F3}
+.sc-comp{border-left:4px solid #C62828}
+.sc-top{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.sc-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;}
+.sc-label-you{color:#64B5F6}.sc-label-comp{color:#EF9A9A}
+.sc-val{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff;line-height:1;}
+.sc-word{font-size:12px;color:#5a8a2a;margin-top:3px;min-height:16px;}
+.info{background:#152309;border:1px solid #2a4a10;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#7aa83a;text-align:center;line-height:1.5;}
+.info strong{color:#97C459;}
+.tbar-w{height:8px;background:#152309;border:1px solid #2a4a10;border-radius:4px;margin-bottom:14px;overflow:hidden;}
+.tbar{height:100%;background:#97C459;border-radius:4px;transition:width .9s linear,background .3s;}
+.tbar.warn{background:#d4a017;}.tbar.danger{background:#e03030;}
+.rules-ov{display:none;position:absolute;inset:0;background:rgba(7,13,4,.97);border-radius:16px;z-index:100;padding:24px;overflow-y:auto;flex-direction:column;}
+.rules-ov.show{display:flex;}
+.rules-close{align-self:flex-end;background:none;border:1.5px solid #2a4a10;color:#5a8a2a;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-bottom:12px;}
+.rules-close:hover{border-color:#639922;color:#fff;background:#1d320d;}
+.rules-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#97C459;margin-bottom:12px;}
+.rules-body{font-size:13px;color:#7aa83a;line-height:1.7;}
+.rules-body strong{color:#97C459;}
+.rules-body .rb-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1a2a0a;margin-bottom:2px;}
+.rules-body .rb-row:last-child{border-bottom:none;}
+.rules-body .rb-val{color:#97C459;font-weight:600;}
+/* Game-specific */
+.board{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.row{display:flex;align-items:center;gap:7px;}
+.row-num{font-size:11px;color:#5a8a2a;width:14px;text-align:right;flex-shrink:0;}
+.slots{display:flex;gap:5px;flex:1;}
+.slot{width:50px;height:50px;border-radius:8px;background:#152309;border:1.5px solid #2a4a10;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;flex-shrink:0;transition:border-color .12s,background .12s;}
+.slot.filled{border-color:#639922;background:#1d320d;}
+.slot.active-row{border-color:#639922;}
+.slot.filled.active-row:hover{border-color:#e03030;background:#200a0a;}
+.slot.locked{cursor:default;}.slot.locked:hover{border-color:#2a4a10!important;background:#152309!important;}
+.slot svg{pointer-events:none;}
+.feedback{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}
+.fb-row{display:flex;gap:3px;}
+.pip{width:18px;height:18px;border-radius:50%;background:#1d320d;border:1px solid #2a4a10;}
+.pip.red{background:#e03030;border-color:#ff5555;}
+.pip.yellow{background:#d4a017;border-color:#f5c842;}
+.palette{background:#152309;border:1.5px solid #2a4a10;border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+.pal-label{font-size:10px;color:#5a8a2a;letter-spacing:1px;margin-bottom:9px;text-transform:uppercase;}
+.symbols{display:flex;gap:8px;flex-wrap:wrap;}
+.sym-btn{width:52px;height:52px;border-radius:8px;background:#1d320d;border:1.5px solid #2a4a10;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s,transform .1s;}
+.sym-btn:hover{border-color:#97C459;transform:scale(1.08);}.sym-btn:active{transform:scale(.96);}
+.sym-btn.disabled{opacity:.3;pointer-events:none;}
+.actions{display:flex;gap:8px;}
+.gbtn{flex:1;padding:9px 0;border-radius:8px;border:1.5px solid #2a4a10;background:#152309;color:#d4f0a0;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
+.gbtn:hover{background:#1d320d;border-color:#639922;}
+.gbtn.primary{background:#3B6D11;color:#c8f07a;border-color:#639922;}
+.gbtn.primary:hover{background:#639922;}
+.gbtn:disabled{opacity:.35;cursor:not-allowed;}
+.overlay{position:absolute;inset:0;background:rgba(7,13,4,.95);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:10;padding:24px;}
+.ov-title{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;letter-spacing:2px;}
+.ov-win{color:#4ade80;}.ov-lose{color:#f87171;}.ov-tie{color:#facc15;}
+.ov-info{font-size:13px;color:#5a8a2a;text-align:center;line-height:1.8;}
+.ov-sol{display:flex;gap:8px;justify-content:center;align-items:center;margin:4px 0;}
+.ov-pts{font-size:20px;font-weight:700;color:#97C459;}
+.bonus-bar-wrap{width:100%;max-width:260px;}
+.bonus-track{width:100%;height:10px;background:#1a0808;border-radius:5px;border:1px solid #5a1010;overflow:hidden;margin-top:6px;}
+.bonus-fill{height:100%;border-radius:5px;background:#e03030;transition:width .9s linear;}
+.bonus-secs{font-size:13px;font-weight:700;color:#e03030;text-align:center;margin-top:4px;}
+.ai-pulse{animation:pulse .9s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Menu</a>
+  <div class="nav-logo"><span>Mind</span>Rush</div>
+</nav>
+<div class="game-wrap" id="game">
+  <div class="g-hdr">
+    <div class="g-hdr-left"><div class="g-title"><span style="color:#639922">Mind</span><span style="color:#3B6D11">Code</span></div></div>
+    <div class="g-hdr-right"><div class="badge" id="rbadge">Round 1 of 2</div><button class="rules-btn" id="rulesBtn" title="Rules">&#9432;</button></div>
+  </div>
+  <div class="diff-row" id="diff-row"></div>
+  <div class="scores">
+    <div class="sc sc-you"><div class="sc-top"><span class="sc-label sc-label-you">You</span></div><div class="sc-val" id="pscore">0</div><div class="sc-word" id="pw">&mdash;</div></div>
+    <div class="sc sc-comp"><div class="sc-top"><span class="sc-label sc-label-comp">Computer</span></div><div class="sc-val" id="ascore">0</div><div class="sc-word" id="aw">&mdash;</div></div>
+  </div>
+  <div class="info" id="status">Press <strong>New Game</strong> to start</div>
+  <div class="tbar-w"><div class="tbar" id="timerFill" style="width:100%"></div></div>
+  <div style="display:flex;justify-content:space-between;margin:-8px 0 12px;"><span style="font-size:11px;color:#5a8a2a;" id="timerSecs">&mdash;</span><span style="font-size:11px;color:#5a8a2a;" id="timerRound">&mdash;</span></div>
+  <div class="board" id="board"></div>
+  <div class="palette"><div class="pal-label">Select a symbol &mdash; tap placed symbol to remove</div><div class="symbols" id="palette"></div></div>
+  <div class="actions">
+    <button class="gbtn" id="clearBtn" disabled>Clear Last</button>
+    <button class="gbtn primary" id="submitBtn" disabled>Submit</button>
+    <button class="gbtn" id="newBtn">New Game</button>
+  </div>
+  <div id="overlay" style="display:none;" class="overlay"></div>
+  <div class="rules-ov" id="rulesOv">
+    <button class="rules-close" id="rulesClose">&#10005;</button>
+    <div class="rules-title">MindCode &mdash; Rules</div>
+    <div class="rules-body">
+      <p style="margin-bottom:10px">Based on <strong>Sko&#269;ko</strong> from the Serbian TV quiz show Slagalica.</p>
+      <p style="margin-bottom:10px"><strong>How to play:</strong> Crack a secret 4-symbol code from 6 possible symbols. You have 6 attempts and 60 seconds per round.</p>
+      <p style="margin-bottom:10px"><strong>Feedback pips:</strong> <span style="color:#e03030">&#9679; Red</span> = correct symbol in correct position. <span style="color:#d4a017">&#9679; Yellow</span> = correct symbol, wrong position.</p>
+      <p style="margin-bottom:10px"><strong>2 rounds:</strong> Round 1 &mdash; You crack Computer's code. Round 2 &mdash; Computer cracks yours.</p>
+      <p style="margin-bottom:10px"><strong>Bonus:</strong> If a player fails all 6 attempts, opponent gets one bonus guess (10 pts if correct).</p>
+      <p style="margin-bottom:8px"><strong>Scoring:</strong></p>
+      <div class="rb-row"><span>Solved in 1&ndash;4 attempts</span><span class="rb-val">20 pts</span></div>
+      <div class="rb-row"><span>Solved on 5th attempt</span><span class="rb-val">15 pts</span></div>
+      <div class="rb-row"><span>Solved on 6th attempt</span><span class="rb-val">10 pts</span></div>
+      <div class="rb-row"><span>Bonus guess correct</span><span class="rb-val">10 pts</span></div>
+      <div class="rb-row"><span>Failed</span><span class="rb-val">0 pts</span></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+var GAME_TIME=60,BONUS_TIME=10,ROWS=6,COLS=4;
+var AI_SYM_DELAY=600,AI_ROW_PAUSE=1100;
+
+// ---- NEW BRAIN/MINDRUSH SYMBOL ----
+// Stylized brain with lightning bolt = "fast thinking"
+function brainSVG(sz){
+  sz=sz||28;
+  return '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<ellipse cx="24" cy="30" rx="14" ry="17" fill="#e8508a" stroke="#c0305a" stroke-width="1.8"/>'
+    +'<ellipse cx="40" cy="30" rx="14" ry="17" fill="#e8508a" stroke="#c0305a" stroke-width="1.8"/>'
+    +'<path d="M32 13 L32 47" stroke="#c0305a" stroke-width="1.5"/>'
+    +'<path d="M18 22 Q22 18 24 24" stroke="#d0406a" stroke-width="1.3" fill="none" stroke-linecap="round"/>'
+    +'<path d="M16 32 Q20 28 22 34" stroke="#d0406a" stroke-width="1.2" fill="none" stroke-linecap="round"/>'
+    +'<path d="M20 40 Q23 37 25 42" stroke="#d0406a" stroke-width="1.1" fill="none" stroke-linecap="round"/>'
+    +'<path d="M46 22 Q42 18 40 24" stroke="#d0406a" stroke-width="1.3" fill="none" stroke-linecap="round"/>'
+    +'<path d="M48 32 Q44 28 42 34" stroke="#d0406a" stroke-width="1.2" fill="none" stroke-linecap="round"/>'
+    +'<path d="M44 40 Q41 37 39 42" stroke="#d0406a" stroke-width="1.1" fill="none" stroke-linecap="round"/>'
+    +'<polygon points="29,8 33,20 36,20 30,33 34,33 26,50 31,35 27,35 32,22 28,22" fill="#FFD700" stroke="#FFA500" stroke-width="0.8" stroke-linejoin="round"/>'
+    +'</svg>';
+}
+
+function sym(idx,sz){
+  sz=sz||28;
+  var svgs=[
+    brainSVG(sz),
+    '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 32 32"><path d="M16 3C16 3 3 13.5 3 20.5C3 24.5 6.5 27 10.5 25C9 28 8 30 8 30H24C24 30 23 28 21.5 25C25.5 27 29 24.5 29 20.5C29 13.5 16 3 16 3Z" fill="#1a1a1a" stroke="#555" stroke-width="0.8"/></svg>',
+    '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 32 32"><path d="M16 28C16 28 3 19 3 11.5C3 7.5 6.5 5 11 5C13.5 5 15.5 6.5 16 8.5C16.5 6.5 18.5 5 21 5C25.5 5 29 7.5 29 11.5C29 19 16 28 16 28Z" fill="#e02840" stroke="#ff5566" stroke-width="0.8"/></svg>',
+    '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 32 32"><polygon points="16,2 30,16 16,30 2,16" fill="#e02840" stroke="#ff5566" stroke-width="0.8"/></svg>',
+    '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 32 32"><circle cx="16" cy="11" r="5.5" fill="#1a1a1a" stroke="#555" stroke-width="0.8"/><circle cx="10" cy="18.5" r="5" fill="#1a1a1a" stroke="#555" stroke-width="0.8"/><circle cx="22" cy="18.5" r="5" fill="#1a1a1a" stroke="#555" stroke-width="0.8"/><rect x="13.5" y="21" width="5" height="7" rx="1.5" fill="#1a1a1a" stroke="#555" stroke-width="0.8"/></svg>',
+    '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 32 32"><polygon points="16,2 19.5,12 30,12 21.5,18.5 24.5,28.5 16,22 7.5,28.5 10.5,18.5 2,12 12.5,12" fill="#d4a017" stroke="#f5c842" stroke-width="0.8"/></svg>'
+  ];
+  return svgs[idx];
+}
+
+var G={diff:'medium',phase:'idle',secret:[],currentRow:0,currentGuess:[],pscore:0,ascore:0,round:1,playerSecret:[],aiSecret:[],timerIv:null,timeLeft:0,timerTotal:0,bonusIv:null,bonusLeft:0,playerTurn:true};
+function el(id){return document.getElementById(id);}
+function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function genSecret(){return[0,1,2,3].map(function(){return ri(0,5);});}
+
+el('rulesBtn').addEventListener('click',function(){el('rulesOv').classList.add('show');});
+el('rulesClose').addEventListener('click',function(){el('rulesOv').classList.remove('show');});
+
+// Difficulty
+(function(){var row=el('diff-row');['easy','medium','hard'].forEach(function(d){var b=document.createElement('button');b.textContent=d.charAt(0).toUpperCase()+d.slice(1);b.id='d_'+d;b.addEventListener('click',function(){setDiff(d);});row.appendChild(b);});})();
+function setDiff(d){G.diff=d;['easy','medium','hard'].forEach(function(x){var b=el('d_'+x);if(b){if(x===d)b.classList.add('ON');else b.classList.remove('ON');}});}
+setDiff('medium');
+
+function calcFeedback(guess,secret){
+  var sU=secret.slice(),gU=guess.slice(),reds=0,yellows=0;
+  for(var i=0;i<4;i++)if(gU[i]===sU[i]){reds++;sU[i]=-1;gU[i]=-1;}
+  for(var i=0;i<4;i++){if(gU[i]===-1)continue;var j=sU.indexOf(gU[i]);if(j!==-1){yellows++;sU[j]=-1;}}
+  return{reds:reds,yellows:yellows};
+}
+
+// Timer
+function startTimer(secs){stopTimer();G.timeLeft=secs;G.timerTotal=secs;updateTimerBar();G.timerIv=setInterval(function(){G.timeLeft--;updateTimerBar();if(G.timeLeft<=0){stopTimer();onTimeOut();}},1000);}
+function stopTimer(){if(G.timerIv){clearInterval(G.timerIv);G.timerIv=null;}}
+function resumeTimer(){if(G.timeLeft>0){G.timerIv=setInterval(function(){G.timeLeft--;updateTimerBar();if(G.timeLeft<=0){stopTimer();onTimeOut();}},1000);}}
+function updateTimerBar(){var fill=el('timerFill');if(!fill)return;var pct=Math.max(0,(G.timeLeft/G.timerTotal)*100);fill.style.width=pct+'%';fill.className='tbar'+(G.timeLeft<=10?' danger':G.timeLeft<=20?' warn':'');el('timerSecs').textContent=G.timeLeft+' sec';}
+function onTimeOut(){if(G.phase!=='playing')return;if(G.playerTurn){G.phase='done';setPaletteEnabled(false);el('submitBtn').disabled=true;el('clearBtn').disabled=true;setStatus("Time's up!");if(G.round===1)setTimeout(function(){showRoundResult(false,0);},600);else setTimeout(function(){showFinalResult();},600);}}
+
+// Board
+function buildBoard(){var board=el('board');board.innerHTML='';for(var r=0;r<ROWS;r++){var row=document.createElement('div');row.className='row';row.id='row'+r;var num=document.createElement('div');num.className='row-num';num.textContent=r+1;row.appendChild(num);var slots=document.createElement('div');slots.className='slots';for(var c=0;c<COLS;c++){var s=document.createElement('div');s.className='slot';s.id='s_'+r+'_'+c;s.dataset.row=r;s.dataset.col=c;s.addEventListener('click',onSlotClick);slots.appendChild(s);}row.appendChild(slots);var fb=document.createElement('div');fb.className='feedback';fb.id='fb'+r;for(var rr=0;rr<2;rr++){var fr=document.createElement('div');fr.className='fb-row';for(var p=0;p<2;p++){var pip=document.createElement('div');pip.className='pip';fr.appendChild(pip);}fb.appendChild(fr);}row.appendChild(fb);board.appendChild(row);}}
+function onSlotClick(){var r=parseInt(this.dataset.row),c=parseInt(this.dataset.col);if(G.phase!=='playing'||!G.playerTurn)return;if(r!==G.currentRow||this.classList.contains('locked'))return;if(G.currentGuess[c]!==undefined){G.currentGuess[c]=undefined;renderCurrentGuess();}}
+function buildPalette(){var pal=el('palette');pal.innerHTML='';for(var i=0;i<6;i++){var btn=document.createElement('div');btn.className='sym-btn';btn.innerHTML=sym(i,28);btn.id='psym'+i;btn.addEventListener('click',(function(idx){return function(){addSymbol(idx);};})(i));pal.appendChild(btn);}}
+function setPaletteEnabled(on){for(var i=0;i<6;i++){var b=el('psym'+i);if(b){if(on)b.classList.remove('disabled');else b.classList.add('disabled');}}}
+function setStatus(msg){el('status').innerHTML=msg;}
+function setActiveRow(r){for(var row=0;row<ROWS;row++)for(var c=0;c<COLS;c++){var s=el('s_'+row+'_'+c);if(!s)continue;if(row===r&&G.phase==='playing')s.classList.add('active-row');else s.classList.remove('active-row');}}
+function renderCurrentGuess(){for(var c=0;c<COLS;c++){var s=el('s_'+G.currentRow+'_'+c);if(!s)continue;if(G.currentGuess[c]!==undefined){s.innerHTML=sym(G.currentGuess[c],28);s.classList.add('filled');}else{s.innerHTML='';s.classList.remove('filled');}}var filled=G.currentGuess.filter(function(v){return v!==undefined;}).length;el('submitBtn').disabled=filled<4;el('clearBtn').disabled=filled===0;}
+function addSymbol(idx){if(G.phase!=='playing'||!G.playerTurn)return;for(var c=0;c<COLS;c++){if(G.currentGuess[c]===undefined){G.currentGuess[c]=idx;renderCurrentGuess();return;}}}
+function clearLast(){for(var c=COLS-1;c>=0;c--){if(G.currentGuess[c]!==undefined){G.currentGuess[c]=undefined;renderCurrentGuess();return;}}}
+function lockRow(r,guess,fb){for(var c=0;c<COLS;c++){var s=el('s_'+r+'_'+c);s.innerHTML=sym(guess[c],28);s.classList.add('filled','locked');s.classList.remove('active-row');}var fbDiv=el('fb'+r);var pips=fbDiv.querySelectorAll('.pip');var pi=0;for(var i=0;i<fb.reds;i++)pips[pi++].classList.add('red');for(var i=0;i<fb.yellows;i++)pips[pi++].classList.add('yellow');}
+function calcPoints(attempt){return attempt<=4?20:attempt===5?15:10;}
+
+function submitGuess(){var guess=[];for(var c=0;c<COLS;c++){if(G.currentGuess[c]===undefined)return;guess.push(G.currentGuess[c]);}var fb=calcFeedback(guess,G.secret);lockRow(G.currentRow,guess,fb);G.currentRow++;G.currentGuess=[undefined,undefined,undefined,undefined];if(fb.reds===4){stopTimer();var pts=calcPoints(G.currentRow);G.pscore+=pts;el('pscore').textContent=G.pscore;G.phase='done';setPaletteEnabled(false);el('submitBtn').disabled=true;el('clearBtn').disabled=true;if(G.round===1)setTimeout(function(){showRoundResult(true,pts);},600);else setTimeout(function(){showFinalResult();},600);return;}if(G.currentRow>=ROWS){stopTimer();G.phase='done';setPaletteEnabled(false);el('submitBtn').disabled=true;el('clearBtn').disabled=true;if(G.round===1)setTimeout(function(){aiBonus();},800);else setTimeout(function(){showFinalResult();},600);return;}setActiveRow(G.currentRow);renderCurrentGuess();setStatus('Round '+G.round+' \u2014 Attempt '+(G.currentRow+1)+' of 6');}
+
+// AI Solver
+function aiSolveGame(secret,diff){var possible=[];(function gen(cur){if(cur.length===4){possible.push(cur.slice());return;}for(var i=0;i<6;i++){cur.push(i);gen(cur);cur.pop();}})([]); var guesses=[],attempt=0,guess=[0,0,1,1];while(attempt<6){var fb=calcFeedback(guess,secret);guesses.push({guess:guess.slice(),fb:fb});attempt++;if(fb.reds===4)break;possible=possible.filter(function(c){var t=calcFeedback(guess,c);return t.reds===fb.reds&&t.yellows===fb.yellows;});if(!possible.length)break;if(diff==='hard')guess=possible[0];else if(diff==='medium')guess=Math.random()<0.75?possible[0]:possible[ri(0,Math.min(possible.length-1,14))];else guess=Math.random()<0.15?possible[0]:possible[ri(0,possible.length-1)];}return guesses;}
+
+function runAiPlay(){var guesses=aiSolveGame(G.secret,G.diff);var rowIdx=0;function doRow(){if(G.timeLeft<=0){G.phase='done';setStatus("Time's up!");setTimeout(function(){showFinalResult();},900);return;}if(rowIdx>=guesses.length){stopTimer();setStatus('Computer failed!');G.phase='done';setTimeout(function(){showFinalResult();},900);return;}var gg=guesses[rowIdx];var symIdx=0;setStatus('<span class="ai-pulse">Computer thinking... attempt '+(rowIdx+1)+'</span>');function placeNext(){if(symIdx>=4){setTimeout(function(){lockRow(rowIdx,gg.guess,gg.fb);if(gg.fb.reds===4){stopTimer();var pts=calcPoints(rowIdx+1);G.ascore+=pts;el('ascore').textContent=G.ascore;G.phase='done';setStatus('Computer cracked it in '+(rowIdx+1)+'! +'+pts);setTimeout(function(){showFinalResult();},900);return;}rowIdx++;if(rowIdx>=ROWS){stopTimer();startBonusWindow();}else{setTimeout(doRow,AI_ROW_PAUSE);}},350);return;}var s=el('s_'+rowIdx+'_'+symIdx);if(s){s.innerHTML=sym(gg.guess[symIdx],28);s.classList.add('filled');}symIdx++;setTimeout(placeNext,AI_SYM_DELAY);}placeNext();}setTimeout(doRow,800);}
+
+// Bonus window
+function startBonusWindow(){stopTimer();G.phase='bonus';G.playerTurn=true;G.currentRow=ROWS;G.currentGuess=[undefined,undefined,undefined,undefined];G.bonusLeft=BONUS_TIME;var div=el('overlay');div.innerHTML='';div.style.display='flex';var t=document.createElement('div');t.className='ov-title';t.style.color='#facc15';t.textContent='Computer Failed!';div.appendChild(t);var info=document.createElement('div');info.className='ov-info';info.textContent='10 seconds to guess the secret and steal points!';div.appendChild(info);var gw=document.createElement('div');gw.style.cssText='display:flex;gap:6px;justify-content:center;margin:4px 0;';for(var c=0;c<4;c++){var s=document.createElement('div');s.style.cssText='width:46px;height:46px;border-radius:8px;background:#1d320d;border:1.5px solid #2a4a10;display:flex;align-items:center;justify-content:center;cursor:pointer;';s.id='bs_'+c;s.addEventListener('click',(function(col){return function(){if(G.currentGuess[col]!==undefined){G.currentGuess[col]=undefined;renderBonusGuess();}};})(c));gw.appendChild(s);}div.appendChild(gw);var mp=document.createElement('div');mp.style.cssText='display:flex;gap:6px;flex-wrap:wrap;justify-content:center;';for(var i=0;i<6;i++){var btn=document.createElement('div');btn.style.cssText='width:44px;height:44px;border-radius:7px;background:#1d320d;border:1.5px solid #2a4a10;cursor:pointer;display:flex;align-items:center;justify-content:center;';btn.innerHTML=sym(i,24);btn.addEventListener('click',(function(idx){return function(){for(var c=0;c<4;c++){if(G.currentGuess[c]===undefined){G.currentGuess[c]=idx;renderBonusGuess();return;}}};})(i));mp.appendChild(btn);}div.appendChild(mp);var sb=document.createElement('button');sb.className='gbtn primary';sb.textContent='Submit!';sb.style.cssText='width:160px;margin-top:4px;padding:9px 0;';sb.id='bonusSubmit';sb.addEventListener('click',submitBonus);div.appendChild(sb);var bw=document.createElement('div');bw.className='bonus-bar-wrap';var bt=document.createElement('div');bt.className='bonus-track';var bf=document.createElement('div');bf.className='bonus-fill';bf.id='bonusFill';bf.style.width='100%';bt.appendChild(bf);bw.appendChild(bt);var bs=document.createElement('div');bs.className='bonus-secs';bs.id='bonusSecs';bs.textContent='10 sec';bw.appendChild(bs);div.appendChild(bw);renderBonusGuess();G.bonusIv=setInterval(function(){G.bonusLeft--;var fill=el('bonusFill');var sec=el('bonusSecs');if(fill)fill.style.width=Math.max(0,(G.bonusLeft/BONUS_TIME)*100)+'%';if(sec)sec.textContent=G.bonusLeft+' sec';if(G.bonusLeft<=0){clearInterval(G.bonusIv);bonusExpired();}},1000);}
+function renderBonusGuess(){for(var c=0;c<4;c++){var s=el('bs_'+c);if(!s)continue;if(G.currentGuess[c]!==undefined){s.innerHTML=sym(G.currentGuess[c],26);s.style.borderColor='#639922';s.style.background='#1d320d';}else{s.innerHTML='';s.style.borderColor='#2a4a10';s.style.background='#152309';}}var sb=el('bonusSubmit');if(sb){var filled=G.currentGuess.filter(function(v){return v!==undefined;}).length;sb.disabled=filled<4;sb.style.opacity=filled<4?'0.4':'1';}}
+function submitBonus(){clearInterval(G.bonusIv);var guess=G.currentGuess.slice(0,4);if(guess.some(function(v){return v===undefined;}))return;var fb=calcFeedback(guess,G.aiSecret);var won=fb.reds===4;if(won){G.pscore+=10;el('pscore').textContent=G.pscore;}G.phase='done';showBonusResult(won,guess);}
+function bonusExpired(){if(G.phase!=='bonus')return;G.phase='done';showBonusResult(false,null);}
+function showBonusResult(won,guess){var div=el('overlay');div.innerHTML='';div.style.display='flex';var t=document.createElement('div');t.className='ov-title '+(won?'ov-win':'ov-lose');t.textContent=won?'You Stole the Points!':'Bonus Missed';div.appendChild(t);if(won){var info=document.createElement('div');info.className='ov-info';info.textContent='+10 points!';div.appendChild(info);}else{var info=document.createElement('div');info.className='ov-info';info.textContent='Computer\'s secret was:';div.appendChild(info);var sol=document.createElement('div');sol.className='ov-sol';G.aiSecret.forEach(function(i){var d=document.createElement('div');d.innerHTML=sym(i,28);sol.appendChild(d);});div.appendChild(sol);}var sc=document.createElement('div');sc.className='ov-pts';sc.textContent='Score: You '+G.pscore+' \u2013 Computer '+G.ascore;div.appendChild(sc);setTimeout(function(){showFinalResult();},2200);}
+
+function aiBonus(){var div=el('overlay');div.innerHTML='';div.style.display='flex';var t=document.createElement('div');t.className='ov-title ov-lose';t.textContent='You Failed';div.appendChild(t);var info=document.createElement('div');info.className='ov-info';info.textContent='The secret was:';div.appendChild(info);var sol=document.createElement('div');sol.className='ov-sol';G.playerSecret.forEach(function(i){var d=document.createElement('div');d.innerHTML=sym(i,28);sol.appendChild(d);});div.appendChild(sol);var ai=document.createElement('div');ai.className='ov-info ai-pulse';ai.textContent='Computer gets one bonus attempt...';div.appendChild(ai);setTimeout(function(){var bonusGuess=[ri(0,5),ri(0,5),ri(0,5),ri(0,5)];var fb=calcFeedback(bonusGuess,G.playerSecret);var won=fb.reds===4;if(won){G.ascore+=10;el('ascore').textContent=G.ascore;}div.innerHTML='';var t2=document.createElement('div');t2.className='ov-title '+(won?'ov-lose':'ov-win');t2.textContent=won?'Computer Cracked It!':'Computer Also Failed!';div.appendChild(t2);var i2=document.createElement('div');i2.className='ov-info';i2.textContent=won?'Computer scored +10 on the bonus.':'Computer failed too.';div.appendChild(i2);if(G.round===1){var btn=document.createElement('button');btn.className='gbtn primary';btn.textContent='Round 2 \u2192';btn.style.cssText='padding:9px 24px;margin-top:6px;';btn.addEventListener('click',function(){div.style.display='none';startRound2();});div.appendChild(btn);}else showFinalResult();},2200);}
+
+function showRoundResult(playerWon,pts){var div=el('overlay');div.innerHTML='';div.style.display='flex';var t=document.createElement('div');t.className='ov-title '+(playerWon?'ov-win':'ov-lose');t.textContent=playerWon?'Round 1 \u2014 Cracked!':'Round 1 Over';div.appendChild(t);var info=document.createElement('div');info.className='ov-info';info.textContent=playerWon?'You cracked it in '+G.currentRow+' attempt(s)! +'+pts+' pts.':'Out of time/attempts.';div.appendChild(info);var sc=document.createElement('div');sc.className='ov-pts';sc.textContent='Score: You '+G.pscore+' \u2013 Computer '+G.ascore;div.appendChild(sc);var btn=document.createElement('button');btn.className='gbtn primary';btn.textContent='Start Round 2 \u2192';btn.style.cssText='padding:9px 24px;margin-top:4px;';btn.addEventListener('click',function(){div.style.display='none';startRound2();});div.appendChild(btn);}
+
+function startRound2(){G.round=2;G.playerTurn=false;G.secret=G.playerSecret;G.currentRow=0;G.currentGuess=[undefined,undefined,undefined,undefined];G.phase='playing';el('timerRound').textContent='Round 2 \u2014 Computer\'s turn';el('rbadge').textContent='Round 2 of 2';buildBoard();setPaletteEnabled(false);el('submitBtn').disabled=true;el('clearBtn').disabled=true;el('overlay').style.display='none';setStatus('Round 2 \u2014 Computer is cracking YOUR code...');startTimer(GAME_TIME);runAiPlay();}
+
+function showFinalResult(){var div=el('overlay');div.innerHTML='';div.style.display='flex';var pw=G.pscore>G.ascore,tie=G.pscore===G.ascore;var t=document.createElement('div');t.className='ov-title '+(tie?'ov-tie':pw?'ov-win':'ov-lose');t.textContent=tie?'Tie Game!':pw?'You Win!':'Computer Wins!';div.appendChild(t);var pts=document.createElement('div');pts.className='ov-pts';pts.textContent='Final: You '+G.pscore+' \u2013 Computer '+G.ascore;div.appendChild(pts);var btn=document.createElement('button');btn.className='gbtn primary';btn.textContent='Play Again';btn.style.cssText='padding:9px 24px;margin-top:4px;';btn.addEventListener('click',function(){div.style.display='none';G.pscore=0;G.ascore=0;el('pscore').textContent='0';el('ascore').textContent='0';startGame();});div.appendChild(btn);}
+
+function startGame(){G.round=1;G.playerTurn=true;G.currentRow=0;G.currentGuess=[undefined,undefined,undefined,undefined];G.phase='playing';G.playerSecret=genSecret();G.aiSecret=genSecret();G.secret=G.aiSecret;el('timerRound').textContent='Round 1 \u2014 Your turn';el('rbadge').textContent='Round 1 of 2';buildBoard();buildPalette();setPaletteEnabled(true);el('overlay').style.display='none';setActiveRow(0);renderCurrentGuess();setStatus('Round 1 \u2014 Crack the code! 6 attempts \u00b7 60 sec');startTimer(GAME_TIME);}
+
+el('submitBtn').addEventListener('click',submitGuess);
+el('clearBtn').addEventListener('click',clearLast);
+el('newBtn').addEventListener('click',function(){stopTimer();if(G.bonusIv)clearInterval(G.bonusIv);G.pscore=0;G.ascore=0;el('pscore').textContent='0';el('ascore').textContent='0';el('overlay').style.display='none';startGame();});
+buildBoard();buildPalette();
+})();
+</script>
+</body>
+</html>

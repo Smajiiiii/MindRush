@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindLink — MindRush</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Rajdhani:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:linear-gradient(145deg,#120a28,#1a0f30,#0e0720);min-height:100vh;display:flex;flex-direction:column;align-items:center;font-family:'DM Sans',sans-serif;}
+.nav{width:100%;max-width:780px;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;}
+.nav-back{display:flex;align-items:center;gap:8px;text-decoration:none;color:#7a6aaa;font-size:14px;font-weight:600;transition:color .15s;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
+.nav-back:hover{color:#AEA8E8}
+.nav-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:#555;letter-spacing:.5px;}
+.nav-logo span{color:#777}
+.game-wrap{font-family:'DM Sans',sans-serif;background:#1a0f30;border-radius:16px;padding:20px;color:#e8d8ff;max-width:740px;width:calc(100% - 32px);margin:0 auto 32px;position:relative;border:1px solid #3d2d70;}
+/* UNIFIED HEADER */
+.g-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.g-hdr-left{display:flex;align-items:center;gap:10px;}
+.g-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;letter-spacing:.5px;}
+.g-hdr-right{display:flex;align-items:center;gap:8px;}
+.badge{font-size:11px;background:#534AB7;color:#d4ccff;padding:4px 12px;border-radius:20px;white-space:nowrap;font-weight:700;}
+.rules-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid #3d2d70;background:#231640;color:#7a6aaa;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.rules-btn:hover{border-color:#7B6FD4;color:#AEA8E8;background:#2d1f52;}
+/* UNIFIED DIFFICULTY */
+.diff-row{display:flex;gap:0;margin-bottom:14px;border-radius:8px;overflow:hidden;border:2px solid #3d2d70;}
+.diff-row button{flex:1;padding:9px 0;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,color .2s;background:#231640;color:#7a6aaa;}
+.diff-row button:not(:last-child){border-right:1px solid #3d2d70;}
+.diff-row button.ON{background:#534AB7!important;color:#fff!important;font-weight:700!important;}
+.diff-row button:hover:not(.ON){background:#2d1f52;color:#AEA8E8;}
+/* UNIFIED SCOREBOARD */
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.sc{background:#120a20;border:1.5px solid #3d2d70;border-radius:12px;padding:12px 16px;}
+.sc-you{border-left:4px solid #2196F3}
+.sc-comp{border-left:4px solid #C62828}
+.sc-top{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.sc-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;}
+.sc-label-you{color:#64B5F6}.sc-label-comp{color:#EF9A9A}
+.sc-val{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff;line-height:1;}
+/* UNIFIED INFO + TIMER */
+.info{background:#231640;border:1px solid #3d2d70;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#9a8acc;text-align:center;line-height:1.5;}
+.info strong{color:#AEA8E8;}
+.tbar-w{height:5px;background:#3d2d70;border-radius:3px;margin-bottom:4px;overflow:hidden;}
+.tbar{height:100%;background:#534AB7;border-radius:3px;transition:width .5s linear,background .3s;}
+.tbar.warn{background:#F5A623}.tbar.danger{background:#C62828}
+.tbar-info{display:flex;justify-content:space-between;margin-bottom:12px;}
+.tbar-secs{font-size:11px;color:#7a6aaa;}
+/* RULES OVERLAY */
+.rules-ov{display:none;position:absolute;inset:0;background:rgba(8,4,20,.97);border-radius:16px;z-index:100;padding:24px;overflow-y:auto;flex-direction:column;}
+.rules-ov.show{display:flex;}
+.rules-close{align-self:flex-end;background:none;border:1.5px solid #3d2d70;color:#7a6aaa;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-bottom:12px;}
+.rules-close:hover{border-color:#7B6FD4;color:#fff;background:#2d1f52;}
+.rules-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#AEA8E8;margin-bottom:12px;}
+.rules-body{font-size:13px;color:#9a8acc;line-height:1.7;}
+.rules-body strong{color:#AEA8E8;}
+.rb-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #2a1a40;margin-bottom:2px;}
+.rb-row:last-child{border-bottom:none;}
+.rb-val{color:#AEA8E8;font-weight:600;}
+/* GAME-SPECIFIC */
+.topic-bar{text-align:center;margin-bottom:8px;padding:7px 14px;background:#231640;border-radius:8px;border:1.5px solid #534AB7;font-size:12px;color:#AEA8E8;font-style:italic;}
+.topic-bar strong{color:#fff;font-style:normal;}
+.turn-banner{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;transition:all .3s;}
+.turn-banner.you{background:rgba(33,150,243,.15);border:1.5px solid #2196F3;color:#64B5F6;}
+.turn-banner.comp{background:rgba(198,40,40,.15);border:1.5px solid #C62828;color:#EF9A9A;}
+.turn-banner.none{background:#231640;border:1.5px solid #3d2d70;color:#7a6aaa;}
+.turn-dot{width:8px;height:8px;border-radius:50%;}
+.turn-banner.you .turn-dot{background:#2196F3}.turn-banner.comp .turn-dot{background:#C62828}
+.board{display:grid;grid-template-columns:1fr 10px 1fr;background:#1a0f30;border-radius:10px;border:1.5px solid #3d2d70;overflow:hidden;margin-bottom:8px;}
+.chdr{background:#231640;padding:5px 8px;font-size:10px;font-weight:700;color:#7a6aaa;letter-spacing:1px;text-align:center;border-bottom:1.5px solid #3d2d70;}
+.mhdr{background:#231640;border-bottom:1.5px solid #3d2d70;}
+.lc,.rc{padding:4px 5px;}
+.mc{display:flex;flex-direction:column;align-items:center;padding:4px 0;gap:2px;}
+.li{display:flex;align-items:center;gap:5px;padding:4px 6px;border-radius:7px;border:1.5px solid #3d2d70;margin-bottom:2px;min-height:33px;transition:all .2s;}
+.li.active{border-color:#2196F3;background:rgba(33,150,243,.1);box-shadow:0 0 0 2px #2196F3;}
+.li.active-comp{border-color:#C62828;background:rgba(198,40,40,.1);box-shadow:0 0 0 2px #C62828;}
+.li.ym{border-color:#2196F3;background:rgba(33,150,243,.15);}
+.li.am{border-color:#C62828;background:rgba(198,40,40,.15);}
+.li.wrong{border-color:#C62828;animation:shake .3s;}
+.li.unmatched{border-color:rgba(232,232,232,.3);background:rgba(232,232,232,.04);opacity:.7;}
+.li .num{width:19px;height:19px;border-radius:5px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#534AB7;color:#fff;}
+.li.ym .num{background:#2196F3}.li.am .num{background:#C62828}.li.wrong .num{background:#C62828}
+.li .ltx{font-size:11px;color:#e8d8ff;line-height:1.2;}
+.ri{display:flex;align-items:center;justify-content:space-between;padding:4px 6px;border-radius:7px;border:1.5px solid #3d2d70;margin-bottom:2px;min-height:33px;cursor:pointer;transition:all .2s;}
+.ri:hover:not(.ymp):not(.amp){border-color:#7B6FD4;background:#2d1f52;}
+.ri.ymp{border-color:#2196F3;background:rgba(33,150,243,.15);cursor:default;}
+.ri.amp{border-color:#C62828;background:rgba(198,40,40,.15);cursor:default;}
+.ri.ai-hover{border-color:#C62828;background:rgba(198,40,40,.1);}
+.ri.wrong-r{border-color:#C62828;animation:shake .3s;}
+.ri.unmatched-r{border-color:rgba(232,232,232,.3);background:rgba(232,232,232,.04);opacity:.7;}
+.ri .ltr{width:19px;height:19px;border-radius:5px;background:#2d1f52;color:#AEA8E8;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #3d2d70;}
+.ri.ymp .ltr{background:#2196F3;color:#fff;border-color:#2196F3;}
+.ri.amp .ltr{background:#C62828;color:#fff;border-color:#C62828;}
+.ri .rtx{font-size:11px;color:#e8d8ff;line-height:1.2;text-align:right;}
+.dot{width:8px;height:8px;border-radius:50%;background:#3d2d70;flex-shrink:0;margin-bottom:2px;transition:background .3s;}
+.dot.y{background:#2196F3}.dot.a{background:#C62828}.dot.um{background:rgba(232,232,232,.25);}
+.status-bar{text-align:center;padding:6px;background:#231640;border-radius:7px;border:1px solid #3d2d70;font-size:12px;color:#AEA8E8;margin-bottom:8px;min-height:28px;line-height:1.4;}
+.status-bar.err{border-color:#C62828;color:#f87171;}
+.status-bar.good{border-color:#2196F3;color:#64B5F6;}
+.status-bar.compg{border-color:#C62828;color:#EF9A9A;}
+.status-bar.steal{border-color:#F5A623;color:#F5A623;}
+.btns{display:flex;gap:8px;justify-content:center;}
+.gbtn{padding:9px 24px;border-radius:9px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.gbtn-main{background:#534AB7;color:#fff;}.gbtn-main:hover{background:#7B6FD4;}
+.gbtn-sec{background:#231640;color:#AEA8E8;border:1.5px solid #3d2d70;}.gbtn-sec:hover{background:#2d1f52;}
+/* RESULT OVERLAY */
+.ov{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,5,20,.9);z-index:100;align-items:center;justify-content:center;}
+.ovb{background:#1a0f30;border:2px solid #534AB7;border-radius:14px;padding:20px 24px;max-width:320px;width:90%;text-align:center;}
+.ovh{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:6px;}
+.ovh.win{color:#4ade80}.ovh.lose{color:#f87171}.ovh.tie{color:#AEA8E8}
+.ov-sc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.ov-sc{border-radius:9px;padding:9px;border:2px solid;}
+.ov-sc.you{border-color:#2196F3;background:rgba(33,150,243,.1);}
+.ov-sc.comp{border-color:#C62828;background:rgba(198,40,40,.1);}
+.ov-sc .lbl{font-size:10px;font-weight:700;}
+.ov-sc.you .lbl{color:#64B5F6}.ov-sc.comp .lbl{color:#EF9A9A}
+.ov-sc .val{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;}
+.ov-sc.you .val{color:#2196F3}.ov-sc.comp .val{color:#C62828}
+.ovtxt{font-size:12px;color:#7a6aaa;margin-bottom:14px;line-height:1.6;}
+.ov-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Menu</a>
+  <div class="nav-logo"><span>Mind</span>Rush</div>
+</nav>
+<div class="game-wrap">
+  <!-- HEADER -->
+  <div class="g-hdr">
+    <div class="g-hdr-left"><div class="g-title"><span style="color:#AEA8E8">Mind</span><span style="color:#534AB7">Link</span></div></div>
+    <div class="g-hdr-right"><div class="badge" id="rbadge">Round 1 of 2</div><button class="rules-btn" id="rulesBtn">&#9432;</button></div>
+  </div>
+  <!-- DIFFICULTY -->
+  <div class="diff-row" id="diff-row"></div>
+  <!-- SCOREBOARD -->
+  <div class="scores">
+    <div class="sc sc-you"><div class="sc-top"><span class="sc-label sc-label-you">You</span></div><div class="sc-val" id="ps">0</div></div>
+    <div class="sc sc-comp"><div class="sc-top"><span class="sc-label sc-label-comp">Computer</span></div><div class="sc-val" id="as">0</div></div>
+  </div>
+  <!-- INFO + TIMER -->
+  <div class="info" id="sb">Press <strong>Start Game</strong> to play</div>
+  <div class="tbar-w"><div class="tbar" id="tf" style="width:100%"></div></div>
+  <div class="tbar-info"><span class="tbar-secs" id="tn">&mdash;</span><span class="tbar-secs" id="roundinfo">&mdash;</span></div>
+  <!-- GAME BOARD -->
+  <div class="topic-bar" id="tb">Press Start Game to begin</div>
+  <div class="turn-banner none" id="turnBanner"><div class="turn-dot"></div><span id="turnTxt">&mdash;</span></div>
+  <div class="board">
+    <div class="chdr">LEFT COLUMN</div>
+    <div class="mhdr"></div>
+    <div class="chdr">RIGHT COLUMN</div>
+    <div class="lc" id="LC"></div>
+    <div class="mc" id="MC"></div>
+    <div class="rc" id="RC"></div>
+  </div>
+  <div class="btns"><button class="gbtn gbtn-main" id="startBtn">Start Game</button></div>
+  <!-- RESULT OVERLAY -->
+  <div class="ov" id="ov">
+    <div class="ovb">
+      <div class="ovh" id="ovH"></div>
+      <div class="ov-sc-row">
+        <div class="ov-sc you"><div class="lbl">YOU</div><div class="val" id="ovPs">0</div></div>
+        <div class="ov-sc comp"><div class="lbl">COMPUTER</div><div class="val" id="ovAs">0</div></div>
+      </div>
+      <div class="ovtxt" id="ovTxt"></div>
+      <div class="ov-btns" id="ovBtns"></div>
+    </div>
+  </div>
+  <!-- RULES OVERLAY -->
+  <div class="rules-ov" id="rulesOv">
+    <button class="rules-close" id="rulesClose">&#10005;</button>
+    <div class="rules-title">MindLink &mdash; Rules</div>
+    <div class="rules-body">
+      <p style="margin-bottom:10px">Based on <strong>Spojnice</strong> from the Serbian TV quiz show Slagalica.</p>
+      <p style="margin-bottom:10px"><strong>How to play:</strong> 10 terms on the left, 10 shuffled matches on the right. Connect them in order from 1&ndash;10 by clicking the right column.</p>
+      <p style="margin-bottom:10px"><strong>Turn taking:</strong> Active player goes in order. <strong>Correct</strong> = keep your turn and continue. <strong>Wrong</strong> = opponent gets a steal attempt on that same item.</p>
+      <p style="margin-bottom:10px"><strong>Steal:</strong> If the opponent steals correctly, they take the turn and continue. If they miss too, neither scores that item.</p>
+      <p style="margin-bottom:10px"><strong>2 rounds:</strong> Round 1 &mdash; You go first. Round 2 &mdash; Computer goes first.</p>
+      <p style="margin-bottom:8px"><strong>Scoring:</strong></p>
+      <div class="rb-row"><span>Correct match</span><span class="rb-val">2 pts</span></div>
+      <div class="rb-row"><span>Maximum (20 pairs)</span><span class="rb-val">40 pts</span></div>
+      <div class="rb-row"><span>Wrong or stolen by opponent</span><span class="rb-val">0 pts</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var DB=[
+{t:"Authors and their famous novels",p:[["Shakespeare","Hamlet"],["Dickens","Oliver Twist"],["Tolstoy","War and Peace"],["Hemingway","The Old Man and the Sea"],["Orwell","1984"],["Fitzgerald","The Great Gatsby"],["Dostoevsky","Crime and Punishment"],["Kafka","The Metamorphosis"],["Austen","Pride and Prejudice"],["Homer","The Odyssey"]]},
+{t:"Countries and their capitals",p:[["Japan","Tokyo"],["Brazil","Bras\u00edlia"],["Egypt","Cairo"],["Australia","Canberra"],["Canada","Ottawa"],["Argentina","Buenos Aires"],["South Africa","Pretoria"],["Sweden","Stockholm"],["Thailand","Bangkok"],["Portugal","Lisbon"]]},
+{t:"Scientists and their discoveries",p:[["Newton","Gravity"],["Einstein","Theory of Relativity"],["Darwin","Natural Selection"],["Curie","Radioactivity"],["Fleming","Penicillin"],["Pasteur","Germ theory"],["Turing","Computer science"],["Faraday","Electromagnetism"],["Mendel","Genetics"],["Hawking","Black hole radiation"]]},
+{t:"Actors and their iconic roles",p:[["Marlon Brando","The Godfather"],["Audrey Hepburn","Breakfast at Tiffany's"],["Jack Nicholson","The Shining"],["Jodie Foster","Silence of the Lambs"],["Tom Hanks","Forrest Gump"],["Anthony Hopkins","Hannibal Lecter"],["Meryl Streep","The Devil Wears Prada"],["Al Pacino","Scarface"],["Cate Blanchett","Elizabeth"],["Dustin Hoffman","Tootsie"]]},
+{t:"Sports legends and their sport",p:[["Muhammad Ali","Boxing"],["Michael Jordan","Basketball"],["Roger Federer","Tennis"],["Pel\u00e9","Football"],["Michael Phelps","Swimming"],["Usain Bolt","Sprinting"],["Tiger Woods","Golf"],["Serena Williams","Women's Tennis"],["Wayne Gretzky","Ice Hockey"],["Michael Schumacher","Formula 1"]]},
+{t:"Inventions and their inventors",p:[["Telephone","Alexander Bell"],["Light bulb","Thomas Edison"],["World Wide Web","Tim Berners-Lee"],["Printing press","Gutenberg"],["Steam engine","James Watt"],["Dynamite","Alfred Nobel"],["Radio","Marconi"],["Television","John Baird"],["Refrigerator","Jacob Perkins"],["Microwave oven","Percy Spencer"]]},
+{t:"Greek gods and their domains",p:[["Zeus","Sky and thunder"],["Poseidon","Sea and earthquakes"],["Hades","Underworld"],["Ares","War"],["Athena","Wisdom"],["Apollo","Sun and music"],["Artemis","Hunting and moon"],["Hermes","Travel and commerce"],["Aphrodite","Love and beauty"],["Hephaestus","Fire and forge"]]},
+{t:"Chemical elements and their symbols",p:[["Gold","Au"],["Silver","Ag"],["Iron","Fe"],["Lead","Pb"],["Potassium","K"],["Sodium","Na"],["Mercury","Hg"],["Tin","Sn"],["Tungsten","W"],["Copper","Cu"]]},
+{t:"Movies and their directors",p:[["Jaws","Spielberg"],["The Godfather","Coppola"],["2001: A Space Odyssey","Kubrick"],["Pulp Fiction","Tarantino"],["Schindler's List","Spielberg"],["Vertigo","Hitchcock"],["Metropolis","Fritz Lang"],["Breathless","Godard"],["8\u00bd","Fellini"],["Bicycle Thieves","De Sica"]]},
+{t:"Animals and their collective nouns",p:[["Lions","Pride"],["Wolves","Pack"],["Crows","Murder"],["Fish","School"],["Elephants","Herd"],["Dolphins","Pod"],["Owls","Parliament"],["Flamingos","Flamboyance"],["Jellyfish","Smack"],["Ants","Colony"]]},
+{t:"Bands and their lead singers",p:[["The Beatles","John Lennon"],["Led Zeppelin","Robert Plant"],["Queen","Freddie Mercury"],["U2","Bono"],["The Rolling Stones","Mick Jagger"],["Nirvana","Kurt Cobain"],["AC/DC","Brian Johnson"],["Radiohead","Thom Yorke"],["Coldplay","Chris Martin"],["Guns N' Roses","Axl Rose"]]},
+{t:"Superheroes and their alter egos",p:[["Superman","Clark Kent"],["Batman","Bruce Wayne"],["Spider-Man","Peter Parker"],["Iron Man","Tony Stark"],["Wonder Woman","Diana Prince"],["Captain America","Steve Rogers"],["The Flash","Barry Allen"],["Black Widow","Natasha Romanoff"],["Hulk","Bruce Banner"],["Thor","Donald Blake"]]},
+{t:"Football clubs and their home cities",p:[["Real Madrid","Madrid"],["FC Barcelona","Barcelona"],["Bayern Munich","Munich"],["Manchester United","Manchester"],["Juventus","Turin"],["Paris Saint-Germain","Paris"],["Ajax","Amsterdam"],["Benfica","Lisbon"],["Celtic","Glasgow"],["Galatasaray","Istanbul"]]},
+{t:"Classical composers and their nationality",p:[["Beethoven","German"],["Mozart","Austrian"],["Bach","German"],["Chopin","Polish"],["Tchaikovsky","Russian"],["Verdi","Italian"],["Brahms","German"],["Vivaldi","Italian"],["Schubert","Austrian"],["Debussy","French"]]},
+{t:"Famous scientists and their birthplaces",p:[["Albert Einstein","Germany"],["Marie Curie","Poland"],["Isaac Newton","England"],["Charles Darwin","England"],["Nikola Tesla","Serbia"],["Stephen Hawking","England"],["Galileo Galilei","Italy"],["Louis Pasteur","France"],["Alan Turing","England"],["Richard Feynman","USA"]]},
+{t:"Singers and their real names",p:[["Bono","Paul Hewson"],["Eminem","Marshall Mathers"],["Lady Gaga","Stefani Germanotta"],["Elton John","Reginald Dwight"],["Rihanna","Robyn Fenty"],["Bob Dylan","Robert Zimmerman"],["Lorde","Ella Yelich-O'Connor"],["Nicki Minaj","Onika Maraj"],["Meat Loaf","Marvin Lee Aday"],["Alice Cooper","Vincent Furnier"]]},
+{t:"TV shows and their networks",p:[["Breaking Bad","AMC"],["Game of Thrones","HBO"],["Friends","NBC"],["The Simpsons","Fox"],["Stranger Things","Netflix"],["The Crown","Netflix"],["Seinfeld","NBC"],["The Wire","HBO"],["Lost","ABC"],["The Office (US)","NBC"]]},
+{t:"Architecture wonders and their countries",p:[["Colosseum","Italy"],["Machu Picchu","Peru"],["Angkor Wat","Cambodia"],["Petra","Jordan"],["Chich\u00e9n Itz\u00e1","Mexico"],["Taj Mahal","India"],["Alhambra","Spain"],["Acropolis","Greece"],["Stonehenge","England"],["Easter Island Moai","Chile"]]},
+{t:"Countries and their currencies",p:[["Japan","Yen"],["United Kingdom","Pound Sterling"],["India","Rupee"],["Brazil","Real"],["South Korea","Won"],["Mexico","Peso"],["Switzerland","Swiss Franc"],["Saudi Arabia","Riyal"],["Sweden","Krona"],["Russia","Ruble"]]},
+{t:"Famous paintings and their artists",p:[["Mona Lisa","Da Vinci"],["The Starry Night","Van Gogh"],["Girl with a Pearl Earring","Vermeer"],["The Persistence of Memory","Dal\u00ed"],["Guernica","Picasso"],["The Birth of Venus","Botticelli"],["The Scream","Munch"],["Nighthawks","Hopper"],["American Gothic","Grant Wood"],["The Last Supper","Da Vinci"]]}
+];
+
+var LTRS="ABCDEFGHIJ";
+var G={diff:'medium',phase:'idle',round:1,ps:0,as:0,tiv:null,tl:60,ci:0,pairs:[],sh:[],ls:[],at:'none',ac:[],stealLi:-1};
+var e=function(id){return document.getElementById(id);};
+var ri=function(a,b){return Math.floor(Math.random()*(b-a+1))+a;};
+var shuf=function(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=ri(0,i);var t=a[i];a[i]=a[j];a[j]=t;}return a;};
+
+e('rulesBtn').addEventListener('click',function(){e('rulesOv').classList.add('show');});
+e('rulesClose').addEventListener('click',function(){e('rulesOv').classList.remove('show');});
+
+// Difficulty
+(function(){var row=e('diff-row');['easy','medium','hard'].forEach(function(d){var b=document.createElement('button');b.textContent=d.charAt(0).toUpperCase()+d.slice(1);b.id='d_'+d;b.addEventListener('click',function(){if(G.phase==='playing')return;setDiff(d);});row.appendChild(b);});})();
+function setDiff(d){G.diff=d;['easy','medium','hard'].forEach(function(x){var b=e('d_'+x);if(b){if(x===d)b.classList.add('ON');else b.classList.remove('ON');}});}
+setDiff('medium');
+
+e('startBtn').addEventListener('click',startGame);
+
+function startGame(){
+  e('startBtn').style.display='none';
+  G.ps=0;G.as=0;G.round=1;G.phase='playing';upSc();startRound(1);
+}
+
+function startRound(rnd){
+  G.round=rnd;G.ci=0;G.ls=new Array(10).fill('pending');
+  var ds=DB[ri(0,DB.length-1)];
+  G.pairs=ds.p.slice();G.sh=shuf(G.pairs.map(function(p){return p[1];}));
+  G.ac=G.pairs.map(function(_,i){return G.sh.indexOf(G.pairs[i][1]);});
+  e('tb').innerHTML='<strong>Topic:</strong> '+ds.t;
+  e('rbadge').textContent='Round '+rnd+' of 2';
+  e('roundinfo').textContent='Round '+rnd+' \u2014 '+(rnd===1?'You first':'Computer first');
+  buildBoard();startTimer();
+  if(rnd===1){G.at='player';actL(0,'you');setBanner('you','Your turn');setSt('Select a match for item <strong>1</strong>','');}
+  else{G.at='comp';actL(0,'comp');setBanner('comp','Computer connecting...');setSt('Computer goes first this round...','compg');setTimeout(compNext,900);}
+}
+
+function buildBoard(){
+  e('LC').innerHTML='';e('MC').innerHTML='';e('RC').innerHTML='';
+  for(var i=0;i<10;i++){
+    var d=document.createElement('div');d.className='li';d.id='li'+i;
+    d.innerHTML='<div class="num">'+(i+1)+'</div><div class="ltx">'+G.pairs[i][0]+'</div>';
+    e('LC').appendChild(d);
+    var dot=document.createElement('div');dot.className='dot';dot.id='dot'+i;e('MC').appendChild(dot);
+    var r=document.createElement('div');r.className='ri';r.id='ri'+i;
+    r.innerHTML='<div class="ltr">'+LTRS[i]+'</div><div class="rtx">'+G.sh[i]+'</div>';
+    r.addEventListener('click',(function(idx){return function(){onPC(idx);};})(i));
+    e('RC').appendChild(r);
+  }
+}
+
+function actL(idx,who){
+  document.querySelectorAll('.li.active,.li.active-comp').forEach(function(x){x.classList.remove('active','active-comp');});
+  if(idx<10)e('li'+idx).classList.add(who==='you'?'active':'active-comp');
+}
+function setBanner(who,txt){e('turnBanner').className='turn-banner '+who;e('turnTxt').textContent=txt;}
+function isUsed(i){var r=e('ri'+i);return r&&(r.classList.contains('ymp')||r.classList.contains('amp'));}
+function getAvail(){var av=[];for(var i=0;i<10;i++)if(!isUsed(i))av.push(i);return av;}
+
+function onPC(ridx){
+  if(G.phase!=='playing')return;
+  if(G.at==='steal-player'){
+    var li=G.stealLi;if(isUsed(ridx))return;
+    var ok=G.sh[ridx]===G.pairs[li][1];
+    if(ok){doMatch(li,ridx,'player');G.ps+=2;upSc();setSt('You stole it! \ud83c\udf89 Keep going!','good');G.at='player';var nx=findNext(li+1);if(nx===-1){setTimeout(endRound,400);return;}G.ci=nx;actL(nx,'you');setBanner('you','Your turn');}
+    else{e('ri'+ridx).classList.add('wrong-r');setSt('Missed the steal. Computer continues...','err');G.ls[li]='none';setTimeout(function(){e('ri'+ridx).classList.remove('wrong-r');compPassAfterMiss(li);},500);}
+    return;
+  }
+  if(G.at!=='player')return;
+  var li2=G.ci;if(li2>=10)return;if(isUsed(ridx))return;
+  var ok2=G.sh[ridx]===G.pairs[li2][1];
+  if(ok2){doMatch(li2,ridx,'player');G.ps+=2;upSc();setSt('Correct! <strong>+2 pts</strong> \u2014 keep going!','good');setTimeout(function(){playerNext(li2+1);},200);}
+  else{e('li'+li2).classList.add('wrong');e('ri'+ridx).classList.add('wrong-r');setSt('Wrong! Computer gets a steal...','err');G.at='steal-comp';setTimeout(function(){e('li'+li2).classList.remove('wrong');e('ri'+ridx).classList.remove('wrong-r');setBanner('comp','Computer stealing...');setSt('Computer is picking...','compg');setTimeout(function(){compSteal(li2);},700);},600);}
+}
+
+function compSteal(li){
+  var cr=G.ac[li];var avail=getAvail();
+  var acc=G.diff==='hard'?0.85:G.diff==='medium'?0.50:0.20;
+  var pick=Math.random()<acc?cr:(function(){var w=avail.filter(function(x){return x!==cr;});return w.length?w[ri(0,w.length-1)]:cr;})();
+  if(!isUsed(pick))e('ri'+pick).classList.add('ai-hover');
+  setTimeout(function(){
+    if(!isUsed(pick))e('ri'+pick).classList.remove('ai-hover');
+    if(G.sh[pick]===G.pairs[li][1]){doMatch(li,pick,'comp');G.as+=2;upSc();setSt('Computer stole it! \ud83e\udd16 Computer continues...','compg');G.at='comp';var nx=findNext(li+1);if(nx===-1){setTimeout(endRound,400);return;}G.ci=nx;actL(nx,'comp');setTimeout(compNext,600);}
+    else{setSt('Computer missed the steal too. Your turn...','');G.ls[li]='none';playerNext(li+1);}
+  },800);
+}
+
+function playerNext(from){var nx=findNext(from);if(nx===-1){endRound();return;}G.ci=nx;G.at='player';actL(nx,'you');setBanner('you','Your turn');setSt('Your turn \u2014 match item <strong>'+(nx+1)+'</strong>','');}
+
+function compNext(){
+  var li=findNext(G.ci);if(li===-1){endRound();return;}
+  G.ci=li;actL(li,'comp');
+  var cr=G.ac[li];var avail=getAvail();
+  var acc=G.diff==='hard'?0.88:G.diff==='medium'?0.62:0.22;
+  var pick=Math.random()<acc?cr:(function(){var w=avail.filter(function(x){return x!==cr;});return w.length?w[ri(0,w.length-1)]:cr;})();
+  setTimeout(function(){
+    if(!isUsed(pick))e('ri'+pick).classList.add('ai-hover');
+    setTimeout(function(){
+      if(!isUsed(pick))e('ri'+pick).classList.remove('ai-hover');
+      if(G.sh[pick]===G.pairs[li][1]){doMatch(li,pick,'comp');G.as+=2;upSc();setSt('<span style="color:#EF9A9A">Computer: '+G.pairs[li][0]+' \u2713 \u2014 continues</span>','compg');var nx=findNext(li+1);if(nx===-1){setTimeout(endRound,400);return;}G.ci=nx;setTimeout(compNext,500);}
+      else{e('li'+li).classList.add('wrong');e('ri'+pick).classList.add('wrong-r');setSt('Computer missed! Click the correct match for <strong>'+G.pairs[li][0]+'</strong>','steal');G.at='steal-player';G.stealLi=li;setTimeout(function(){e('li'+li).classList.remove('wrong');e('ri'+pick).classList.remove('wrong-r');setBanner('you','Your steal!');},500);}
+    },500);
+  },400);
+}
+
+function compPassAfterMiss(li){var nx=findNext(li+1);if(nx===-1){endRound();return;}G.ci=nx;G.at='comp';actL(nx,'comp');setBanner('comp','Computer turn');setSt('Computer continues...','compg');setTimeout(compNext,500);}
+function doMatch(li,ridx,who){G.ls[li]=who;var p=(who==='player');e('li'+li).className='li '+(p?'ym':'am');var r=e('ri'+ridx);if(r)r.className='ri '+(p?'ymp':'amp');e('dot'+li).className='dot '+(p?'y':'a');}
+function findNext(from){for(var i=from;i<10;i++)if(G.ls[i]==='pending')return i;return -1;}
+
+function startTimer(){
+  G.tl=60;e('tn').textContent='60';e('tf').style.width='100%';e('tf').className='tbar';
+  if(G.tiv)clearInterval(G.tiv);
+  G.tiv=setInterval(function(){
+    G.tl--;e('tf').style.width=Math.max(0,(G.tl/60)*100)+'%';e('tn').textContent=G.tl;
+    e('tf').className='tbar'+(G.tl<=10?' danger':G.tl<=20?' warn':'');
+    if(G.tl<=0){clearInterval(G.tiv);G.tiv=null;endRound();}
+  },1000);
+}
+
+function endRound(){
+  if(G.tiv){clearInterval(G.tiv);G.tiv=null;}
+  G.phase='roundend';G.at='none';
+  document.querySelectorAll('.li.active,.li.active-comp').forEach(function(x){x.classList.remove('active','active-comp');});
+  for(var i=0;i<10;i++){if(G.ls[i]==='pending'){e('li'+i).classList.add('unmatched');e('dot'+i).className='dot um';}}
+  for(var i=0;i<10;i++){var r=e('ri'+i);if(r&&!r.classList.contains('ymp')&&!r.classList.contains('amp'))r.classList.add('unmatched-r');}
+  setBanner('none','Round over');
+  if(G.round===1)showR1();else showFinal();
+}
+
+function upSc(){e('ps').textContent=G.ps;e('as').textContent=G.as;}
+function setSt(m,c){e('sb').innerHTML=m;e('sb').className='status-bar'+(c?' '+c:'');}
+
+function showR1(){
+  e('ovH').textContent='Round 1 Complete';e('ovH').className='ovh tie';
+  e('ovPs').textContent=G.ps;e('ovAs').textContent=G.as;
+  e('ovTxt').innerHTML='Score: You <strong>'+G.ps+'</strong> \u2014 Computer <strong>'+G.as+'</strong><br>Round 2: Computer goes first!';
+  var b=e('ovBtns');b.innerHTML='';
+  var btn=document.createElement('button');btn.className='gbtn gbtn-main';btn.textContent='Start Round 2';
+  btn.addEventListener('click',function(){e('ov').style.display='none';G.phase='playing';startRound(2);});
+  b.appendChild(btn);e('ov').style.display='flex';
+}
+
+function showFinal(){
+  var w=G.ps>G.as,t=G.ps===G.as;
+  e('ovH').textContent=t?'Tie!':(w?'You Win! \ud83c\udf89':'Computer Wins');
+  e('ovH').className='ovh '+(t?'tie':w?'win':'lose');
+  e('ovPs').textContent=G.ps;e('ovAs').textContent=G.as;
+  e('ovTxt').innerHTML='Final: You <strong>'+G.ps+'</strong> \u2014 Computer <strong>'+G.as+'</strong><br>Max: <strong>40 pts</strong>';
+  var b=e('ovBtns');b.innerHTML='';
+  var b1=document.createElement('button');b1.className='gbtn gbtn-main';b1.textContent='Play Again';
+  b1.addEventListener('click',function(){e('ov').style.display='none';e('startBtn').style.display='';startGame();});
+  b.appendChild(b1);e('ov').style.display='flex';
+}
+})();
+</script>
+</body>
+</html>

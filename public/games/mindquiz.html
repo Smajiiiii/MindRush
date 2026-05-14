@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindQuiz — MindRush</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Rajdhani:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:linear-gradient(145deg,#1a0808,#110505,#180a0a);min-height:100vh;display:flex;flex-direction:column;align-items:center;font-family:'DM Sans',sans-serif;}
+/* NAV */
+.nav{width:100%;max-width:780px;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;}
+.nav-back{display:flex;align-items:center;gap:8px;text-decoration:none;color:#a06060;font-size:14px;font-weight:600;transition:color .15s;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
+.nav-back:hover{color:#D45A5A}
+.nav-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:#555;letter-spacing:.5px;}
+.nav-logo span{color:#777}
+/* GAME WRAP */
+.game-wrap{font-family:'DM Sans',sans-serif;background:#1a0a0a;border-radius:16px;padding:20px;color:#ffe8e8;max-width:740px;width:calc(100% - 32px);margin:0 auto 32px;position:relative;border:1px solid #4a2020;}
+/* UNIFIED HEADER */
+.g-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.g-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;letter-spacing:.5px;}
+.g-hdr-right{display:flex;align-items:center;gap:8px;}
+.badge{font-size:11px;background:#A32D2D;color:#ffcccc;padding:4px 12px;border-radius:20px;white-space:nowrap;font-weight:700;}
+.rules-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid #4a2020;background:#2a1010;color:#a06060;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.rules-btn:hover{border-color:#D45A5A;color:#ffe8e8;background:#3a1818;}
+/* UNIFIED DIFFICULTY */
+.diff-row{display:flex;gap:0;margin-bottom:14px;border-radius:8px;overflow:hidden;border:2px solid #4a2020;}
+.diff-row button{flex:1;padding:9px 0;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,color .2s;background:#2a1010;color:#a06060;}
+.diff-row button:not(:last-child){border-right:1px solid #4a2020;}
+.diff-row button.ON{background:#A32D2D!important;color:#ffe8e8!important;font-weight:700!important;}
+.diff-row button:hover:not(.ON){background:#3a1818;color:#D45A5A;}
+/* UNIFIED SCOREBOARD */
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.sc{background:#110505;border:1.5px solid #4a2020;border-radius:12px;padding:12px 16px;}
+.sc-you{border-left:4px solid #2196F3}
+.sc-comp{border-left:4px solid #C62828}
+.sc-top{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.sc-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;}
+.sc-label-you{color:#64B5F6}.sc-label-comp{color:#EF9A9A}
+.sc-val{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff;line-height:1;}
+.sc-rt{font-size:11px;margin-top:3px;min-height:16px;font-weight:700;}
+.sc-you .sc-rt{color:rgba(100,181,246,.7)}.sc-comp .sc-rt{color:rgba(239,154,154,.7)}
+/* UNIFIED INFO */
+.info{background:#2a1010;border:1px solid #4a2020;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#c07070;text-align:center;line-height:1.5;}
+.info strong{color:#D45A5A;}
+/* RULES OVERLAY */
+.rules-ov{display:none;position:absolute;inset:0;background:rgba(15,4,4,.97);border-radius:16px;z-index:100;padding:24px;overflow-y:auto;flex-direction:column;}
+.rules-ov.show{display:flex;}
+.rules-close{align-self:flex-end;background:none;border:1.5px solid #4a2020;color:#a06060;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-bottom:12px;}
+.rules-close:hover{border-color:#D45A5A;color:#fff;background:#3a1818;}
+.rules-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#D45A5A;margin-bottom:12px;}
+.rules-body{font-size:13px;color:#c07070;line-height:1.7;}
+.rules-body strong{color:#D45A5A;}
+.rb-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #2a1010;margin-bottom:2px;}
+.rb-row:last-child{border-bottom:none;}
+.rb-val{color:#ffb3b3;font-weight:600;}
+/* GAME SPECIFIC */
+.q-history{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;}
+.qh-dot{width:26px;height:26px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;border:1.5px solid #4a2020;color:#a06060;background:#2a1010;}
+.qh-dot.you-ok{background:rgba(33,150,243,.3);border-color:#2196F3;color:#64B5F6;}
+.qh-dot.comp-ok{background:rgba(198,40,40,.3);border-color:#C62828;color:#EF9A9A;}
+.qh-dot.none{background:#3a1818;color:#a06060;}
+.qh-dot.current{border-color:#D45A5A;border-width:2px;}
+.q-card{background:#2a1010;border:1.5px solid #4a2020;border-radius:14px;padding:18px 20px;margin-bottom:12px;}
+.q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.q-num{font-size:11px;letter-spacing:2px;color:#a06060;}
+.q-diff{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.q-diff.easy{background:rgba(46,125,50,.25);color:#81c784;border:1px solid #2e7d32;}
+.q-diff.medium{background:rgba(245,124,0,.2);color:#ffb74d;border:1px solid #e65100;}
+.q-diff.hard{background:rgba(183,28,28,.25);color:#ef9a9a;border:1px solid #b71c1c;}
+.q-text{font-size:17px;font-weight:700;color:#ffe8e8;line-height:1.45;min-height:50px;}
+.timer-wrap{margin-bottom:12px;}
+.timer-bar{height:7px;background:#3a1818;border-radius:4px;overflow:hidden;}
+.timer-fill{height:100%;background:rgba(220,220,220,0.35);transition:width .05s linear;border-radius:4px;}
+.timer-lbl{text-align:right;font-size:12px;color:#a06060;margin-top:3px;}
+.status-bar{text-align:center;font-size:13px;color:#a06060;min-height:20px;margin-bottom:10px;}
+.status-bar.ok{color:#66bb6a;font-weight:700;}
+.status-bar.bad{color:#ef5350;font-weight:700;}
+.status-bar.info{color:#ffb74d;font-weight:700;}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.ans-btn{background:#3a1818;border:2px solid #4a2020;border-radius:10px;padding:13px 14px;font-size:14px;font-weight:600;color:#ffe8e8;cursor:pointer;text-align:left;transition:background .1s,border-color .1s,transform .08s;font-family:'DM Sans',sans-serif;}
+.ans-btn:hover:not(:disabled){background:#4a2020;border-color:#D45A5A;transform:scale(1.02);}
+.ans-btn:active:not(:disabled){transform:scale(.97);}
+.ans-btn:disabled{cursor:default;}
+.ans-btn.correct{background:rgba(46,125,50,.45);border-color:#4caf50;border-width:3px;color:#c8f0b0;font-weight:900;box-shadow:0 0 10px rgba(76,175,80,.35);}
+.ans-btn.wrong{background:rgba(183,28,28,.4);border-color:#e53935;border-width:3px;color:#ffb3b3;font-weight:700;}
+.ans-btn.neutral{opacity:.35;}
+.ans-btn .ltr{display:inline-block;width:22px;height:22px;border-radius:5px;background:#4a2020;text-align:center;line-height:22px;font-size:12px;margin-right:8px;color:#a06060;font-weight:900;}
+.ans-btn.correct .ltr{background:rgba(76,175,80,.4);color:#c8f0b0;}
+.ans-btn.wrong .ltr{background:rgba(229,57,53,.35);color:#ffb3b3;}
+.next-btn{display:block;width:100%;padding:12px;background:#A32D2D;border:none;border-radius:10px;font-size:15px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:1px;transition:background .15s;font-family:'DM Sans',sans-serif;}
+.next-btn:hover{background:#D45A5A;}
+.start-btn{display:block;width:100%;padding:14px;background:#A32D2D;border:none;border-radius:10px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:2px;transition:background .15s;margin-top:8px;font-family:'DM Sans',sans-serif;}
+.start-btn:hover{background:#D45A5A;}
+/* RESULT OVERLAY (full-screen) */
+.ov{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,4,4,.9);z-index:100;align-items:center;justify-content:center;}
+.ov.show{display:flex;}
+.ovb{background:#1a0a0a;border:2px solid #A32D2D;border-radius:16px;padding:28px 24px;max-width:320px;width:90%;text-align:center;}
+.ov-title{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px;}
+.ov-sub{font-size:13px;color:#a06060;margin-bottom:20px;line-height:1.5;}
+.ov-sc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.ov-sc{border-radius:9px;padding:10px;border:2px solid;}
+.ov-sc.you{border-color:#2196F3;background:rgba(33,150,243,.1);}
+.ov-sc.comp{border-color:#C62828;background:rgba(198,40,40,.1);}
+.ov-sc .lbl{font-size:10px;font-weight:700;margin-bottom:4px;}
+.ov-sc.you .lbl{color:#64B5F6}.ov-sc.comp .lbl{color:#EF9A9A}
+.ov-sc .val{font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;}
+.ov-sc.you .val{color:#2196F3}.ov-sc.comp .val{color:#C62828}
+.ov-again{background:#A32D2D;border:none;border-radius:10px;padding:12px 32px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:1px;font-family:'DM Sans',sans-serif;}
+.ov-again:hover{background:#D45A5A;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Menu</a>
+  <div class="nav-logo"><span>Mind</span>Rush</div>
+</nav>
+<div class="game-wrap">
+  <!-- HEADER -->
+  <div class="g-hdr">
+    <div class="g-title"><span style="color:#D45A5A">Mind</span><span style="color:#A32D2D">Quiz</span></div>
+    <div class="g-hdr-right"><div class="badge" id="rbadge">10 Questions</div><button class="rules-btn" id="rulesBtn">&#9432;</button></div>
+  </div>
+  <!-- DIFFICULTY -->
+  <div class="diff-row" id="diff-row"></div>
+  <!-- SCOREBOARD -->
+  <div class="scores">
+    <div class="sc sc-you"><div class="sc-top"><span class="sc-label sc-label-you">You</span></div><div class="sc-val" id="scoreYou">0</div><div class="sc-rt" id="rtYou"></div></div>
+    <div class="sc sc-comp"><div class="sc-top"><span class="sc-label sc-label-comp">Computer</span></div><div class="sc-val" id="scoreComp">0</div><div class="sc-rt" id="rtComp"></div></div>
+  </div>
+  <!-- INFO BAR -->
+  <div class="info" id="infoBar">Select difficulty and press <strong>Start Game</strong></div>
+  <!-- GAME AREA -->
+  <div id="q-history-row" class="q-history"></div>
+  <div class="q-card">
+    <div class="q-meta"><span class="q-num" id="qNum">QUESTION &mdash; / 10</span><span class="q-diff" id="qDiff">&mdash;</span></div>
+    <div class="q-text" id="qText">Ready to test your knowledge?</div>
+  </div>
+  <div class="timer-wrap">
+    <div class="timer-bar"><div class="timer-fill" id="timerFill" style="width:100%"></div></div>
+    <div class="timer-lbl" id="timerLbl">&mdash;</div>
+  </div>
+  <div class="status-bar" id="statusBar"></div>
+  <div class="answers" id="answersGrid"></div>
+  <button class="next-btn" id="nextBtn" style="display:none">Next Question &rarr;</button>
+  <button class="start-btn" id="startBtn">Start Game</button>
+  <!-- FINAL RESULT OVERLAY -->
+  <div class="ov" id="ov">
+    <div class="ovb">
+      <div class="ov-title" id="ovTitle"></div>
+      <div class="ov-sub" id="ovSub"></div>
+      <div class="ov-sc-row">
+        <div class="ov-sc you"><div class="lbl">YOU</div><div class="val" id="ovYou">0</div></div>
+        <div class="ov-sc comp"><div class="lbl">COMPUTER</div><div class="val" id="ovComp">0</div></div>
+      </div>
+      <button class="ov-again" id="playAgain">Play Again</button>
+    </div>
+  </div>
+  <!-- RULES OVERLAY -->
+  <div class="rules-ov" id="rulesOv">
+    <button class="rules-close" id="rulesClose">&#10005;</button>
+    <div class="rules-title">MindQuiz &mdash; Rules</div>
+    <div class="rules-body">
+      <p style="margin-bottom:10px">Based on <strong>Ko Zna Zna</strong> from the Serbian TV quiz show Slagalica.</p>
+      <p style="margin-bottom:10px"><strong>How to play:</strong> 10 trivia questions, 4 answer choices. Both you and Computer race to answer first. Clicking any answer IS the buzz — no separate button.</p>
+      <p style="margin-bottom:10px"><strong>Faster = better.</strong> If Computer answers first, you still have ~300ms to click before the round closes.</p>
+      <p style="margin-bottom:10px"><strong>The correct answer is always revealed</strong> after each question.</p>
+      <p style="margin-bottom:8px"><strong>Scoring:</strong></p>
+      <div class="rb-row"><span>Correct answer</span><span class="rb-val">+10 pts</span></div>
+      <div class="rb-row"><span>Wrong answer</span><span class="rb-val">&minus;5 pts</span></div>
+      <div class="rb-row"><span>No answer (timeout)</span><span class="rb-val">0 pts</span></div>
+      <div class="rb-row"><span>Both answer — faster wins</span><span class="rb-val">Slower = 0</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+var QDB=[
+  {q:"What is the capital of France?",a:["Paris","London","Berlin","Rome"],c:0,d:"easy"},
+  {q:"How many sides does a hexagon have?",a:["5","6","7","8"],c:1,d:"easy"},
+  {q:"What is 7 \u00d7 8?",a:["54","56","58","64"],c:1,d:"easy"},
+  {q:"Which planet is closest to the Sun?",a:["Venus","Earth","Mercury","Mars"],c:2,d:"easy"},
+  {q:"What color do you get mixing blue and yellow?",a:["Purple","Orange","Brown","Green"],c:3,d:"easy"},
+  {q:"What is the chemical symbol for water?",a:["WA","HO","H2O","W2O"],c:2,d:"easy"},
+  {q:"What is the largest ocean on Earth?",a:["Atlantic","Indian","Arctic","Pacific"],c:3,d:"easy"},
+  {q:"Which animal is the 'King of the Jungle'?",a:["Tiger","Elephant","Lion","Cheetah"],c:2,d:"easy"},
+  {q:"What is the powerhouse of the cell?",a:["Nucleus","Ribosome","Mitochondria","Golgi apparatus"],c:2,d:"easy"},
+  {q:"What currency does Japan use?",a:["Yuan","Won","Yen","Ringgit"],c:2,d:"easy"},
+  {q:"What is the largest planet in our solar system?",a:["Saturn","Neptune","Jupiter","Uranus"],c:2,d:"easy"},
+  {q:"Which sport uses a shuttlecock?",a:["Tennis","Squash","Badminton","Pickleball"],c:2,d:"easy"},
+  {q:"How many players are on a standard soccer team?",a:["9","10","11","12"],c:2,d:"easy"},
+  {q:"What is the tallest mountain in the world?",a:["K2","Kangchenjunga","Everest","Makalu"],c:2,d:"easy"},
+  {q:"Who wrote 'Romeo and Juliet'?",a:["Dickens","Shakespeare","Austen","Chaucer"],c:1,d:"medium"},
+  {q:"What is the capital of Japan?",a:["Beijing","Seoul","Tokyo","Bangkok"],c:2,d:"medium"},
+  {q:"Which element has the atomic number 79?",a:["Silver","Platinum","Gold","Copper"],c:2,d:"medium"},
+  {q:"In what year did World War II end?",a:["1943","1944","1945","1946"],c:2,d:"medium"},
+  {q:"What is the approximate speed of light?",a:["100,000 km/s","200,000 km/s","300,000 km/s","400,000 km/s"],c:2,d:"medium"},
+  {q:"Who painted the Mona Lisa?",a:["Raphael","Michelangelo","Leonardo da Vinci","Botticelli"],c:2,d:"medium"},
+  {q:"What is the longest bone in the human body?",a:["Fibula","Humerus","Tibia","Femur"],c:3,d:"medium"},
+  {q:"What gas do plants absorb during photosynthesis?",a:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],c:2,d:"medium"},
+  {q:"How many bones are in the adult human body?",a:["186","196","206","216"],c:2,d:"medium"},
+  {q:"What is the capital of Australia?",a:["Sydney","Melbourne","Brisbane","Canberra"],c:3,d:"medium"},
+  {q:"Which planet has the most moons?",a:["Jupiter","Saturn","Uranus","Neptune"],c:1,d:"medium"},
+  {q:"In what year was the Eiffel Tower completed?",a:["1879","1885","1889","1895"],c:2,d:"medium"},
+  {q:"Who developed the theory of general relativity?",a:["Newton","Bohr","Einstein","Hawking"],c:2,d:"medium"},
+  {q:"What is the smallest prime number?",a:["0","1","2","3"],c:2,d:"medium"},
+  {q:"What is the hardest natural substance?",a:["Quartz","Ruby","Topaz","Diamond"],c:3,d:"medium"},
+  {q:"What does DNA stand for?",a:["Dynamic Nucleic Acid","DeoxyNucleic Array","Deoxyribonucleic Acid","Direct Nucleic Arrangement"],c:2,d:"medium"},
+  {q:"Who was the first person to walk on the Moon?",a:["Buzz Aldrin","Yuri Gagarin","Neil Armstrong","John Glenn"],c:2,d:"medium"},
+  {q:"What is the square root of 144?",a:["10","11","12","13"],c:2,d:"medium"},
+  {q:"In Greek mythology, who is the god of the sea?",a:["Zeus","Ares","Apollo","Poseidon"],c:3,d:"medium"},
+  {q:"Which country is home to the Great Barrier Reef?",a:["New Zealand","Indonesia","Australia","Philippines"],c:2,d:"medium"},
+  {q:"Which country has the most natural lakes?",a:["Russia","USA","Brazil","Canada"],c:3,d:"medium"},
+  {q:"What language has the most native speakers?",a:["English","Spanish","Mandarin Chinese","Hindi"],c:2,d:"hard"},
+  {q:"Which element is liquid at room temp besides mercury?",a:["Gallium","Bromine","Cesium","Francium"],c:1,d:"hard"},
+  {q:"What is the rarest blood type?",a:["A-","B-","AB-","O-"],c:2,d:"hard"},
+  {q:"Who wrote 'One Hundred Years of Solitude'?",a:["Borges","Cort\u00e1zar","Garc\u00eda M\u00e1rquez","Vargas Llosa"],c:2,d:"hard"},
+  {q:"In which year did the Berlin Wall fall?",a:["1987","1988","1989","1991"],c:2,d:"hard"},
+  {q:"What is the chemical symbol for tungsten?",a:["Tu","Wg","W","Tn"],c:2,d:"hard"},
+  {q:"What does 'HTTP' stand for?",a:["HyperText Transfer Protocol","High Transfer Text Protocol","Hyper Terminal Transfer Process","HyperText Transport Program"],c:0,d:"hard"},
+  {q:"Which composer wrote 'The Four Seasons'?",a:["Bach","Beethoven","Vivaldi","Mozart"],c:2,d:"hard"},
+  {q:"What is the Fibonacci sequence's 10th number?",a:["34","44","55","65"],c:2,d:"hard"},
+  {q:"Which ancient wonder was located in Alexandria?",a:["Hanging Gardens","Colossus of Rhodes","Lighthouse","Statue of Zeus"],c:2,d:"hard"},
+  {q:"What is the largest organ in the human body?",a:["Liver","Brain","Lungs","Skin"],c:3,d:"hard"},
+  {q:"Which country invented the printing press?",a:["France","Italy","China","England"],c:2,d:"hard"},
+];
+
+var AI_PROFILE={
+  easy:  {lo:2200,hi:5000,acc:0.48,skip:0.30},
+  medium:{lo:900, hi:3200,acc:0.73,skip:0.16},
+  hard:  {lo:180, hi:1400,acc:0.91,skip:0.05},
+};
+var Q_TIME=5000;
+var LETTERS=['A','B','C','D'];
+
+var G={diff:'medium',phase:'idle',questions:[],qi:0,ys:0,cs:0,timerIv:null,qStart:0,aiIv:null,history:[],playerAnswered:false,compAnswered:false,compChosenIdx:-1};
+
+var el=function(id){return document.getElementById(id);};
+var ri=function(a,b){return Math.floor(Math.random()*(b-a+1))+a;};
+var rf=function(a,b){return Math.random()*(b-a)+a;};
+var shuf=function(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=ri(0,i);var t=a[i];a[i]=a[j];a[j]=t;}return a;};
+
+el('rulesBtn').addEventListener('click',function(){el('rulesOv').classList.add('show');});
+el('rulesClose').addEventListener('click',function(){el('rulesOv').classList.remove('show');});
+
+// Difficulty
+(function(){var row=el('diff-row');['easy','medium','hard'].forEach(function(d){var b=document.createElement('button');b.textContent=d.charAt(0).toUpperCase()+d.slice(1);b.id='d_'+d;b.addEventListener('click',function(){if(G.phase==='playing')return;setDiff(d);});row.appendChild(b);});})();
+function setDiff(d){G.diff=d;['easy','medium','hard'].forEach(function(x){var b=el('d_'+x);if(b){if(x===d)b.classList.add('ON');else b.classList.remove('ON');}});}
+setDiff('medium');
+
+function buildQ(){
+  var e=shuf(QDB.filter(function(q){return q.d==='easy';}));
+  var m=shuf(QDB.filter(function(q){return q.d==='medium';}));
+  var h=shuf(QDB.filter(function(q){return q.d==='hard';}));
+  return shuf(e.slice(0,3).concat(m.slice(0,5)).concat(h.slice(0,2))).slice(0,10);
+}
+
+el('startBtn').addEventListener('click',startGame);
+el('nextBtn').addEventListener('click',function(){el('nextBtn').style.display='none';loadQ();});
+el('playAgain').addEventListener('click',resetGame);
+
+function startGame(){
+  G.questions=buildQ();G.qi=0;G.ys=0;G.cs=0;G.history=[];G.phase='playing';
+  el('ov').classList.remove('show');el('startBtn').style.display='none';
+  el('scoreYou').textContent='0';el('scoreComp').textContent='0';
+  el('rtYou').textContent='';el('rtComp').textContent='';
+  el('rbadge').textContent='Q 1 / 10';
+  renderHistory();loadQ();
+}
+
+function loadQ(){
+  if(G.qi>=10){endGame();return;}
+  var q=G.questions[G.qi];
+  G.playerAnswered=false;G.compAnswered=false;G.compChosenIdx=-1;G.phase='playing';
+  clearInterval(G.timerIv);clearTimeout(G.aiIv);
+  el('qNum').textContent='QUESTION '+(G.qi+1)+' / 10';
+  el('qDiff').textContent=q.d.toUpperCase();el('qDiff').className='q-diff '+q.d;
+  el('qText').textContent=q.q;
+  el('rtYou').textContent='';el('rtComp').textContent='';
+  el('statusBar').textContent='';el('statusBar').className='status-bar';
+  el('nextBtn').style.display='none';
+  el('rbadge').textContent='Q '+(G.qi+1)+' / 10';
+  el('infoBar').innerHTML='Click the correct answer — <strong>faster = better!</strong>';
+  var grid=el('answersGrid');grid.innerHTML='';
+  q.a.forEach(function(ans,i){
+    var b=document.createElement('button');b.className='ans-btn';
+    b.innerHTML='<span class="ltr">'+LETTERS[i]+'</span>'+ans;
+    b.addEventListener('click',(function(idx){return function(){onPlayerClick(idx,q);};})(i));
+    grid.appendChild(b);
+  });
+  renderHistory();
+  G.qStart=Date.now();startTimer();scheduleComp(q);
+}
+
+function startTimer(){
+  clearInterval(G.timerIv);
+  G.timerIv=setInterval(function(){
+    var left=Math.max(0,Q_TIME-(Date.now()-G.qStart));
+    el('timerFill').style.width=(left/Q_TIME*100)+'%';
+    el('timerLbl').textContent=(left/1000).toFixed(2)+'s';
+    if(left<=0){clearInterval(G.timerIv);onTimeout();}
+  },50);
+}
+
+function scheduleComp(q){
+  var p=AI_PROFILE[G.diff];
+  if(Math.random()<p.skip){G.compAnswered=true;G.compChosenIdx=-1;return;}
+  var delay=rf(p.lo,p.hi);
+  G.aiIv=setTimeout(function(){
+    if(G.phase!=='playing')return;
+    G.compAnswered=true;
+    var correct=Math.random()<p.acc;
+    G.compChosenIdx=correct?q.c:(function(){var w=[0,1,2,3].filter(function(i){return i!==q.c;});return w[ri(0,w.length-1)];}());
+    var rt=((Date.now()-G.qStart)/1000).toFixed(2);
+    el('rtComp').textContent=rt+'s';
+    if(!G.playerAnswered){
+      setTimeout(function(){
+        if(!G.playerAnswered&&G.phase==='playing')resolveRound(-1,G.compChosenIdx,q.c);
+      },300);
+    }
+  },delay);
+}
+
+function onPlayerClick(idx,q){
+  if(G.phase!=='playing'||G.playerAnswered)return;
+  G.playerAnswered=true;clearTimeout(G.aiIv);clearInterval(G.timerIv);
+  var rt=((Date.now()-G.qStart)/1000).toFixed(2);
+  el('rtYou').textContent=rt+'s';
+  el('answersGrid').querySelectorAll('.ans-btn').forEach(function(b){b.disabled=true;});
+  resolveRound(idx,G.compAnswered?G.compChosenIdx:-1,q.c);
+}
+
+function onTimeout(){
+  if(G.playerAnswered)return;
+  G.playerAnswered=true;clearTimeout(G.aiIv);
+  resolveRound(-1,G.compAnswered?G.compChosenIdx:-1,G.questions[G.qi].c);
+}
+
+function revealAnswers(correctIdx,pWrongIdx,aWrongIdx){
+  var btns=el('answersGrid').querySelectorAll('.ans-btn');
+  btns.forEach(function(b,i){
+    b.disabled=true;
+    if(i===correctIdx)b.classList.add('correct');
+    else if(i===pWrongIdx||i===aWrongIdx)b.classList.add('wrong');
+    else b.classList.add('neutral');
+  });
+}
+
+function resolveRound(pIdx,aIdx,correct){
+  G.phase='result';clearInterval(G.timerIv);clearTimeout(G.aiIv);
+  var pCorrect=(pIdx===correct),aCorrect=(aIdx===correct);
+  var pWrong=(pIdx>=0&&!pCorrect)?pIdx:-1,aWrong=(aIdx>=0&&!aCorrect)?aIdx:-1;
+  revealAnswers(correct,pWrong,aWrong);
+  var status='',cls='status-bar info',histItem='none';
+  if(pIdx===-1&&aIdx===-1){
+    status='Time up! No one scored.';
+  } else if(pIdx===-1){
+    if(aCorrect){G.cs+=10;status='Computer answered — correct! Computer +10';cls='status-bar bad';histItem='comp-ok';}
+    else{G.cs-=5;status='Computer answered — wrong! Computer \u22125';}
+    el('scoreComp').textContent=G.cs;
+  } else if(aIdx===-1){
+    if(pCorrect){G.ys+=10;status='Correct! +10 points';cls='status-bar ok';histItem='you-ok';}
+    else{G.ys-=5;status='Wrong answer! \u22125 points';cls='status-bar bad';}
+    el('scoreYou').textContent=G.ys;
+  } else {
+    var pT=parseFloat(el('rtYou').textContent)||99;
+    var aT=parseFloat(el('rtComp').textContent)||99;
+    if(pT<=aT){
+      if(pCorrect){G.ys+=10;status='You were faster \u2014 correct! +10';cls='status-bar ok';histItem='you-ok';}
+      else{G.ys-=5;status='Faster, but wrong! \u22125';cls='status-bar bad';if(aCorrect){G.cs+=10;status+='\u00a0\u00a0|\u00a0\u00a0Computer correct +10';histItem='comp-ok';}}
+    } else {
+      if(aCorrect){G.cs+=10;histItem='comp-ok';status=pCorrect?'Computer was faster! Computer +10 (you were right but too slow)':'Computer faster and correct! Computer +10';cls='status-bar bad';}
+      else{G.cs-=5;if(pCorrect){G.ys+=10;status='Computer faster but wrong (\u22125) \u2014 you got it! +10';cls='status-bar ok';histItem='you-ok';}else{G.ys-=5;status='Both wrong! \u22125 each';cls='status-bar bad';}}
+    }
+    el('scoreYou').textContent=G.ys;el('scoreComp').textContent=G.cs;
+  }
+  el('statusBar').textContent=status;el('statusBar').className=cls;
+  G.history.push(histItem);renderHistory();G.qi++;
+  if(G.qi>=10)setTimeout(endGame,1800);
+  else{el('nextBtn').style.display='block';G.phase='waiting';}
+}
+
+function renderHistory(){
+  var row=el('q-history-row');row.innerHTML='';
+  for(var i=0;i<10;i++){
+    var dot=document.createElement('div');dot.className='qh-dot';
+    if(i<G.history.length){dot.className+=' '+G.history[i];dot.textContent=i+1;}
+    else if(i===G.qi&&G.phase==='playing'){dot.className+=' current';dot.textContent=i+1;}
+    else dot.textContent=i+1;
+    row.appendChild(dot);
+  }
+}
+
+function endGame(){
+  el('ov').classList.add('show');
+  el('ovYou').textContent=G.ys;el('ovComp').textContent=G.cs;
+  if(G.ys>G.cs){el('ovTitle').textContent='You Win!';el('ovTitle').style.color='#64B5F6';el('ovSub').textContent='Great knowledge and fast reflexes!';}
+  else if(G.cs>G.ys){el('ovTitle').textContent='Computer Wins';el('ovTitle').style.color='#EF9A9A';el('ovSub').textContent='The machine was faster today. Try again!';}
+  else{el('ovTitle').textContent="It's a Tie!";el('ovTitle').style.color='#ffb74d';el('ovSub').textContent='Dead even \u2014 rematch?';}
+  G.phase='idle';
+}
+
+function resetGame(){
+  el('ov').classList.remove('show');el('startBtn').style.display='block';G.phase='idle';
+  el('q-history-row').innerHTML='';el('qText').textContent='Ready to test your knowledge?';
+  el('answersGrid').innerHTML='';el('timerFill').style.width='100%';el('timerLbl').textContent='\u2014';
+  el('rtYou').textContent='';el('rtComp').textContent='';
+  el('statusBar').textContent='';el('qNum').textContent='QUESTION \u2014 / 10';
+  el('qDiff').textContent='\u2014';el('qDiff').className='q-diff';
+  el('scoreYou').textContent='0';el('scoreComp').textContent='0';
+  el('rbadge').textContent='10 Questions';
+  el('infoBar').innerHTML='Select difficulty and press <strong>Start Game</strong>';
+}
+})();
+</script>
+</body>
+</html>

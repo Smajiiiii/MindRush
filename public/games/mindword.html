@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mind Word — MindRush</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Rajdhani:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:linear-gradient(145deg,#0a1525,#0d1b2e,#081320);min-height:100vh;display:flex;flex-direction:column;align-items:center;font-family:'DM Sans',sans-serif;}
+.nav{width:100%;max-width:780px;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;}
+.nav-back{display:flex;align-items:center;gap:8px;text-decoration:none;color:#5a8ab0;font-size:14px;font-weight:600;transition:color .15s;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
+.nav-back:hover{color:#8ab8d8}
+.nav-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:#555;letter-spacing:.5px;}
+.nav-logo span{color:#777}
+.game-wrap{font-family:'DM Sans',sans-serif;background:#0d1b2e;border-radius:16px;padding:20px;color:#e8f4ff;min-height:460px;max-width:740px;width:calc(100% - 32px);margin:0 auto 32px;position:relative;}
+.g-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.g-hdr-left{display:flex;align-items:center;gap:10px;}
+.g-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;letter-spacing:.5px;}
+.g-hdr-right{display:flex;align-items:center;gap:8px;}
+.badge{font-size:11px;background:#185FA5;color:#b5d4f4;padding:4px 12px;border-radius:20px;white-space:nowrap;font-weight:600;}
+.rules-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid #1e3a5a;background:#142236;color:#5a8ab0;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.rules-btn:hover{border-color:#378ADD;color:#8ab8d8;background:#1e3a5a;}
+.diff-row{display:flex;gap:0;margin-bottom:14px;border-radius:8px;overflow:hidden;border:2px solid #1e3a5a;}
+.diff-row button{flex:1;padding:9px 0;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,color .2s;background:#142236;color:#5a8ab0;}
+.diff-row button:not(:last-child){border-right:1px solid #1e3a5a;}
+.diff-row button.ON{background:#185FA5!important;color:#fff!important;font-weight:700!important;}
+.diff-row button:hover:not(.ON){background:#1e3a5a;color:#8ab8d8;}
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.sc{background:#0a1520;border:1.5px solid #1e3a5a;border-radius:12px;padding:12px 16px;}
+.sc-you{border-left:4px solid #2196F3}
+.sc-comp{border-left:4px solid #C62828}
+.sc-top{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.sc-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;}
+.sc-label-you{color:#64B5F6}.sc-label-comp{color:#EF9A9A}
+.htag{font-size:9px;background:#185FA5;color:#fff;padding:2px 7px;border-radius:10px;font-weight:600;}
+.sc-val{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff;line-height:1;}
+.sc-word{font-size:12px;color:#5a8ab0;margin-top:3px;min-height:16px;}
+.info{background:#142236;border:1px solid #1e3a5a;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#8ab8d8;text-align:center;line-height:1.5;}
+.info strong{color:#5aabff;}
+.tbar-w{height:5px;background:#1e3a5a;border-radius:3px;margin-bottom:14px;overflow:hidden;}
+.tbar{height:100%;background:#185FA5;border-radius:3px;transition:width .4s linear;}
+.rules-ov{display:none;position:absolute;inset:0;background:rgba(8,16,28,.97);border-radius:16px;z-index:100;padding:24px;overflow-y:auto;flex-direction:column;}
+.rules-ov.show{display:flex;}
+.rules-close{align-self:flex-end;background:none;border:1.5px solid #1e3a5a;color:#5a8ab0;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-bottom:12px;}
+.rules-close:hover{border-color:#378ADD;color:#fff;background:#1e3a5a;}
+.rules-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#5aabff;margin-bottom:12px;}
+.rules-body{font-size:13px;color:#8ab8d8;line-height:1.7;}
+.rules-body strong{color:#5aabff;}
+.rules-body .rb-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1a2a3a;margin-bottom:2px;}
+.rules-body .rb-row:last-child{border-bottom:none;}
+.rules-body .rb-val{color:#facc15;font-weight:600;}
+@keyframes spinL{0%{content:'A'}4%{content:'E'}8%{content:'I'}12%{content:'O'}16%{content:'U'}20%{content:'B'}24%{content:'C'}28%{content:'D'}32%{content:'F'}36%{content:'G'}40%{content:'H'}44%{content:'L'}48%{content:'M'}52%{content:'N'}56%{content:'P'}60%{content:'R'}64%{content:'S'}68%{content:'T'}72%{content:'K'}76%{content:'W'}80%{content:'V'}84%{content:'J'}88%{content:'X'}92%{content:'Y'}96%{content:'Z'}100%{content:'A'}}
+.board{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:12px;}
+.tile{width:46px;height:52px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;border:1.5px solid;user-select:none;transition:background .15s,border-color .15s,transform .1s;}
+.t-spin{background:#0a1520;border-color:#1e3a5a;color:#facc15;cursor:default;position:relative;}
+.t-spin::after{content:'A';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#facc15;}
+.t-spin:nth-child(1)::after{animation:spinL .5s steps(1) 0s infinite;}
+.t-spin:nth-child(2)::after{animation:spinL .5s steps(1) -.04s infinite;}
+.t-spin:nth-child(3)::after{animation:spinL .5s steps(1) -.08s infinite;}
+.t-spin:nth-child(4)::after{animation:spinL .5s steps(1) -.12s infinite;}
+.t-spin:nth-child(5)::after{animation:spinL .5s steps(1) -.16s infinite;}
+.t-spin:nth-child(6)::after{animation:spinL .5s steps(1) -.20s infinite;}
+.t-spin:nth-child(7)::after{animation:spinL .5s steps(1) -.24s infinite;}
+.t-spin:nth-child(8)::after{animation:spinL .5s steps(1) -.28s infinite;}
+.t-spin:nth-child(9)::after{animation:spinL .5s steps(1) -.32s infinite;}
+.t-spin:nth-child(10)::after{animation:spinL .5s steps(1) -.36s infinite;}
+.t-spin:nth-child(11)::after{animation:spinL .5s steps(1) -.40s infinite;}
+.t-spin:nth-child(12)::after{animation:spinL .5s steps(1) -.44s infinite;}
+.t-lock{background:#1a2a3a;border-color:#2a4a6a;color:#d0e8ff;cursor:pointer;}
+.t-lock:hover{background:#1e3a5a;border-color:#378ADD;color:#fff;transform:translateY(-2px);}
+.t-used{background:#0a1520;border-color:#0f2030;color:#2a4a6a;cursor:default;}
+.stop-area{text-align:center;margin-bottom:12px;}
+.pct{font-size:12px;color:#5a8ab0;margin-bottom:7px;}
+.sbtn{background:#185FA5;color:#fff;border:none;border-radius:10px;padding:13px 44px;font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;cursor:pointer;letter-spacing:1px;transition:all .15s;}
+.sbtn:hover:not(:disabled){background:#1a70c2;transform:scale(1.04);}
+.sbtn:disabled{background:#0d2f50;color:#2a4a6a;cursor:default;}
+.wdisp{min-height:54px;background:#0a1520;border:1.5px solid #1e3a5a;border-radius:10px;display:flex;align-items:center;padding:6px 10px;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.wtile{width:40px;height:44px;background:#185FA5;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#fff;cursor:pointer;transition:all .12s;}
+.wtile:hover{background:#0C447C;transform:scale(.94);}
+.wph{color:#2a4a6a;font-size:13px;font-style:italic;}
+.pact{display:flex;gap:8px;margin-bottom:8px;}
+.btn{flex:1;padding:10px;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;}
+.bp{background:#185FA5;color:#fff;}.bp:hover{background:#1a70c2;}
+.bs{background:#142236;color:#8ab8d8;border:1px solid #1e3a5a;}.bs:hover{background:#1e3a5a;}
+.bbig{width:100%;padding:12px;border-radius:8px;border:none;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;cursor:pointer;background:#185FA5;color:#fff;transition:all .15s;margin-top:10px;}
+.bbig:hover{background:#1a70c2;}
+.fb{min-height:30px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;border-radius:8px;padding:5px 12px;margin-bottom:8px;}
+.hd{visibility:hidden;}
+.dbox{background:#0a1520;border:1px solid #378ADD;border-radius:10px;padding:16px;margin-bottom:10px;}
+.dlbl{font-size:12px;color:#5aabff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center;}
+.dcd{font-family:'Rajdhani',sans-serif;font-size:40px;font-weight:700;color:#f87171;text-align:center;margin:0 0 12px;}
+.nrow{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;}
+.nbtn{width:44px;height:44px;border-radius:8px;border:none;background:#1e3a5a;color:#8ab8d8;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:all .15s;}
+.nbtn:hover{background:#2a4a6a;color:#fff;}
+.nbtn.ns{background:#185FA5;color:#fff;}
+.rbox{background:#0a1520;border:1px solid #1e3a5a;border-radius:12px;padding:16px;margin-top:8px;}
+.rtit{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;margin-bottom:10px;text-align:center;}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #1e3a5a;font-size:13px;}
+.rrow:last-of-type{border-bottom:none;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-back" href="/"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Menu</a>
+  <div class="nav-logo"><span>Mind</span>Rush</div>
+</nav>
+<div class="game-wrap" id="mw">
+  <div class="g-hdr">
+    <div class="g-hdr-left"><div class="g-title"><span style="color:#378ADD">Mind</span><span style="color:#185FA5">Word</span></div></div>
+    <div class="g-hdr-right"><div class="badge" id="rbadge">Round 1 of 2</div><button class="rules-btn" id="rulesBtn" title="Rules">ⓘ</button></div>
+  </div>
+  <div class="diff-row" id="diff-row"></div>
+  <div class="scores">
+    <div class="sc sc-you"><div class="sc-top"><span class="sc-label sc-label-you">You</span><span class="htag" id="yh" style="display:none">HOST</span></div><div class="sc-val" id="ps">0</div><div class="sc-word" id="pw">—</div></div>
+    <div class="sc sc-comp"><div class="sc-top"><span class="sc-label sc-label-comp">Computer</span><span class="htag" id="ah" style="display:none">HOST</span></div><div class="sc-val" id="as2">0</div><div class="sc-word" id="aw">—</div></div>
+  </div>
+  <div class="info" id="info">Press <strong>STOP</strong> to lock each letter. Lock all 12 to start.</div>
+  <div class="tbar-w"><div class="tbar" id="tb" style="width:100%"></div></div>
+  <div id="pp"><div class="board" id="sb"></div><div class="stop-area"><div class="pct" id="pc">0 / 12 letters locked</div><button class="sbtn" id="stbtn">STOP</button></div></div>
+  <div id="ppl" style="display:none"><div class="board" id="ab"></div><div style="font-size:11px;color:#5a8ab0;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Your word — click to use · click again to remove</div><div class="wdisp" id="wd"><span class="wph">Click letters above to build your word...</span></div><div class="fb hd" id="fb"></div><div class="pact"><button class="btn bs" id="clearBtn">Clear</button><button class="btn bp" id="doneBtn">Done — declare length</button></div></div>
+  <div id="pdec" style="display:none"><div class="dbox"><div class="dlbl">How many letters is your word?</div><div class="dcd" id="dcd">3</div><div class="nrow" id="nr"></div><div style="font-size:12px;color:#5a8ab0;text-align:center;">Select 0 if you have no word</div></div><button class="bbig" id="cfbtn" disabled>Confirm</button></div>
+  <div id="prev" style="display:none"></div>
+  <div id="pres" style="display:none"></div>
+  <div class="rules-ov" id="rulesOv">
+    <button class="rules-close" id="rulesClose">✕</button>
+    <div class="rules-title">Mind Word — Rules</div>
+    <div class="rules-body">
+      <p style="margin-bottom:10px">Based on <strong>Moja Reč</strong> from the Serbian TV quiz show Slagalica.</p>
+      <p style="margin-bottom:10px"><strong>How to play:</strong> 12 spinning letters are locked one by one. Build the longest possible English word within 30 seconds.</p>
+      <p style="margin-bottom:10px"><strong>2 rounds:</strong> Round 1 — You pick letters (HOST). Round 2 — Computer picks (HOST).</p>
+      <p style="margin-bottom:10px"><strong>Declare:</strong> When time expires, declare your word length. Mismatch = 0 points.</p>
+      <p style="margin-bottom:8px"><strong>Scoring:</strong></p>
+      <div class="rb-row"><span>Valid word</span><span class="rb-val">Points = letter count</span></div>
+      <div class="rb-row"><span>Longer word wins</span><span class="rb-val">Only winner scores</span></div>
+      <div class="rb-row"><span>Equal length</span><span class="rb-val">HOST wins tie-break</span></div>
+      <div class="rb-row"><span>Invalid / mismatch</span><span class="rb-val">0 points</span></div>
+      <div class="rb-row"><span>All 12 letters used</span><span class="rb-val">+10 bonus</span></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+var el=function(id){return document.getElementById(id);};
+el('rulesBtn').addEventListener('click',function(){el('rulesOv').classList.add('show');});
+el('rulesClose').addEventListener('click',function(){el('rulesOv').classList.remove('show');});
+function buildDiff(){var row=el('diff-row');['easy','medium','hard'].forEach(function(d){var b=document.createElement('button');b.id='d'+d[0];b.textContent=d.charAt(0).toUpperCase()+d.slice(1);b.addEventListener('click',function(){setDiff(d);});row.appendChild(b);});}
+function setDiff(d){G.diff=d;['easy','medium','hard'].forEach(function(x){var b=el('d'+x[0]);if(b){if(x===d)b.classList.add('ON');else b.classList.remove('ON');}});}
+var LETTER_POOL='AAAAAAAAABCCDDDDEEEEEEEEEEEEFFGGGHHIIIIIIIIIJKLLLLMMNNNNNNOOOOOOOOPPQRRRRRRSSSSTTTTTTUUUUVVWWXYYZ'.split('');
+var rL=function(){return LETTER_POOL[Math.floor(Math.random()*LETTER_POOL.length)];};
+function gen12(){var VOWELS='AEIOU',L=[],tries=0;while(L.length<12&&tries<300){tries++;var l=rL(),cnt=L.filter(function(x){return x===l;}).length,vc=L.filter(function(x){return VOWELS.includes(x);}).length,rem=12-L.length;if(cnt>=3)continue;if(!VOWELS.includes(l)&&(3-vc)>=rem)continue;if(VOWELS.includes(l)&&vc>=6)continue;L.push(l);}while(L.length<12)L.push(rL());return L;}
+var spinVals=new Array(12).fill('A'),spinIv=null;
+function startSpin(){if(spinIv)clearInterval(spinIv);spinIv=setInterval(function(){for(var i=0;i<12;i++)if(i>=G.locked)spinVals[i]=rL();},80);}
+var WS=new Set((
+// 2-letter
+'AA AB AD AE AG AH AI AL AM AN AR AS AT AW AX AY BA BE BI BO BY DA DE DO ED EF EH EL EM EN ER ES ET EX FA GO HA HE HI HM HO ID IF IN IS IT JO KA LA LI LO MA ME MI MO MU MY NA NE NO NU OD OE OF OH OI OM ON OP OR OS OW OX OY PA PE PI QI RE SI SO TA TI TO UH UM UN UP US UT WE WO XI XU YA YE YO ZA '+
+// ALL common 3-letter words
+'ACE ACT ADD ADO AGE AGO AID AIM AIR AIT ALE ALP AMP AMI AMU ANA AND ANE ANI ANT ANY APE APO APT ARC ARE ARK ARM ART ASH ASK ASP ATE AWE AWL AWN AXE AYE '+
+'BAA BAD BAG BAH BAN BAR BAT BAY BED BEG BET BID BIG BIT BOW BOX BOY BUD BUG BUN BUS BUT BUY '+
+'CAB CAN CAP CAR CAT CAW CEE CEL CHI CIG COB COD COG COP COT COW COX COY CRU CUB CUD CUE CUP CUR CUT '+
+'DAB DAD DAG DAM DAP DAW DAY DEB DEE DEL DEN DEW DIM DIN DIP DOC DOE DOG DOM DON DOT DOW DRY DUB DUD DUE DUG DUN DUO DYE '+
+'EAR EAT EEL EGG ELF ELK ELM EMU END ERA ERE ERG ERN EVE EWE EYE '+
+'FAD FAN FAR FAT FAX FAY FED FEW FIG FIN FIR FIT FLY FOB FOE FOG FOP FOR FOX FRO FRY FUN FUR '+
+'GAB GAG GAL GAM GAP GAS GAY GEL GEM GIN GNU GOB GOD GUN GUT GUY GYM '+
+'HAD HAM HAS HAT HAW HAY HEM HEN HER HIM HIS HIT HOB HOD HOE HOG HOP HOT HOW HUB HUG HUM HUT '+
+'ICE ICY ILL IMP INK INN ION IRE IRK '+
+'JAB JAG JAM JAR JAW JAY JET JIG JOB JOE JOG JOT JOY JUG JUT '+
+'KEG KID KIN KIT '+
+'LAB LAD LAG LAP LAW LAX LAY LED LEG LET LID LIE LIP LIT LOG LOT LOW '+
+'MAD MAN MAP MAR MAT MAW MAY MEN MET MOB MOD MOP MOW MUD MUG MUM '+
+'NAB NAG NAP NAY NET NEW NIB NIT NOB NOD NOR NOT NOW NUB NUN NUT '+
+'OAF OAK OAR OAT ODD ODE OFF OHM OIL OLD ONE OPT ORB ORE OUR OUT OWE OWL OWN '+
+'PAD PAL PAN PAP PAR PAT PAW PAY PEA PEG PEN PEP PET PIE PIG PIN PIT PLY POD POP POT POW PRY PUB PUG PUN PUP PUS PUT '+
+'RAG RAM RAN RAP RAT RAW RAY RED RID RIG RIM RIP ROB ROD ROE ROT ROW RUB RUG RUM RUN RUT RYE '+
+'SAC SAD SAG SAP SAT SAW SAY SEA SET SEW SHY SIP SIR SIT SIX SKI SKY SLY SOB SOD SOT SOW SOY SPA SPY STY SUB SUE SUM SUN SUP '+
+'TAB TAD TAN TAP TAR TAT TAX TEA TED TEE TEN THE TIN TIP TOD TOE TON TOO TOP TOT TOW TOY TUB TUG TUN TWO '+
+'URN USE '+
+'VAN VAR VAT VIA VIE VOW '+
+'WAD WAR WAS WAX WAY WEB WED WEE WEN WET WHO WHY WIG WIN WIT WOE WOK WON WOO '+
+'YAK YAM YAP YAW YEA YEW YIN YIP '+
+'ZAG ZAP ZED ZEN ZIP '+
+// 4-letter words
+'ABLE ACHE ACID ACME ACRE AGED AIDE ALSO ARCH AREA ARID ARMY ARTS ATOM ATOP AUNT AURA AUTO AWAY AWRY '+
+'BACK BAKE BALD BALE BALL BAND BANG BANK BARE BARN BASE BASH BATH BEAD BEAN BEAR BEAT BEEF BEEN BEER BEET BELL BEST BIKE BILL BIRD BITE BLOW BLUE BOAT BOLD BOLT BOND BONE BOOK BORE BORN BOTH BOWL BRAG BRAN BREW BULL BUMP BURN BUST BUSY '+
+'CAGE CAKE CALL CALM CAME CAMP CANE CAPE CARD CARE CART CASE CASH CAST CAVE CELL CHAT CHEF CHIN CHIP CHOP CLAM CLAP CLAW CLAY CLIP CLOT CLUE CLUB COAL COAT CODE COIL COIN COLD COME CONE COOK COOL COPE CORD CORE CORN COST COVE CRAB CREW CROP CROW CUBE CULT CURE CURL '+
+'DALE DARE DARK DART DASH DATE DAWN DEAL DEAN DEAR DEBT DECK DEED DEEP DEER DENT DESK DIAL DIRE DIRT DISK DIVE DOCK DOME DONE DOOR DOSE DOTE DOVE DOWN DRAG DRAW DROP DRUG DRUM DUAL DULL DUMP DUNE DUSK DUST '+
+'EACH EARN EASE EAST EDGE EMIT EPIC EVEN EVER EVIL EXAM '+
+'FACE FACT FADE FAIL FAIR FAKE FAME FARM FAST FATE FAWN FEAR FEAT FEED FEEL FELL FELT FERN FILE FILL FILM FIND FINE FIRE FIRM FISH FIST FLAG FLAT FLAW FLED FLEW FLEX FLIP FLOW FOAM FOLD FOLK FOND FONT FORD FORE FORK FORM FORT FOUL FOUR FREE FUEL FULL FUND FURY FUSE '+
+'GAIN GALE GAME GASH GATE GAVE GEAR GILD GILL GIVE GLAD GLEE GLOW GLUE GLUM GNAW GOAT GOLD GOLF GONE GOOD GOWN GRAB GRAM GRAY GREW GRID GRIM GRIP GRIT GROW GULF GULL GUST '+
+'HACK HAIL HAIR HALF HALL HALT HAND HANG HARD HARE HARM HARP HASH HAUL HAVE HAWK HEAL HEAP HEAT HEEL HEFT HELD HELM HELP HERB HERD HERE HERO HIGH HILL HINT HISS HOLD HOLE HOLY HOME HONE HOOD HOOK HOPE HORN HOST HOUR HOWL HULL HUNT HURT HUSK '+
+'IDLE INCH INTO IRIS IRON ISLE ITCH '+
+'JACK JAIL JEST JOIN JUMP JUST '+
+'KEEN KEEP KELP KILT KIND KING KNIT KNOB KNOT KNOW '+
+'LACK LACE LAME LAMP LAND LANE LARK LASH LAST LATE LAUD LAVA LAZY LEAF LEAN LEAP LEND LEVY LIFT LIKE LIME LIMP LINE LINK LION LIST LIVE LOAD LOAM LOAN LOBE LOCK LOFT LORE LOSE LOST LOUD LULL LUMP LUNG LURE LURK '+
+'MACE MADE MAIL MAIN MAKE MALE MALL MANE MARK MASH MASK MASS MAST MAZE MEAL MEAN MEAT MELT MEMO MERE MESH MILD MILK MILL MINE MINT MISS MIST MOAT MOCK MODE MOLE MOOD MOPE MORN MOSS MUCH MUCK MULE MULL MUSE MUST MUTE MYTH '+
+'NAIL NAME NAVY NEAR NECK NEED NEST NEWS NEXT NICE NINE NOON NORM NOSE NOTE NULL '+
+'OATH ONCE ONLY OPEN ORAL OVEN OVER '+
+'PACE PACK PAGE PAID PAIL PAIR PALM PANE PART PASS PAST PATH PAVE PAWN PEAK PEAR PEEL PEER PELT PERK PEST PILE PILL PINE PINK PIPE PITY PLOD PLOT PLOW PLUG PLUM PLUS POEM POET POLE POLL POND POOR POPE PORE PORT POSE POST POUR PREY PRIM PROD PROP PULL PUMP PUNT PURE PUSH '+
+'RACE RACK RAGE RAIL RAIN RAKE RAMP RANG RANK RANT RASH RASP RAVE READ REAL REAP REIN RENT REST RICE RICH RIDE RIFT RING RIOT RISE RISK ROAD ROAM ROAR ROBE ROCK RODE ROLE ROLL ROMP ROOM ROPE ROSE RUIN RULE RUSE RUSH RUST '+
+'SAGE SAIL SAKE SALE SALT SAME SAND SANE SANG SANK SAVE SCAN SCAR SEAL SEAM SEED SEEK SEEM SEEN SELF SELL SEND SHED SHIN SHIP SHOP SHOT SHOW SHUT SICK SIDE SIFT SIGH SILK SILL SING SINK SIRE SIZE SLAB SLAP SLEW SLIM SLIP SLOT SLOW SLUG SLUM SLUR SNAP SNUB SOAK SOAR SOCK SOIL SOLE SOME SONG SOOT SORE SOUL SOUP SOUR SPAN SPAR SPIN SPIT SPOT SPUR STAB STAR STEM STEP STIR STOP STUB STUN SUCH SUIT SUNG SUNK SURE '+
+'TACK TAKE TALE TALL TANG TANK TARE TASK TAUT TEAL TEAR TEEM TEEN TELL TEND TENT TEST THAN THEM THEN THEY THIN THIS TIDE TILL TIME TOAD TOLL TONE TOOK TOOL TOIL TORN TOSS TOUR TOWN TRAP TREK TRIM TRIO TRIP TROD TROT TRUE TUCK TUFT TUNA TUNE TURF TURN TUSK '+
+'UGLY UNDO UPON URGE '+
+'VAIN VALE VAST VEAL VEER VEIN VICE VIEW VINE VISE VOID VOLT VOTE '+
+'WADE WAGE WAIL WAKE WANE WARD WARM WARP WARY WASH WAVE WEAK WEAL WEAN WELD WELL WEND WENT WEPT WIDE WILE WILL WILT WIND WINE WING WINK WIPE WIRE WISE WISP WOKE WOMB WORE WORM WORN WOVE WRAP WRIT '+
+'YEAR YELL YELP YOGA YOKE YOUR '+
+// 5-letter words
+'BLADE BLANK BLAST BLAZE BLEND BLESS BLOCK BLOOD BLOOM BLOWN BLUNT BOARD BOAST BRACE BRAID BRAIN BRAKE BRAND BRAVE BRAWN BREAD BREAK BREED BRIDE BRINE BRING BRINK BRISK BROAD BROKE BROOD BROOK BROWN BRUSH BUILT BURST '+
+'CHAIN CHAIR CHALK CHAMP CHAOS CHARM CHART CHASE CHEAP CHEAT CHECK CHEEK CHEER CHESS CHEST CHIEF CHILD CHILL CLAMP CLANK CLASH CLASP CLASS CLEAN CLEAR CLERK CLICK CLIFF CLIMB CLING CLOAK CLOCK CLONE CLOSE CLOTH CLOUD CLOUT COACH COAST CORAL COVER COVET CRACK CRAMP CRANE CRASH CRAVE CRAWL CREAK CREEK CREEP CRISP CROSS CROWD CROWN CRUDE CRUEL CRUSH CRUST CURVE CYCLE '+
+'DANCE DEATH DECAY DELTA DENSE DEPOT DEPTH DOUBT DOUGH DRAFT DRAIN DRAMA DRAPE DRAWL DREAM DRESS DRIFT DRINK DRIVE DROVE DROWN DRUNK '+
+'EAGLE EARTH EIGHT ELECT ELITE EMBER ENTER EVERY EXCEL EXTRA '+
+'FABLE FACET FAITH FALLS FANCY FEAST FENCE FETCH FIELD FIEND FIGHT FINAL FIRST FIXED FLAME FLARE FLASH FLASK FLESH FLEET FLICK FLOCK FLOOD FLOOR FLOUR FLOWN FOCUS FORCE FORGE FORTH FORUM FOUND FRAUD FRONT FROWN FROZE FRUIT FULLY '+
+'GIANT GIVEN GLAND GLARE GLASS GLEAM GLIDE GLOBE GLOOM GLORY GLOSS GLOVE GRACE GRADE GRAIN GRAND GRANT GRAPH GRASP GRASS GRATE GRAVE GRAZE GREED GREET GROAN GROIN GROSS GROVE GROWL GUARD GUIDE GUILD GUILE GUSTO '+
+'HEART HEAVY HEDGE HINGE HOIST HOTEL HUMAN HURRY '+
+'IMAGE IMPLY INFER INPUT INTER INTRO '+
+'JUDGE JUICE JUMPY KNIFE KNOCK '+
+'LANCE LARGE LASER LATCH LAYER LEACH LEARN LEAVE LEDGE LEGAL LEMON LEVEL LIGHT LODGE LOGIC LOOSE LOWER LUCKY LUNAR LUNCH LUSTY LYRIC '+
+'MAGIC MAJOR MANOR MAPLE MARCH MARSH MATCH MEDIA METAL MIGHT MODEL MONEY MONTH MOOSE MORAL MOUTH MOVIE MUSIC '+
+'NERVE NEVER NIGHT NOBLE NOISE NORTH NOTCH NOVEL NURSE '+
+'OCEAN ORDER OUTER '+
+'PANEL PANIC PAPER PASTA PASTE PATCH PAUSE PEACE PEACH PEARL PETAL PHASE PHOTO PIANO PILOT PINCH PIXEL PLAIN PLANE PLANK PLANT PLATE PLAZA PLEAD PLEAT PLUCK PLUME POINT POLAR PORCH POUND POWER PRAWN PRESS PRICE PRIDE PRIME PRINT PRISM PROBE PROOF PROSE PROUD PRUNE PULSE PURSE '+
+'QUEEN QUERY QUIET QUITE QUOTA QUOTE '+
+'RABBI RADAR RADIO RALLY RANCH RANGE RAPID RAVEN REACH REALM REBEL REFER REIGN RELAX RELIC REPAY REPEL RESET REVEL RIDER RIDGE RIFLE RISKY RIVET ROBOT ROCKY ROUGE ROUGH ROUND ROUTE ROYAL RULER RUSTY '+
+'SAINT SALON SAUCE SAVVY SCALE SCALP SCARY SCENE SCENT SCONE SCOPE SCORE SCORN SCOUT SCRAP SCREW SCRUB SEIZE SENSE SERVE SHAFT SHAKE SHALL SHAME SHAPE SHARP SHAVE SHEER SHELF SHELL SHIFT SHINY SHORE SHORT SHOVE SHRUB SHRUG SIEGE SIGHT SINCE SIXTH SIXTY SKILL SKULL SLACK SLANT SLASH SLAVE SLEEK SLEEP SLEET SLIDE SLING SLINK SMALL SMART SMASH SMELL SMILE SMIRK SMOKE SNACK SNAIL SNAKE SNARE SNEAK SNIFF SOLAR SOLVE SOUTH SPACE SPEAK SPEED SPELL SPEND SPICE SPILL SPINE SPITE SPOOK SPOON SPORT SPRAY STALE STALL STAMP STAND STARE START STEEL STEER STING STOCK STOMP STONE STOOD STORE STORM STORY STOUT STOVE STRAP STRAW STRIP STRUT STUCK STUDY STUMP STYLE SUGAR SUNNY SUPER SURGE SWEAR SWEAT SWEEP SWEET SWIFT SWING SWOOP '+
+'TABLE THORN THUMP TIGER TIGHT TITLE TODAY TONIC TORCH TOTAL TOUCH TOUGH TOWER TOXIC TRACE TRACK TRADE TRAIL TRAIN TRAIT TRAMP TRASH TREAD TREND TRIAL TRICK TRIED TRUCK TRULY TRUNK TRUST TRUTH TWICE TWIST '+
+'UPSET USHER UTTER VALOR VALUE VALVE VAULT VAPOR VENOM VERSE VIGOR VIRAL VISOR VISTA VITAL VIVID VOCAL VOICE VOTER '+
+'WAGER WASTE WATCH WATER WEAVE WEDGE WEIRD WHALE WHEAT WHEEL WHERE WHICH WHILE WHITE WHOLE WOMAN WORLD WORST WORTH WOUND '+
+'YACHT YEARN YOUNG YOURS YOUTH '+
+// 6-letter words
+'ABSENT ABSORB ACCENT ACCESS ACCORD ACROSS ACTIVE BETTER BRIDGE BRIGHT BROKEN BRONZE BUTTER CANDLE CASTLE CHARGE CHERRY CLEVER COBALT CORNER COTTON COUSIN CREATE CREDIT DAMAGE DANCER DANGER DARKEN DAZZLE DEBATE DECIDE DEFEAT DEFEND DEFINE DELETE DEMAND DENTAL DEPART DESIRE DETAIL DEVOUR DIFFER DIVIDE DONATE DOUBLE DRAGON ENGAGE ENTIRE ESCAPE EVOLVE EXCEPT EXPAND EXPERT FABRIC FACTOR FALTER FASTEN FINGER FINISH FOLLOW FROZEN FUTURE GENTLE GRAVEL HANDLE HAPPEN HARDEN HELMET HIDDEN HOLLOW HONEST HUNTER IMPACT IMPORT INCOME INFANT INFORM INSECT INSULT INTACT INVEST JINGLE JUNGLE JUNIOR KITTEN LAUNCH LETTER LIKELY LISTEN LITTLE LOOSEN MANAGE MARBLE MARKET MARVEL MATTER MIRROR MISTER MODERN MOTHER MOTIVE MUTTER NARROW NATIVE NATURE NEARLY NORMAL NOTICE NUMBER OBJECT OBTAIN OCCUPY OFFICE PARENT PENCIL PEPPER PERMIT PIRATE PLAYER PLUNGE POCKET POISON POLICE PRETTY PROPER PUPPET RABBIT RACKET RANDOM RECALL REDUCE REFUSE REMAIN RENDER REPAIR REPEAT RESCUE RESULT RETAIN RETURN REVEAL ROTATE RUBBER RUNNER SACRED SAMPLE SCHOOL SCREEN SEARCH SEASON SELECT SETTLE SIMPLE SINGLE SLEEPY SMOOTH SOCKET SPIDER SPIRAL SPLASH STEADY STICKY STREAM STRONG SUMMER SUNKEN SYMBOL TARGET TENDER TRIPLE TUNNEL TURTLE TWELVE UNABLE UNIQUE UNWIND UPDATE USEFUL VANISH VELVET VERIFY VIOLET VISION WARDEN WARMTH WASTED WEALTH WEAPON WINDOW WINNER WINTER WISDOM WONDER WOODEN'
+).split(/\s+/).filter(Boolean));
+
+async function checkWord(word){if(WS.has(word))return{valid:true,source:'local'};if(word.length<=4)return{valid:false,source:'local'};try{var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:10,system:'Reply ONLY "YES" or "NO". Is the word a valid standard English dictionary word?',messages:[{role:'user',content:word}]})});var d=await r.json();var ans=(d.content&&d.content[0]&&d.content[0].text||'NO').trim().toUpperCase();return{valid:ans==='YES',source:'ai'};}catch(e){return{valid:false,source:'local'};}}
+function aiWord(letters,diff){var ok=function(w){var a=letters.map(function(l){return l.toLowerCase();}).slice();for(var ci=0;ci<w.length;ci++){var c=w[ci].toLowerCase(),idx=a.indexOf(c);if(idx<0)return false;a.splice(idx,1);}return true;};var v=[];WS.forEach(function(w){if(ok(w))v.push(w);});v.sort(function(a,b){return b.length-a.length;});if(!v.length)return'';var best=v[0].length;if(diff==='hard')return v[0];if(diff==='medium'){var t=Math.max(3,Math.round(best*.65)),p=v.filter(function(w){return w.length>=t&&w.length<=t+2;});return p.length?p[Math.floor(Math.random()*Math.min(p.length,4))]:v[Math.floor(v.length*.5)];}var t2=Math.max(2,Math.round(best*.4)),p2=v.filter(function(w){return w.length>=t2&&w.length<=t2+1;});return p2.length?p2[Math.floor(Math.random()*Math.min(p2.length,5))]:v[v.length-1];}
+var G={diff:'medium',round:1,host:'player',phase:'pick',letters:[],locked:0,pu:[],pd:-1,ai:'',ps:0,as2:0,ptiv:null,ptv:30,div:null,dv:3};
+var preGen=null;
+function initBoard(){preGen=gen12();G.letters=new Array(12).fill('');G.locked=0;spinVals=new Array(12).fill('A');var b=el('sb');b.innerHTML='';for(var i=0;i<12;i++){var t=document.createElement('div');t.className='tile t-spin';t.id='t'+i;b.appendChild(t);}startSpin();}
+el('stbtn').addEventListener('click',function(){stopNext();});
+function stopNext(){if(G.locked>=12||G.phase!=='pick')return;var i=G.locked,letter=preGen[i];G.letters[i]=letter;var t=el('t'+i);t.className='tile t-lock';t.textContent=letter;G.locked++;el('pc').textContent=G.locked+' / 12 letters locked';el('info').innerHTML=G.locked<12?'<strong>'+G.locked+'/12</strong> locked — keep pressing <strong>STOP</strong>':'<strong>All 12 locked!</strong> Starting...';if(G.locked===12){clearInterval(spinIv);el('stbtn').disabled=true;setTimeout(startPlay,1200);}}
+function aiPickLetters(){preGen=gen12();G.letters=new Array(12).fill('');G.locked=0;spinVals=new Array(12).fill('A');var b=el('sb');b.innerHTML='';for(var i=0;i<12;i++){var t=document.createElement('div');t.className='tile t-spin';t.id='t'+i;b.appendChild(t);}startSpin();el('stbtn').style.display='none';el('pc').textContent='Computer is picking letters...';var idx=0;var iv=setInterval(function(){var letter=preGen[idx];G.letters[idx]=letter;var t=el('t'+idx);t.className='tile t-lock';t.textContent=letter;G.locked=idx+1;el('pc').textContent='Computer locked '+G.locked+' / 12...';idx++;if(idx>=12){clearInterval(iv);clearInterval(spinIv);el('info').innerHTML='<strong>Computer picked all 12!</strong> Your turn.';setTimeout(startPlay,1200);}},280);}
+function startPlay(){G.phase='play';G.pu=[];G.pd=-1;G.ai=aiWord(G.letters,G.diff);el('pp').style.display='none';el('ppl').style.display='block';renderA();renderW();updateTags();G.ptv=30;clearInterval(G.ptiv);var bar=el('tb');bar.style.width='100%';bar.style.background='#185FA5';el('info').innerHTML='Build the longest word! <strong id="ptm">30</strong>s remaining';G.ptiv=setInterval(function(){G.ptv--;var e=el('ptm');if(e)e.textContent=G.ptv;if(bar)bar.style.width=(G.ptv/30*100)+'%';if(G.ptv<=8)bar.style.background='#b45309';if(G.ptv<=0){clearInterval(G.ptiv);showDec();}},1000);}
+function renderA(){var board=el('ab');board.innerHTML='';G.letters.forEach(function(l,i){var t=document.createElement('div');var u=G.pu.includes(i);t.className='tile '+(u?'t-used':'t-lock');t.textContent=l;if(!u){t.addEventListener('click',(function(idx){return function(){aL(idx);};})(i));}board.appendChild(t);});}
+function renderW(){var d=el('wd');d.innerHTML='';if(!G.pu.length){d.innerHTML='<span class="wph">Click letters above to build your word...</span>';return;}G.pu.forEach(function(idx,pos){var wt=document.createElement('div');wt.className='wtile';wt.textContent=G.letters[idx];wt.addEventListener('click',(function(p){return function(){rL2(p);};})(pos));d.appendChild(wt);});}
+function aL(i){if(G.pu.includes(i))return;G.pu.push(i);renderA();renderW();}
+function rL2(pos){G.pu.splice(pos,1);renderA();renderW();}
+el('clearBtn').addEventListener('click',function(){G.pu=[];renderA();renderW();});
+el('doneBtn').addEventListener('click',function(){clearInterval(G.ptiv);showDec();});
+function showDec(){G.phase='dec';el('ppl').style.display='none';el('pdec').style.display='block';el('tb').style.width='0%';var built=G.pu.map(function(i){return G.letters[i];}).join('');el('info').innerHTML=built?'<strong>Time up!</strong> Your word: <strong style="color:#facc15">'+built+'</strong> — how many letters?':'<strong>Time up!</strong> How many letters?';var row=el('nr');row.innerHTML='';for(var n=0;n<=12;n++){var b=document.createElement('button');b.className='nbtn';b.textContent=n;b.addEventListener('click',(function(nn,bb){return function(){selNum(nn,bb);};})(n,b));row.appendChild(b);}G.pd=-1;el('cfbtn').disabled=true;G.dv=3;el('dcd').textContent='3';if(G.div)clearInterval(G.div);G.div=setInterval(function(){G.dv--;var e=el('dcd');if(e&&G.phase==='dec')e.textContent=G.dv;if(G.dv<=0){clearInterval(G.div);G.div=null;if(G.phase==='dec'){if(G.pd<0)G.pd=0;el('pdec').style.display='none';reveal();}}},1000);}
+function selNum(n,btn){if(G.div){clearInterval(G.div);G.div=null;}el('dcd').textContent='\u2713';G.pd=n;document.querySelectorAll('.nbtn').forEach(function(b){b.classList.remove('ns');});btn.classList.add('ns');el('cfbtn').disabled=false;}
+el('cfbtn').addEventListener('click',function(){if(G.pd<0)return;if(G.div){clearInterval(G.div);G.div=null;}el('pdec').style.display='none';reveal();});
+async function reveal(){G.phase='rev';el('prev').style.display='block';var pw=G.pu.map(function(i){return G.letters[i];}).join('').toUpperCase();var dec=G.pd>=0?G.pd:0;var aw=G.ai.toUpperCase();el('prev').innerHTML='<div class="rbox"><div class="rtit" style="color:#5aabff">Checking...</div><div style="color:#facc15;font-size:13px;text-align:center;padding:8px">Validating "'+(pw||'(none)')+'"</div></div>';var pv=false;if(dec>0&&pw.length===dec){var res=await checkWord(pw);pv=res.valid;}var av=aw.length>0&&WS.has(aw);var pl=pv?dec:0,al=av?aw.length:0;var pp=0,ap=0,msg='';if(pl>0&&al>0){if(pl>al){pp=pl;msg='You win! '+pl+'-letter word beats Computer\'s '+al+'.';}else if(pl===al){if(G.host==='player'){pp=pl;msg='Tie — you are HOST. You score '+pp+' pts.';}else{ap=al;msg='Tie — Computer is HOST. Computer scores '+ap+' pts.';}}else{ap=al;msg='Computer wins. '+al+'-letter word beats your '+pl+'.';}}else if(pl>0&&!av){pp=pl;msg='Computer had no valid word. You score '+pp+'.';}else if(al>0&&!pv){ap=al;msg='No valid word from you. Computer scores '+ap+'.';}else{msg='No valid words. No points.';}G.ps+=pp;G.as2+=ap;el('ps').textContent=G.ps;el('as2').textContent=G.as2;el('pw').textContent=pv?pw:(pw||'\u2014');el('aw').textContent=av?aw:'\u2014';var dl={easy:'Easy',medium:'Medium',hard:'Hard'}[G.diff];var mismatch=(dec>0&&pw.length!==dec)?'<div style="font-size:11px;color:#f87171;margin:4px 0">Declared '+dec+' but built '+pw.length+' = 0 pts.</div>':'';var box=document.createElement('div');box.className='rbox';box.innerHTML='<div class="rtit" style="color:#5aabff">Round '+G.round+' \u2014 Result</div><div class="rrow"><span>Your word</span><span style="font-weight:600;color:'+(pv?'#4ade80':'#f87171')+'">'+(pw||'\u2014')+' '+(pv?'\u2713':'\u2717')+(pp>0?' (+'+pp+')':'')+'</span></div>'+mismatch+'<div class="rrow"><span>Computer <em style="font-size:10px;color:#5a8ab0">'+dl+'</em></span><span style="font-weight:600;color:'+(av?'#4ade80':'#f87171')+'">'+(aw||'\u2014')+' '+(av?'\u2713':'\u2717')+(ap>0?' (+'+ap+')':'')+'</span></div><div style="font-size:12px;color:#facc15;margin:8px 0;text-align:center">'+msg+'</div>';var nxt=document.createElement('button');nxt.className='bbig';if(G.round===1){nxt.textContent='Round 2 \u2014 Computer picks \u2192';nxt.addEventListener('click',function(){round2();});}else{nxt.textContent='Final Result \u2192';nxt.addEventListener('click',function(){final2();});}box.appendChild(nxt);el('prev').innerHTML='';el('prev').appendChild(box);el('info').innerHTML='<strong>Score:</strong> You '+G.ps+' \u2014 Computer '+G.as2;}
+function round2(){G.round=2;G.host='ai';G.phase='pick';G.locked=0;G.letters=[];['prev','ppl','pres','pdec'].forEach(function(id){el(id).style.display='none';});el('pp').style.display='block';el('stbtn').style.display='';el('stbtn').disabled=false;var bar=el('tb');bar.style.width='100%';bar.style.background='#185FA5';el('info').innerHTML='<strong>Round 2:</strong> Computer is picking letters...';updateTags();aiPickLetters();}
+function final2(){el('prev').style.display='none';var d=G.ps-G.as2,w=d>0?'YOU WIN! \ud83c\udf89':d<0?'COMPUTER WINS':'TIE GAME!',wc=d>0?'#4ade80':d<0?'#f87171':'#facc15';var rp=el('pres');rp.style.display='block';var box=document.createElement('div');box.className='rbox';box.innerHTML='<div class="rtit" style="color:'+wc+'">'+w+'</div><div class="rrow"><span>Your total</span><span style="font-family:Rajdhani,sans-serif;font-size:26px;font-weight:700">'+G.ps+'</span></div><div class="rrow"><span>Computer total</span><span style="font-family:Rajdhani,sans-serif;font-size:26px;font-weight:700">'+G.as2+'</span></div>';var btn=document.createElement('button');btn.className='bbig';btn.textContent='Play Again';btn.addEventListener('click',function(){reset();});box.appendChild(btn);rp.innerHTML='';rp.appendChild(box);el('info').innerHTML='<strong>Final:</strong> You '+G.ps+' \u2014 Computer '+G.as2;}
+function reset(){if(spinIv)clearInterval(spinIv);clearInterval(G.ptiv);if(G.div)clearInterval(G.div);G={diff:G.diff,round:1,host:'player',phase:'pick',letters:[],locked:0,pu:[],pd:-1,ai:'',ps:0,as2:0,ptiv:null,ptv:30,div:null,dv:3};el('ps').textContent='0';el('as2').textContent='0';el('pw').textContent='\u2014';el('aw').textContent='\u2014';el('rbadge').textContent='Round 1 of 2';var bar=el('tb');bar.style.width='100%';bar.style.background='#185FA5';['ppl','pdec','prev','pres'].forEach(function(id){el(id).style.display='none';});el('pp').style.display='block';el('stbtn').style.display='';el('stbtn').disabled=false;el('pc').textContent='0 / 12 letters locked';el('info').innerHTML='Press <strong>STOP</strong> to lock each letter. Lock all 12 to start.';updateTags();setDiff(G.diff);initBoard();}
+function updateTags(){el('yh').style.display=G.host==='player'?'':'none';el('ah').style.display=G.host==='ai'?'':'none';el('rbadge').textContent='Round '+G.round+' of 2';}
+buildDiff();setDiff('medium');updateTags();initBoard();
+})();
+</script>
+</body>
+</html>
