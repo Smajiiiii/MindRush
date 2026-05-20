@@ -8,29 +8,24 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:linear-gradient(145deg,#1a0808,#110505,#180a0a);min-height:100vh;display:flex;flex-direction:column;align-items:center;font-family:'DM Sans',sans-serif;}
-/* NAV */
 .nav{width:100%;max-width:780px;display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;}
 .nav-back{display:flex;align-items:center;gap:8px;text-decoration:none;color:#a06060;font-size:14px;font-weight:600;transition:color .15s;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
 .nav-back:hover{color:#D45A5A}
 .nav-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .nav-logo{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:#555;letter-spacing:.5px;}
 .nav-logo span{color:#777}
-/* GAME WRAP */
 .game-wrap{font-family:'DM Sans',sans-serif;background:#1a0a0a;border-radius:16px;padding:20px;color:#ffe8e8;max-width:740px;width:calc(100% - 32px);margin:0 auto 32px;position:relative;border:1px solid #4a2020;}
-/* UNIFIED HEADER */
 .g-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .g-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;letter-spacing:.5px;}
 .g-hdr-right{display:flex;align-items:center;gap:8px;}
 .badge{font-size:11px;background:#A32D2D;color:#ffcccc;padding:4px 12px;border-radius:20px;white-space:nowrap;font-weight:700;}
 .rules-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid #4a2020;background:#2a1010;color:#a06060;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .rules-btn:hover{border-color:#D45A5A;color:#ffe8e8;background:#3a1818;}
-/* UNIFIED DIFFICULTY */
 .diff-row{display:flex;gap:0;margin-bottom:14px;border-radius:8px;overflow:hidden;border:2px solid #4a2020;}
 .diff-row button{flex:1;padding:9px 0;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,color .2s;background:#2a1010;color:#a06060;}
 .diff-row button:not(:last-child){border-right:1px solid #4a2020;}
 .diff-row button.ON{background:#A32D2D!important;color:#ffe8e8!important;font-weight:700!important;}
 .diff-row button:hover:not(.ON){background:#3a1818;color:#D45A5A;}
-/* UNIFIED SCOREBOARD */
 .scores{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .sc{background:#110505;border:1.5px solid #4a2020;border-radius:12px;padding:12px 16px;}
 .sc-you{border-left:4px solid #2196F3}
@@ -41,10 +36,8 @@ body{background:linear-gradient(145deg,#1a0808,#110505,#180a0a);min-height:100vh
 .sc-val{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff;line-height:1;}
 .sc-rt{font-size:11px;margin-top:3px;min-height:16px;font-weight:700;}
 .sc-you .sc-rt{color:rgba(100,181,246,.7)}.sc-comp .sc-rt{color:rgba(239,154,154,.7)}
-/* UNIFIED INFO */
 .info{background:#2a1010;border:1px solid #4a2020;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#c07070;text-align:center;line-height:1.5;}
 .info strong{color:#D45A5A;}
-/* RULES OVERLAY */
 .rules-ov{display:none;position:absolute;inset:0;background:rgba(15,4,4,.97);border-radius:16px;z-index:100;padding:24px;overflow-y:auto;flex-direction:column;}
 .rules-ov.show{display:flex;}
 .rules-close{align-self:flex-end;background:none;border:1.5px solid #4a2020;color:#a06060;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-bottom:12px;}
@@ -55,7 +48,6 @@ body{background:linear-gradient(145deg,#1a0808,#110505,#180a0a);min-height:100vh
 .rb-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #2a1010;margin-bottom:2px;}
 .rb-row:last-child{border-bottom:none;}
 .rb-val{color:#ffb3b3;font-weight:600;}
-/* GAME SPECIFIC */
 .q-history{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;}
 .qh-dot{width:26px;height:26px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;border:1.5px solid #4a2020;color:#a06060;background:#2a1010;}
 .qh-dot.you-ok{background:rgba(33,150,243,.3);border-color:#2196F3;color:#64B5F6;}
@@ -93,7 +85,6 @@ body{background:linear-gradient(145deg,#1a0808,#110505,#180a0a);min-height:100vh
 .next-btn:hover{background:#D45A5A;}
 .start-btn{display:block;width:100%;padding:14px;background:#A32D2D;border:none;border-radius:10px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:2px;transition:background .15s;margin-top:8px;font-family:'DM Sans',sans-serif;}
 .start-btn:hover{background:#D45A5A;}
-/* RESULT OVERLAY (full-screen) */
 .ov{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,4,4,.9);z-index:100;align-items:center;justify-content:center;}
 .ov.show{display:flex;}
 .ovb{background:#1a0a0a;border:2px solid #A32D2D;border-radius:16px;padding:28px 24px;max-width:320px;width:90%;text-align:center;}
@@ -117,21 +108,16 @@ body{background:linear-gradient(145deg,#1a0808,#110505,#180a0a);min-height:100vh
   <div class="nav-logo"><span>Mind</span>Rush</div>
 </nav>
 <div class="game-wrap">
-  <!-- HEADER -->
   <div class="g-hdr">
     <div class="g-title"><span style="color:#D45A5A">Mind</span><span style="color:#A32D2D">Quiz</span></div>
     <div class="g-hdr-right"><div class="badge" id="rbadge">10 Questions</div><button class="rules-btn" id="rulesBtn">&#9432;</button></div>
   </div>
-  <!-- DIFFICULTY -->
   <div class="diff-row" id="diff-row"></div>
-  <!-- SCOREBOARD -->
   <div class="scores">
     <div class="sc sc-you"><div class="sc-top"><span class="sc-label sc-label-you">You</span></div><div class="sc-val" id="scoreYou">0</div><div class="sc-rt" id="rtYou"></div></div>
     <div class="sc sc-comp"><div class="sc-top"><span class="sc-label sc-label-comp">Computer</span></div><div class="sc-val" id="scoreComp">0</div><div class="sc-rt" id="rtComp"></div></div>
   </div>
-  <!-- INFO BAR -->
   <div class="info" id="infoBar">Select difficulty and press <strong>Start Game</strong></div>
-  <!-- GAME AREA -->
   <div id="q-history-row" class="q-history"></div>
   <div class="q-card">
     <div class="q-meta"><span class="q-num" id="qNum">QUESTION &mdash; / 10</span><span class="q-diff" id="qDiff">&mdash;</span></div>
@@ -145,7 +131,6 @@ body{background:linear-gradient(145deg,#1a0808,#110505,#180a0a);min-height:100vh
   <div class="answers" id="answersGrid"></div>
   <button class="next-btn" id="nextBtn" style="display:none">Next Question &rarr;</button>
   <button class="start-btn" id="startBtn">Start Game</button>
-  <!-- FINAL RESULT OVERLAY -->
   <div class="ov" id="ov">
     <div class="ovb">
       <div class="ov-title" id="ovTitle"></div>
@@ -157,7 +142,6 @@ body{background:linear-gradient(145deg,#1a0808,#110505,#180a0a);min-height:100vh
       <button class="ov-again" id="playAgain">Play Again</button>
     </div>
   </div>
-  <!-- RULES OVERLAY -->
   <div class="rules-ov" id="rulesOv">
     <button class="rules-close" id="rulesClose">&#10005;</button>
     <div class="rules-title">MindQuiz &mdash; Rules</div>
@@ -178,53 +162,506 @@ body{background:linear-gradient(145deg,#1a0808,#110505,#180a0a);min-height:100vh
 <script>
 (function(){
 var QDB=[
-  {q:"What is the capital of France?",a:["Paris","London","Berlin","Rome"],c:0,d:"easy"},
-  {q:"How many sides does a hexagon have?",a:["5","6","7","8"],c:1,d:"easy"},
-  {q:"What is 7 \u00d7 8?",a:["54","56","58","64"],c:1,d:"easy"},
-  {q:"Which planet is closest to the Sun?",a:["Venus","Earth","Mercury","Mars"],c:2,d:"easy"},
-  {q:"What color do you get mixing blue and yellow?",a:["Purple","Orange","Brown","Green"],c:3,d:"easy"},
-  {q:"What is the chemical symbol for water?",a:["WA","HO","H2O","W2O"],c:2,d:"easy"},
-  {q:"What is the largest ocean on Earth?",a:["Atlantic","Indian","Arctic","Pacific"],c:3,d:"easy"},
-  {q:"Which animal is the 'King of the Jungle'?",a:["Tiger","Elephant","Lion","Cheetah"],c:2,d:"easy"},
-  {q:"What is the powerhouse of the cell?",a:["Nucleus","Ribosome","Mitochondria","Golgi apparatus"],c:2,d:"easy"},
-  {q:"What currency does Japan use?",a:["Yuan","Won","Yen","Ringgit"],c:2,d:"easy"},
-  {q:"What is the largest planet in our solar system?",a:["Saturn","Neptune","Jupiter","Uranus"],c:2,d:"easy"},
-  {q:"Which sport uses a shuttlecock?",a:["Tennis","Squash","Badminton","Pickleball"],c:2,d:"easy"},
-  {q:"How many players are on a standard soccer team?",a:["9","10","11","12"],c:2,d:"easy"},
-  {q:"What is the tallest mountain in the world?",a:["K2","Kangchenjunga","Everest","Makalu"],c:2,d:"easy"},
-  {q:"Who wrote 'Romeo and Juliet'?",a:["Dickens","Shakespeare","Austen","Chaucer"],c:1,d:"medium"},
-  {q:"What is the capital of Japan?",a:["Beijing","Seoul","Tokyo","Bangkok"],c:2,d:"medium"},
-  {q:"Which element has the atomic number 79?",a:["Silver","Platinum","Gold","Copper"],c:2,d:"medium"},
-  {q:"In what year did World War II end?",a:["1943","1944","1945","1946"],c:2,d:"medium"},
-  {q:"What is the approximate speed of light?",a:["100,000 km/s","200,000 km/s","300,000 km/s","400,000 km/s"],c:2,d:"medium"},
-  {q:"Who painted the Mona Lisa?",a:["Raphael","Michelangelo","Leonardo da Vinci","Botticelli"],c:2,d:"medium"},
-  {q:"What is the longest bone in the human body?",a:["Fibula","Humerus","Tibia","Femur"],c:3,d:"medium"},
-  {q:"What gas do plants absorb during photosynthesis?",a:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],c:2,d:"medium"},
-  {q:"How many bones are in the adult human body?",a:["186","196","206","216"],c:2,d:"medium"},
-  {q:"What is the capital of Australia?",a:["Sydney","Melbourne","Brisbane","Canberra"],c:3,d:"medium"},
-  {q:"Which planet has the most moons?",a:["Jupiter","Saturn","Uranus","Neptune"],c:1,d:"medium"},
-  {q:"In what year was the Eiffel Tower completed?",a:["1879","1885","1889","1895"],c:2,d:"medium"},
-  {q:"Who developed the theory of general relativity?",a:["Newton","Bohr","Einstein","Hawking"],c:2,d:"medium"},
-  {q:"What is the smallest prime number?",a:["0","1","2","3"],c:2,d:"medium"},
-  {q:"What is the hardest natural substance?",a:["Quartz","Ruby","Topaz","Diamond"],c:3,d:"medium"},
-  {q:"What does DNA stand for?",a:["Dynamic Nucleic Acid","DeoxyNucleic Array","Deoxyribonucleic Acid","Direct Nucleic Arrangement"],c:2,d:"medium"},
-  {q:"Who was the first person to walk on the Moon?",a:["Buzz Aldrin","Yuri Gagarin","Neil Armstrong","John Glenn"],c:2,d:"medium"},
-  {q:"What is the square root of 144?",a:["10","11","12","13"],c:2,d:"medium"},
-  {q:"In Greek mythology, who is the god of the sea?",a:["Zeus","Ares","Apollo","Poseidon"],c:3,d:"medium"},
-  {q:"Which country is home to the Great Barrier Reef?",a:["New Zealand","Indonesia","Australia","Philippines"],c:2,d:"medium"},
-  {q:"Which country has the most natural lakes?",a:["Russia","USA","Brazil","Canada"],c:3,d:"medium"},
-  {q:"What language has the most native speakers?",a:["English","Spanish","Mandarin Chinese","Hindi"],c:2,d:"hard"},
-  {q:"Which element is liquid at room temp besides mercury?",a:["Gallium","Bromine","Cesium","Francium"],c:1,d:"hard"},
-  {q:"What is the rarest blood type?",a:["A-","B-","AB-","O-"],c:2,d:"hard"},
-  {q:"Who wrote 'One Hundred Years of Solitude'?",a:["Borges","Cort\u00e1zar","Garc\u00eda M\u00e1rquez","Vargas Llosa"],c:2,d:"hard"},
-  {q:"In which year did the Berlin Wall fall?",a:["1987","1988","1989","1991"],c:2,d:"hard"},
-  {q:"What is the chemical symbol for tungsten?",a:["Tu","Wg","W","Tn"],c:2,d:"hard"},
-  {q:"What does 'HTTP' stand for?",a:["HyperText Transfer Protocol","High Transfer Text Protocol","Hyper Terminal Transfer Process","HyperText Transport Program"],c:0,d:"hard"},
-  {q:"Which composer wrote 'The Four Seasons'?",a:["Bach","Beethoven","Vivaldi","Mozart"],c:2,d:"hard"},
-  {q:"What is the Fibonacci sequence's 10th number?",a:["34","44","55","65"],c:2,d:"hard"},
-  {q:"Which ancient wonder was located in Alexandria?",a:["Hanging Gardens","Colossus of Rhodes","Lighthouse","Statue of Zeus"],c:2,d:"hard"},
-  {q:"What is the largest organ in the human body?",a:["Liver","Brain","Lungs","Skin"],c:3,d:"hard"},
-  {q:"Which country invented the printing press?",a:["France","Italy","China","England"],c:2,d:"hard"},
+{q:"Which ancient civilization built the pyramids at Giza?",a:["Romans","Egyptians","Greeks","Persians"],c:1,d:"easy"},
+{q:"In which year did World War II end?",a:["1943","1944","1945","1946"],c:2,d:"easy"},
+{q:"Who was the first President of the United States?",a:["Thomas Jefferson","George Washington","John Adams","Benjamin Franklin"],c:1,d:"easy"},
+{q:"The Berlin Wall fell in which year?",a:["1987","1988","1989","1991"],c:2,d:"easy"},
+{q:"Which empire was ruled by Genghis Khan?",a:["Ottoman Empire","Roman Empire","Mongol Empire","Persian Empire"],c:2,d:"easy"},
+{q:"The Titanic sank during its maiden voyage in which year?",a:["1905","1912","1918","1920"],c:1,d:"easy"},
+{q:"Which country was the first to land a human on the Moon?",a:["Soviet Union","United States","China","United Kingdom"],c:1,d:"easy"},
+{q:"Who wrote the 'I Have a Dream' speech?",a:["Malcolm X","Martin Luther King Jr.","Nelson Mandela","Frederick Douglass"],c:1,d:"easy"},
+{q:"The French Revolution began in which year?",a:["1776","1789","1799","1812"],c:1,d:"easy"},
+{q:"Which war was fought between the North and South of the United States?",a:["War of 1812","Revolutionary War","Civil War","Spanish-American War"],c:2,d:"easy"},
+{q:"The Magna Carta was signed in which year?",a:["1066","1215","1348","1453"],c:1,d:"medium"},
+{q:"Which treaty ended World War I?",a:["Treaty of Paris","Treaty of Versailles","Treaty of Ghent","Treaty of Westphalia"],c:1,d:"medium"},
+{q:"Mahatma Gandhi led the independence movement in which country?",a:["Pakistan","South Africa","India","Sri Lanka"],c:2,d:"medium"},
+{q:"The Byzantine Empire was the continuation of which empire?",a:["Greek Empire","Roman Empire","Persian Empire","Macedonian Empire"],c:1,d:"medium"},
+{q:"Who was the last Tsar of Russia?",a:["Alexander III","Nicholas II","Peter the Great","Ivan the Terrible"],c:1,d:"medium"},
+{q:"The Meiji Restoration modernized which country in the 1860s?",a:["China","Korea","Japan","Thailand"],c:2,d:"medium"},
+{q:"Which explorer first circumnavigated the globe?",a:["Columbus","Vasco da Gama","Magellan's expedition","James Cook"],c:2,d:"medium"},
+{q:"The Hundred Years' War was fought between which two countries?",a:["Spain and Portugal","England and France","England and Spain","France and Germany"],c:1,d:"medium"},
+{q:"Who founded the Ottoman Empire?",a:["Suleiman","Mehmed II","Osman I","Selim I"],c:2,d:"medium"},
+{q:"The Apartheid system was enforced in which country?",a:["Rhodesia","Namibia","South Africa","Kenya"],c:2,d:"medium"},
+{q:"Which revolution established the People's Republic of China in 1949?",a:["Boxer Rebellion","Cultural Revolution","Chinese Communist Revolution","Xinhai Revolution"],c:2,d:"medium"},
+{q:"The Rosetta Stone helped decipher which writing system?",a:["Cuneiform","Egyptian hieroglyphs","Linear B","Sanskrit"],c:1,d:"medium"},
+{q:"Who was the Iron Lady of British politics?",a:["Queen Victoria","Margaret Thatcher","Theresa May","Emmeline Pankhurst"],c:1,d:"medium"},
+{q:"The Silk Road connected China to which region?",a:["Sub-Saharan Africa","Southeast Asia","Mediterranean and Europe","Japan"],c:2,d:"medium"},
+{q:"Which ancient city was destroyed by the eruption of Mount Vesuvius in 79 AD?",a:["Athens","Rome","Pompeii","Carthage"],c:2,d:"medium"},
+{q:"The Bolshevik Revolution took place in which year?",a:["1905","1914","1917","1921"],c:2,d:"medium"},
+{q:"Who was the first Emperor of a unified China?",a:["Qin Shi Huang","Kublai Khan","Emperor Wu","Sun Yat-sen"],c:0,d:"medium"},
+{q:"The Suez Canal connects which two bodies of water?",a:["Atlantic and Pacific","Mediterranean and Red Sea","Black Sea and Mediterranean","Indian Ocean and Pacific"],c:1,d:"medium"},
+{q:"The Treaty of Tordesillas (1494) divided the New World between which two nations?",a:["England and France","Spain and Portugal","Spain and England","France and Portugal"],c:1,d:"hard"},
+{q:"Which battle in 1571 ended Ottoman naval dominance in the Mediterranean?",a:["Battle of Trafalgar","Battle of Lepanto","Battle of Actium","Battle of Midway"],c:1,d:"hard"},
+{q:"The Congress of Vienna in 1815 was chaired primarily by which diplomat?",a:["Talleyrand","Metternich","Castlereagh","Alexander I"],c:1,d:"hard"},
+{q:"The Khmer Empire, which built Angkor Wat, was located in present-day what?",a:["Thailand","Vietnam","Cambodia","Myanmar"],c:2,d:"hard"},
+{q:"Which African kingdom was known for its wealth and the pilgrimage of Mansa Musa?",a:["Kingdom of Kongo","Mali Empire","Songhai Empire","Kingdom of Aksum"],c:1,d:"hard"},
+{q:"The Defenestration of Prague in 1618 triggered which major conflict?",a:["Seven Years' War","Thirty Years' War","War of Spanish Succession","Napoleonic Wars"],c:1,d:"hard"},
+{q:"Who founded the Maurya Empire in ancient India?",a:["Ashoka","Chandragupta Maurya","Bindusara","Harsha"],c:1,d:"hard"},
+{q:"The Scramble for Africa was formalized at which 1884 conference?",a:["Congress of Vienna","Berlin Conference","Treaty of Paris","Yalta Conference"],c:1,d:"hard"},
+{q:"What is the largest continent by area?",a:["Africa","North America","Asia","Europe"],c:2,d:"easy"},
+{q:"Which river is the longest in the world?",a:["Amazon","Mississippi","Yangtze","Nile"],c:3,d:"easy"},
+{q:"What is the capital of Japan?",a:["Osaka","Kyoto","Tokyo","Yokohama"],c:2,d:"easy"},
+{q:"Which ocean is the largest?",a:["Atlantic","Indian","Arctic","Pacific"],c:3,d:"easy"},
+{q:"Mount Everest is located on the border of which two countries?",a:["India and China","Nepal and China","Nepal and India","Pakistan and China"],c:1,d:"easy"},
+{q:"Which country has the largest population in the world?",a:["United States","Indonesia","India","China"],c:2,d:"easy"},
+{q:"What is the smallest country in the world by area?",a:["Monaco","Vatican City","San Marino","Liechtenstein"],c:1,d:"easy"},
+{q:"The Amazon Rainforest is primarily located in which country?",a:["Colombia","Peru","Venezuela","Brazil"],c:3,d:"easy"},
+{q:"Which desert is the largest hot desert in the world?",a:["Gobi","Arabian","Kalahari","Sahara"],c:3,d:"easy"},
+{q:"What is the capital of Australia?",a:["Sydney","Melbourne","Canberra","Brisbane"],c:2,d:"easy"},
+{q:"Which country has the most time zones?",a:["Russia","United States","China","France"],c:3,d:"medium"},
+{q:"The Strait of Malacca separates which two landmasses?",a:["Africa and Asia","Malay Peninsula and Sumatra","India and Sri Lanka","Australia and Papua New Guinea"],c:1,d:"medium"},
+{q:"Lake Baikal, the deepest lake in the world, is in which country?",a:["Kazakhstan","Mongolia","Russia","China"],c:2,d:"medium"},
+{q:"Which African country has the largest economy by GDP?",a:["South Africa","Egypt","Nigeria","Kenya"],c:2,d:"medium"},
+{q:"The Danube River flows into which body of water?",a:["Mediterranean Sea","Adriatic Sea","Black Sea","Caspian Sea"],c:2,d:"medium"},
+{q:"Which mountain range separates Europe from Asia?",a:["Alps","Caucasus","Ural Mountains","Carpathians"],c:2,d:"medium"},
+{q:"Timbuktu is a historic city in which modern country?",a:["Niger","Senegal","Mali","Burkina Faso"],c:2,d:"medium"},
+{q:"Which island nation is the fourth largest in the world?",a:["Borneo","Sumatra","Madagascar","New Guinea"],c:2,d:"medium"},
+{q:"The Mekong River flows through how many countries?",a:["4","5","6","7"],c:2,d:"medium"},
+{q:"What is the capital of New Zealand?",a:["Auckland","Christchurch","Wellington","Hamilton"],c:2,d:"medium"},
+{q:"Which European country has the longest coastline?",a:["Italy","Greece","United Kingdom","Norway"],c:3,d:"medium"},
+{q:"The Galápagos Islands belong to which country?",a:["Peru","Colombia","Chile","Ecuador"],c:3,d:"medium"},
+{q:"Which landlocked country is the largest in the world?",a:["Mongolia","Chad","Kazakhstan","Niger"],c:2,d:"medium"},
+{q:"The Great Barrier Reef is off the coast of which Australian state?",a:["New South Wales","Victoria","Western Australia","Queensland"],c:3,d:"medium"},
+{q:"What is the highest capital city in the world?",a:["Quito","Bogotá","La Paz","Addis Ababa"],c:2,d:"medium"},
+{q:"Which strait separates Africa from Europe?",a:["Strait of Hormuz","Strait of Malacca","Strait of Gibraltar","Bosphorus"],c:2,d:"medium"},
+{q:"Patagonia is a region shared by Argentina and which other country?",a:["Uruguay","Brazil","Chile","Bolivia"],c:2,d:"medium"},
+{q:"Which country is known as the Land of the Rising Sun?",a:["China","South Korea","Japan","Thailand"],c:2,d:"medium"},
+{q:"The Atacama Desert, one of the driest places on Earth, is in which country?",a:["Peru","Argentina","Bolivia","Chile"],c:3,d:"hard"},
+{q:"Which country has the most UNESCO World Heritage Sites?",a:["China","France","Italy","Spain"],c:2,d:"hard"},
+{q:"The Ogallala Aquifer lies beneath which region?",a:["Great Lakes region","Appalachian Mountains","Great Plains of the US","Mississippi Delta"],c:2,d:"hard"},
+{q:"Socotra Island, known for its alien-like flora, belongs to which country?",a:["Oman","Somalia","Yemen","Djibouti"],c:2,d:"hard"},
+{q:"Which two countries share the longest international border?",a:["Russia and China","US and Canada","Chile and Argentina","Russia and Kazakhstan"],c:1,d:"hard"},
+{q:"The Carpathian Mountains pass through the most countries in Europe. How many?",a:["5","6","7","8"],c:2,d:"hard"},
+{q:"Lake Titicaca sits on the border of Peru and which country?",a:["Chile","Ecuador","Bolivia","Colombia"],c:2,d:"hard"},
+{q:"Which country is home to the world's largest cave, Hang Son Doong?",a:["Thailand","Laos","Vietnam","Cambodia"],c:2,d:"hard"},
+{q:"What planet is known as the Red Planet?",a:["Venus","Jupiter","Mars","Saturn"],c:2,d:"easy"},
+{q:"What gas do plants absorb from the atmosphere?",a:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],c:2,d:"easy"},
+{q:"How many bones are in the adult human body?",a:["186","206","226","256"],c:1,d:"easy"},
+{q:"What is the chemical symbol for gold?",a:["Go","Gd","Ag","Au"],c:3,d:"easy"},
+{q:"Which planet is the largest in our solar system?",a:["Saturn","Neptune","Jupiter","Uranus"],c:2,d:"easy"},
+{q:"What is the boiling point of water at sea level in Celsius?",a:["90°C","95°C","100°C","110°C"],c:2,d:"easy"},
+{q:"What is the hardest natural substance on Earth?",a:["Quartz","Topaz","Diamond","Ruby"],c:2,d:"easy"},
+{q:"Which organ in the human body pumps blood?",a:["Liver","Brain","Lungs","Heart"],c:3,d:"easy"},
+{q:"What force keeps us on the ground?",a:["Magnetism","Friction","Gravity","Inertia"],c:2,d:"easy"},
+{q:"How many planets are in our solar system?",a:["7","8","9","10"],c:1,d:"easy"},
+{q:"What is the most abundant gas in Earth's atmosphere?",a:["Oxygen","Carbon dioxide","Nitrogen","Argon"],c:2,d:"medium"},
+{q:"Which particle in an atom has a negative charge?",a:["Proton","Neutron","Electron","Photon"],c:2,d:"medium"},
+{q:"The speed of light is approximately how many km per second?",a:["100,000","200,000","300,000","400,000"],c:2,d:"medium"},
+{q:"What does DNA stand for?",a:["Deoxyribose Nucleic Acid","Deoxyribonucleic Acid","Dioxyribonucleic Acid","Deoxyribo Natural Acid"],c:1,d:"medium"},
+{q:"Which element has the atomic number 1?",a:["Helium","Hydrogen","Lithium","Carbon"],c:1,d:"medium"},
+{q:"What is the powerhouse of the cell?",a:["Nucleus","Ribosome","Mitochondria","Golgi apparatus"],c:2,d:"medium"},
+{q:"Who proposed the theory of general relativity?",a:["Isaac Newton","Niels Bohr","Albert Einstein","Max Planck"],c:2,d:"medium"},
+{q:"The periodic table was first published by which scientist?",a:["Lavoisier","Mendeleev","Dalton","Bohr"],c:1,d:"medium"},
+{q:"What type of rock is formed from cooled magma?",a:["Sedimentary","Metamorphic","Igneous","Limestone"],c:2,d:"medium"},
+{q:"How long does light from the Sun take to reach Earth?",a:["About 4 minutes","About 8 minutes","About 12 minutes","About 20 minutes"],c:1,d:"medium"},
+{q:"Which vitamin is produced when human skin is exposed to sunlight?",a:["Vitamin A","Vitamin B12","Vitamin C","Vitamin D"],c:3,d:"medium"},
+{q:"What is the pH of pure water?",a:["5","6","7","8"],c:2,d:"medium"},
+{q:"Which blood type is known as the universal donor?",a:["A positive","B negative","AB positive","O negative"],c:3,d:"medium"},
+{q:"What phenomenon causes the Northern Lights?",a:["Solar eclipses","Charged particles from the Sun","Moonlight refraction","Volcanic gases"],c:1,d:"medium"},
+{q:"In physics, what does the 'E' stand for in E=mc²?",a:["Electricity","Entropy","Energy","Elasticity"],c:2,d:"medium"},
+{q:"Which scientist discovered penicillin?",a:["Louis Pasteur","Alexander Fleming","Joseph Lister","Robert Koch"],c:1,d:"medium"},
+{q:"What is the largest organ in the human body?",a:["Liver","Brain","Skin","Lungs"],c:2,d:"medium"},
+{q:"Absolute zero is approximately what temperature in Celsius?",a:["-173°C","-273°C","-373°C","-473°C"],c:1,d:"medium"},
+{q:"The Higgs boson is associated with which fundamental property of matter?",a:["Charge","Spin","Mass","Color"],c:2,d:"hard"},
+{q:"Which law states that the pressure of a gas is inversely proportional to its volume at constant temperature?",a:["Charles's Law","Dalton's Law","Boyle's Law","Avogadro's Law"],c:2,d:"hard"},
+{q:"What is the half-life of Carbon-14, used in radiocarbon dating?",a:["1,730 years","3,730 years","5,730 years","7,730 years"],c:2,d:"hard"},
+{q:"CRISPR-Cas9 is a tool used primarily for what?",a:["Brain imaging","Gene editing","Protein folding","Drug synthesis"],c:1,d:"hard"},
+{q:"Which organelle is responsible for photosynthesis in plant cells?",a:["Mitochondria","Chloroplast","Ribosome","Endoplasmic reticulum"],c:1,d:"hard"},
+{q:"What is the Chandrasekhar limit?",a:["Maximum mass of a white dwarf star","Minimum size of a black hole","Speed limit of subatomic particles","Temperature limit of nuclear fusion"],c:0,d:"hard"},
+{q:"The Drake Equation attempts to estimate what?",a:["Age of the universe","Number of communicative civilizations in the Milky Way","Distance between galaxies","Rate of star formation"],c:1,d:"hard"},
+{q:"Which physicist is credited with the uncertainty principle?",a:["Schrödinger","Dirac","Heisenberg","Pauli"],c:2,d:"hard"},
+{q:"Who wrote 'Romeo and Juliet'?",a:["Charles Dickens","William Shakespeare","Jane Austen","Mark Twain"],c:1,d:"easy"},
+{q:"In which book does the character Harry Potter first appear?",a:["The Chamber of Secrets","The Prisoner of Azkaban","The Philosopher's Stone","The Goblet of Fire"],c:2,d:"easy"},
+{q:"Who wrote '1984'?",a:["Aldous Huxley","George Orwell","Ray Bradbury","H.G. Wells"],c:1,d:"easy"},
+{q:"What is the name of Sherlock Holmes' sidekick?",a:["Dr. Watson","Inspector Lestrade","Professor Moriarty","Mycroft Holmes"],c:0,d:"easy"},
+{q:"'The Odyssey' is attributed to which ancient Greek poet?",a:["Sophocles","Virgil","Homer","Euripides"],c:2,d:"easy"},
+{q:"Who wrote 'Pride and Prejudice'?",a:["Charlotte Brontë","Emily Brontë","Jane Austen","Mary Shelley"],c:2,d:"easy"},
+{q:"Which children's book features a rabbit named Peter?",a:["Watership Down","The Tale of Peter Rabbit","Alice in Wonderland","Wind in the Willows"],c:1,d:"easy"},
+{q:"Who is the author of 'The Lord of the Rings'?",a:["C.S. Lewis","J.R.R. Tolkien","George R.R. Martin","Terry Pratchett"],c:1,d:"easy"},
+{q:"Who wrote 'One Hundred Years of Solitude'?",a:["Pablo Neruda","Jorge Luis Borges","Gabriel García Márquez","Isabel Allende"],c:2,d:"medium"},
+{q:"In which novel does the character Atticus Finch appear?",a:["The Great Gatsby","To Kill a Mockingbird","Of Mice and Men","The Catcher in the Rye"],c:1,d:"medium"},
+{q:"'Crime and Punishment' was written by which author?",a:["Leo Tolstoy","Anton Chekhov","Fyodor Dostoevsky","Ivan Turgenev"],c:2,d:"medium"},
+{q:"Which Nobel Prize-winning author wrote 'The Old Man and the Sea'?",a:["John Steinbeck","William Faulkner","Ernest Hemingway","F. Scott Fitzgerald"],c:2,d:"medium"},
+{q:"Who wrote 'The Divine Comedy'?",a:["Petrarch","Boccaccio","Dante Alighieri","Virgil"],c:2,d:"medium"},
+{q:"'Things Fall Apart' is a novel by which Nigerian author?",a:["Wole Soyinka","Chinua Achebe","Ben Okri","Chimamanda Ngozi Adichie"],c:1,d:"medium"},
+{q:"Which Russian author wrote 'War and Peace'?",a:["Fyodor Dostoevsky","Anton Chekhov","Leo Tolstoy","Mikhail Bulgakov"],c:2,d:"medium"},
+{q:"'Don Quixote' was written by which Spanish author?",a:["Federico García Lorca","Miguel de Cervantes","Jorge Luis Borges","Gabriel García Márquez"],c:1,d:"medium"},
+{q:"Who wrote 'Brave New World'?",a:["George Orwell","Ray Bradbury","Aldous Huxley","Philip K. Dick"],c:2,d:"medium"},
+{q:"Which Japanese author wrote 'Norwegian Wood'?",a:["Yukio Mishima","Haruki Murakami","Kazuo Ishiguro","Banana Yoshimoto"],c:1,d:"medium"},
+{q:"'The Metamorphosis' features a man who turns into a giant insect. Who wrote it?",a:["Hermann Hesse","Thomas Mann","Franz Kafka","Albert Camus"],c:2,d:"medium"},
+{q:"Which dystopian novel features a society where books are burned?",a:["1984","Brave New World","Fahrenheit 451","The Handmaid's Tale"],c:2,d:"medium"},
+{q:"Who wrote 'The Alchemist'?",a:["José Saramago","Paulo Coelho","Jorge Amado","Machado de Assis"],c:1,d:"medium"},
+{q:"In Greek mythology, which hero slew the Minotaur?",a:["Perseus","Hercules","Theseus","Odysseus"],c:2,d:"medium"},
+{q:"'Moby Dick' follows Captain Ahab's obsession with what?",a:["A treasure","A white whale","A rival ship","An island"],c:1,d:"medium"},
+{q:"Which Colombian author is considered the father of magical realism?",a:["Mario Vargas Llosa","Gabriel García Márquez","Carlos Fuentes","Julio Cortázar"],c:1,d:"medium"},
+{q:"'The Master and Margarita' was written by which Russian author?",a:["Boris Pasternak","Mikhail Bulgakov","Aleksandr Solzhenitsyn","Nikolai Gogol"],c:1,d:"hard"},
+{q:"Who wrote 'Beloved', a novel about the aftermath of slavery?",a:["Alice Walker","Maya Angelou","Toni Morrison","Zora Neale Hurston"],c:2,d:"hard"},
+{q:"The epic poem 'Shahnameh' was written by which Persian poet?",a:["Rumi","Hafez","Omar Khayyam","Ferdowsi"],c:3,d:"hard"},
+{q:"Which Argentine author wrote 'The Library of Babel'?",a:["Julio Cortázar","Jorge Luis Borges","Adolfo Bioy Casares","Ernesto Sabato"],c:1,d:"hard"},
+{q:"'Midnight's Children' won the Booker Prize for which author?",a:["V.S. Naipaul","Arundhati Roy","Salman Rushdie","Vikram Seth"],c:2,d:"hard"},
+{q:"Who wrote the play 'Waiting for Godot'?",a:["Harold Pinter","Eugène Ionesco","Samuel Beckett","Tom Stoppard"],c:2,d:"hard"},
+{q:"Which Chinese novel is one of the 'Four Great Classical Novels' and features the Monkey King?",a:["Dream of the Red Chamber","Romance of the Three Kingdoms","Journey to the West","Water Margin"],c:2,d:"hard"},
+{q:"'The Stranger' by Albert Camus begins with which famous line theme?",a:["A description of war","The death of the narrator's mother","A philosophical debate","A love confession"],c:1,d:"hard"},
+{q:"How many players are on a standard soccer team on the field?",a:["9","10","11","12"],c:2,d:"easy"},
+{q:"In which sport is a slam dunk a common move?",a:["Volleyball","Tennis","Basketball","Football"],c:2,d:"easy"},
+{q:"The Olympic Games originated in which ancient civilization?",a:["Roman","Egyptian","Greek","Persian"],c:2,d:"easy"},
+{q:"How many sets does a player need to win in a standard men's Grand Slam tennis match?",a:["2","3","4","5"],c:1,d:"easy"},
+{q:"Which country has won the most FIFA World Cup titles?",a:["Germany","Argentina","Italy","Brazil"],c:3,d:"easy"},
+{q:"What sport is played at Wimbledon?",a:["Golf","Cricket","Tennis","Polo"],c:2,d:"easy"},
+{q:"In baseball, how many strikes make an out?",a:["2","3","4","5"],c:1,d:"easy"},
+{q:"Which sport uses a shuttlecock?",a:["Squash","Table Tennis","Badminton","Volleyball"],c:2,d:"easy"},
+{q:"Who holds the record for the most Grand Slam tennis titles in men's singles?",a:["Roger Federer","Rafael Nadal","Novak Djokovic","Pete Sampras"],c:2,d:"medium"},
+{q:"The All Blacks are the national rugby team of which country?",a:["Australia","South Africa","England","New Zealand"],c:3,d:"medium"},
+{q:"In which year were the first modern Olympic Games held?",a:["1888","1892","1896","1900"],c:2,d:"medium"},
+{q:"Which boxer was known as 'The Greatest' and 'The People's Champion'?",a:["Mike Tyson","Joe Louis","Floyd Mayweather","Muhammad Ali"],c:3,d:"medium"},
+{q:"Cricket's Ashes series is contested between which two countries?",a:["India and Pakistan","England and Australia","South Africa and England","West Indies and England"],c:1,d:"medium"},
+{q:"Which country hosted the 2016 Summer Olympics?",a:["China","United Kingdom","Japan","Brazil"],c:3,d:"medium"},
+{q:"What is the maximum score in a single frame of ten-pin bowling?",a:["20","25","30","35"],c:2,d:"medium"},
+{q:"Which soccer player has won the most Ballon d'Or awards?",a:["Cristiano Ronaldo","Lionel Messi","Michel Platini","Johan Cruyff"],c:1,d:"medium"},
+{q:"The Tour de France is a famous race in which sport?",a:["Running","Swimming","Cycling","Motor racing"],c:2,d:"medium"},
+{q:"In American football, how many points is a touchdown worth?",a:["3","5","6","7"],c:2,d:"medium"},
+{q:"Which country invented the sport of judo?",a:["China","South Korea","Japan","Thailand"],c:2,d:"medium"},
+{q:"How many holes are played in a standard round of golf?",a:["9","12","16","18"],c:3,d:"medium"},
+{q:"Usain Bolt holds the world record in the 100m sprint. What country is he from?",a:["Trinidad and Tobago","Jamaica","Bahamas","United States"],c:1,d:"medium"},
+{q:"Which team sport originated in Canada as an indigenous game?",a:["Ice hockey","Basketball","Lacrosse","Curling"],c:2,d:"medium"},
+{q:"The Ryder Cup is a biennial competition in which sport?",a:["Tennis","Golf","Sailing","Cricket"],c:1,d:"medium"},
+{q:"Which Formula 1 driver holds the record for most World Championship titles?",a:["Ayrton Senna","Michael Schumacher","Lewis Hamilton","Max Verstappen"],c:2,d:"medium"},
+{q:"In what sport would you perform a 'hat trick'?",a:["Only in cricket","Only in soccer","Only in ice hockey","In several sports including soccer, cricket, and hockey"],c:3,d:"medium"},
+{q:"Which country has won the most Olympic gold medals in table tennis?",a:["Japan","South Korea","Sweden","China"],c:3,d:"hard"},
+{q:"The Calcutta Cup in rugby is contested between which two teams?",a:["England and Scotland","England and Wales","Ireland and Scotland","France and England"],c:0,d:"hard"},
+{q:"In which city were the first Winter Olympic Games held in 1924?",a:["St. Moritz","Oslo","Chamonix","Lake Placid"],c:2,d:"hard"},
+{q:"Which Ethiopian runner won the Olympic marathon barefoot in 1960?",a:["Haile Gebrselassie","Kenenisa Bekele","Abebe Bikila","Miruts Yifter"],c:2,d:"hard"},
+{q:"Kabaddi, a contact sport popular in South Asia, originated in which country?",a:["Pakistan","Sri Lanka","India","Bangladesh"],c:2,d:"hard"},
+{q:"Which sumo wrestler holds the record for most tournament wins?",a:["Asashoryu","Hakuho","Taiho","Chiyonofuji"],c:1,d:"hard"},
+{q:"In fencing, which weapon allows only thrusting attacks to the torso?",a:["Sabre","Épée","Foil","Rapier"],c:2,d:"hard"},
+{q:"The FIFA Women's World Cup was first held in which year?",a:["1987","1989","1991","1995"],c:2,d:"hard"},
+{q:"Which superhero is known as the 'Man of Steel'?",a:["Batman","Iron Man","Superman","Thor"],c:2,d:"easy"},
+{q:"What is the name of the fictional continent in 'Game of Thrones'?",a:["Middle-earth","Narnia","Westeros","Hogwarts"],c:2,d:"easy"},
+{q:"Which video game features a plumber named Mario?",a:["Sonic the Hedgehog","Super Mario Bros","Pac-Man","Donkey Kong"],c:1,d:"easy"},
+{q:"In the TV show 'Friends', how many main characters are there?",a:["4","5","6","7"],c:2,d:"easy"},
+{q:"Which animated TV show features a yellow-skinned family in Springfield?",a:["Family Guy","South Park","The Simpsons","Futurama"],c:2,d:"easy"},
+{q:"What card game features cards like 'Draw Four' and 'Reverse'?",a:["Poker","Go Fish","UNO","Blackjack"],c:2,d:"easy"},
+{q:"Which social media platform is known for short video content and was formerly Musical.ly?",a:["Instagram","Snapchat","TikTok","Twitter"],c:2,d:"easy"},
+{q:"What is the name of the wizarding school in Harry Potter?",a:["Beauxbatons","Durmstrang","Hogwarts","Ilvermorny"],c:2,d:"easy"},
+{q:"Which video game franchise features characters like Master Chief?",a:["Call of Duty","Gears of War","Halo","Destiny"],c:2,d:"medium"},
+{q:"The board game 'Monopoly' was originally designed to demonstrate the dangers of what?",a:["Capitalism","Communism","Land monopolies","Banking fraud"],c:2,d:"medium"},
+{q:"Which manga series by Eiichiro Oda holds the record for most copies sold?",a:["Naruto","Dragon Ball","One Piece","Attack on Titan"],c:2,d:"medium"},
+{q:"In the TV series 'Breaking Bad', what is Walter White's alias?",a:["Gus","Heisenberg","Cap'n Cook","The One Who Knocks"],c:1,d:"medium"},
+{q:"Which fashion brand features a crocodile logo?",a:["Ralph Lauren","Lacoste","Burberry","Hugo Boss"],c:1,d:"medium"},
+{q:"The phrase 'Winter is Coming' is the motto of which fictional family?",a:["Lannister","Baratheon","Stark","Targaryen"],c:2,d:"medium"},
+{q:"Which streaming service produced the show 'Stranger Things'?",a:["Amazon Prime","HBO Max","Disney+","Netflix"],c:3,d:"medium"},
+{q:"What year was the first iPhone released?",a:["2005","2006","2007","2008"],c:2,d:"medium"},
+{q:"Which K-pop group performed 'Dynamite' and 'Butter'?",a:["BLACKPINK","EXO","BTS","TWICE"],c:2,d:"medium"},
+{q:"In chess, which piece can only move diagonally?",a:["Rook","Knight","Bishop","Queen"],c:2,d:"medium"},
+{q:"Which anime series features a notebook that can kill anyone whose name is written in it?",a:["Naruto","Bleach","Death Note","Tokyo Ghoul"],c:2,d:"medium"},
+{q:"The 'Mona Lisa' is displayed in which museum?",a:["British Museum","Uffizi Gallery","The Louvre","Metropolitan Museum of Art"],c:2,d:"medium"},
+{q:"Which video game features the battle royale mode 'Warzone'?",a:["Fortnite","Apex Legends","Call of Duty","PUBG"],c:2,d:"medium"},
+{q:"What is the highest-grossing film franchise of all time?",a:["Harry Potter","Star Wars","Marvel Cinematic Universe","James Bond"],c:2,d:"medium"},
+{q:"Which reality TV show format originated in the Netherlands and involves surviving on an island?",a:["Big Brother","The Amazing Race","Survivor","Fear Factor"],c:2,d:"medium"},
+{q:"The 'Voynich Manuscript' is famous for what reason?",a:["It predicted future events","It contains an undeciphered writing system","It was written by Leonardo da Vinci","It is the oldest known book"],c:1,d:"hard"},
+{q:"Which board game, invented in Germany, is considered the pioneer of modern 'Euro-style' games?",a:["Risk","Carcassonne","Catan","Ticket to Ride"],c:2,d:"hard"},
+{q:"The Rubik's Cube was invented by a professor from which country?",a:["Czech Republic","Poland","Romania","Hungary"],c:3,d:"hard"},
+{q:"Which Japanese company produced both the Game Boy and the Nintendo Switch?",a:["Sony","Sega","Nintendo","Bandai"],c:2,d:"hard"},
+{q:"The Burning Man festival takes place annually in which US state?",a:["California","Arizona","Nevada","Utah"],c:2,d:"hard"},
+{q:"Which comic book character was created by Belgian cartoonist Hergé?",a:["Asterix","Tintin","Lucky Luke","The Smurfs"],c:1,d:"hard"},
+{q:"Who directed 'Jurassic Park'?",a:["James Cameron","Ridley Scott","Steven Spielberg","George Lucas"],c:2,d:"easy"},
+{q:"Which film features the quote 'May the Force be with you'?",a:["Star Trek","Star Wars","The Matrix","Guardians of the Galaxy"],c:1,d:"easy"},
+{q:"'The Godfather' is a film about which type of organized crime family?",a:["Russian mafia","Japanese yakuza","Irish mob","Italian-American mafia"],c:3,d:"easy"},
+{q:"Which animated film features a clownfish searching for his son?",a:["Shark Tale","The Little Mermaid","Finding Nemo","Moana"],c:2,d:"easy"},
+{q:"Who played Jack in the film 'Titanic'?",a:["Brad Pitt","Matt Damon","Tom Cruise","Leonardo DiCaprio"],c:3,d:"easy"},
+{q:"Which 1994 film features a man sitting on a bench telling his life story?",a:["The Shawshank Redemption","Forrest Gump","Pulp Fiction","The Green Mile"],c:1,d:"easy"},
+{q:"What color pill does Neo take in 'The Matrix'?",a:["Blue","Green","Red","White"],c:2,d:"easy"},
+{q:"Which film franchise features a character named Indiana Jones?",a:["Jurassic Park","The Mummy","Indiana Jones","Tomb Raider"],c:2,d:"easy"},
+{q:"Which filmmaker directed 'Inception' and 'The Dark Knight'?",a:["David Fincher","Christopher Nolan","Denis Villeneuve","Ridley Scott"],c:1,d:"medium"},
+{q:"'Spirited Away', the Oscar-winning animated film, was directed by whom?",a:["Makoto Shinkai","Isao Takahata","Mamoru Hosoda","Hayao Miyazaki"],c:3,d:"medium"},
+{q:"Which country's film industry is known as Bollywood?",a:["Pakistan","Bangladesh","India","Sri Lanka"],c:2,d:"medium"},
+{q:"In 'The Shawshank Redemption', what does Andy Dufresne use to escape?",a:["A spoon","A rock hammer","A tunnel already there","An accomplice guard"],c:1,d:"medium"},
+{q:"Who directed 'Schindler's List'?",a:["Martin Scorsese","Francis Ford Coppola","Steven Spielberg","Roman Polanski"],c:2,d:"medium"},
+{q:"Which 2019 South Korean film won the Academy Award for Best Picture?",a:["Oldboy","Memories of Murder","Parasite","Train to Busan"],c:2,d:"medium"},
+{q:"'Casablanca' is set during which war?",a:["World War I","World War II","Korean War","Vietnam War"],c:1,d:"medium"},
+{q:"Which director is known for 'Pulp Fiction' and 'Kill Bill'?",a:["Martin Scorsese","Quentin Tarantino","David Lynch","Wes Anderson"],c:1,d:"medium"},
+{q:"The character of James Bond was created by which author?",a:["John le Carré","Frederick Forsyth","Ian Fleming","Robert Ludlum"],c:2,d:"medium"},
+{q:"Which film holds the record for most Academy Awards won?",a:["Titanic","The Lord of the Rings: Return of the King","Ben-Hur","All three are tied"],c:3,d:"medium"},
+{q:"'Amélie' is a beloved film from which country?",a:["Italy","Spain","France","Belgium"],c:2,d:"medium"},
+{q:"Which Alfred Hitchcock film features the iconic shower scene?",a:["Vertigo","Rear Window","Psycho","The Birds"],c:2,d:"medium"},
+{q:"In 'The Wizard of Oz', what does Dorothy need to click to go home?",a:["Her fingers","A magic wand","Her ruby slippers","A compass"],c:2,d:"medium"},
+{q:"Which film studio created Mickey Mouse?",a:["Warner Bros","Pixar","DreamWorks","Walt Disney Studios"],c:3,d:"medium"},
+{q:"'City of God' is a critically acclaimed film from which country?",a:["Mexico","Argentina","Brazil","Colombia"],c:2,d:"medium"},
+{q:"Which Iranian film won the Academy Award for Best Foreign Language Film in 2012?",a:["A Separation","The Salesman","Taste of Cherry","Close-Up"],c:0,d:"hard"},
+{q:"The Dogme 95 movement in filmmaking was founded in which country?",a:["Sweden","Norway","Denmark","Finland"],c:2,d:"hard"},
+{q:"Which director made 'Seven Samurai', considered one of the greatest films ever?",a:["Yasujirō Ozu","Kenji Mizoguchi","Akira Kurosawa","Masaki Kobayashi"],c:2,d:"hard"},
+{q:"'The Seventh Seal' was directed by which Swedish filmmaker?",a:["Ingmar Bergman","Lars von Trier","Andrei Tarkovsky","Federico Fellini"],c:0,d:"hard"},
+{q:"Which film festival awards the Palme d'Or?",a:["Venice","Berlin","Toronto","Cannes"],c:3,d:"hard"},
+{q:"The concept of 'montage theory' in cinema was developed by filmmakers from which country?",a:["France","Germany","Soviet Union","Italy"],c:2,d:"hard"},
+{q:"Which 1948 Italian neorealist film follows a man searching for his stolen bicycle?",a:["Rome, Open City","La Strada","Bicycle Thieves","Umberto D."],c:2,d:"hard"},
+{q:"Director Wong Kar-wai is from which country/region?",a:["South Korea","Taiwan","Japan","Hong Kong"],c:3,d:"hard"},
+{q:"Which instrument has 88 keys?",a:["Guitar","Organ","Piano","Accordion"],c:2,d:"easy"},
+{q:"'Bohemian Rhapsody' is a song by which band?",a:["The Beatles","Led Zeppelin","Queen","Pink Floyd"],c:2,d:"easy"},
+{q:"Which genre of music originated in Jamaica?",a:["Blues","Reggae","Salsa","Bossa Nova"],c:1,d:"easy"},
+{q:"How many strings does a standard guitar have?",a:["4","5","6","8"],c:2,d:"easy"},
+{q:"Which Austrian composer is famous for 'The Magic Flute' and 'Eine kleine Nachtmusik'?",a:["Bach","Beethoven","Mozart","Haydn"],c:2,d:"easy"},
+{q:"Elvis Presley was known as the King of what?",a:["Pop","Jazz","Rock and Roll","Blues"],c:2,d:"easy"},
+{q:"Which instrument is largest in a standard string quartet?",a:["Violin","Viola","Cello","Double Bass"],c:2,d:"easy"},
+{q:"The Beatles were from which city?",a:["London","Manchester","Liverpool","Birmingham"],c:2,d:"easy"},
+{q:"Which composer wrote the 'Four Seasons'?",a:["Bach","Handel","Vivaldi","Mozart"],c:2,d:"medium"},
+{q:"Flamenco music and dance originated in which region of Spain?",a:["Catalonia","Basque Country","Andalusia","Galicia"],c:2,d:"medium"},
+{q:"Which rapper's real name is Marshall Bruce Mathers III?",a:["Jay-Z","Kanye West","Eminem","50 Cent"],c:2,d:"medium"},
+{q:"The sitar is a stringed instrument from which country?",a:["China","Japan","Turkey","India"],c:3,d:"medium"},
+{q:"Which genre originated in the Bronx, New York in the 1970s?",a:["Punk","Disco","Hip hop","Grunge"],c:2,d:"medium"},
+{q:"Beethoven's 9th Symphony features a famous choral finale based on which poet's work?",a:["Goethe","Schiller","Heine","Rilke"],c:1,d:"medium"},
+{q:"Which woodwind instrument is typically the highest-pitched in an orchestra?",a:["Oboe","Flute","Clarinet","Piccolo"],c:3,d:"medium"},
+{q:"Fado is a traditional music genre from which country?",a:["Spain","Brazil","Portugal","Italy"],c:2,d:"medium"},
+{q:"Which musician is known as the 'King of Pop'?",a:["Prince","Stevie Wonder","Michael Jackson","Elton John"],c:2,d:"medium"},
+{q:"The didgeridoo is a traditional instrument of which people?",a:["Maori","Native Americans","Aboriginal Australians","Inuit"],c:2,d:"medium"},
+{q:"Which band released the album 'The Dark Side of the Moon'?",a:["Led Zeppelin","The Rolling Stones","Pink Floyd","The Who"],c:2,d:"medium"},
+{q:"Which country is the birthplace of tango music?",a:["Brazil","Spain","Cuba","Argentina"],c:3,d:"medium"},
+{q:"Which classical period composer was deaf for much of his career?",a:["Mozart","Haydn","Beethoven","Schubert"],c:2,d:"medium"},
+{q:"The balalaika is a traditional instrument from which country?",a:["Poland","Ukraine","Russia","Romania"],c:2,d:"medium"},
+{q:"Which festival, held annually in the UK, is the largest greenfield music festival in the world?",a:["Reading Festival","Download Festival","Glastonbury","Isle of Wight Festival"],c:2,d:"medium"},
+{q:"The kora, a 21-string instrument, is traditional to which region of Africa?",a:["East Africa","Southern Africa","North Africa","West Africa"],c:3,d:"hard"},
+{q:"Which 20th-century composer wrote 'The Rite of Spring', causing a riot at its premiere?",a:["Ravel","Debussy","Stravinsky","Prokofiev"],c:2,d:"hard"},
+{q:"The gamelan is a traditional ensemble of instruments from which country?",a:["Thailand","Vietnam","Indonesia","Philippines"],c:2,d:"hard"},
+{q:"Bossa nova emerged in the late 1950s in which city?",a:["São Paulo","Buenos Aires","Rio de Janeiro","Havana"],c:2,d:"hard"},
+{q:"Which scale is most commonly associated with traditional Chinese music?",a:["Chromatic","Pentatonic","Blues","Whole tone"],c:1,d:"hard"},
+{q:"The theremin is unique among instruments because it is played how?",a:["With breath only","Without physical contact","By striking water","With foot pedals only"],c:1,d:"hard"},
+{q:"What does 'www' stand for in a website address?",a:["Wide World Web","World Wide Web","Web World Wide","World Web Wide"],c:1,d:"easy"},
+{q:"Which company created the iPhone?",a:["Samsung","Google","Apple","Microsoft"],c:2,d:"easy"},
+{q:"What does 'USB' stand for?",a:["Universal Serial Bus","United System Board","Ultra Speed Buffer","Universal System Backup"],c:0,d:"easy"},
+{q:"Which programming language shares its name with an island in Indonesia?",a:["Python","Ruby","Java","Swift"],c:2,d:"easy"},
+{q:"What does 'Wi-Fi' primarily provide?",a:["Cellular data","Bluetooth pairing","Wireless internet access","GPS navigation"],c:2,d:"easy"},
+{q:"Which company owns the search engine Google?",a:["Microsoft","Alphabet","Amazon","Meta"],c:1,d:"easy"},
+{q:"What does 'PDF' stand for?",a:["Printed Document Format","Portable Document Format","Public Data File","Protected Digital File"],c:1,d:"easy"},
+{q:"Which device is used to point and click on a computer screen?",a:["Keyboard","Monitor","Mouse","Modem"],c:2,d:"easy"},
+{q:"In what year was the World Wide Web invented?",a:["1985","1989","1993","1997"],c:1,d:"medium"},
+{q:"Which scientist is considered the father of computer science?",a:["John von Neumann","Charles Babbage","Alan Turing","Claude Shannon"],c:2,d:"medium"},
+{q:"What does 'HTML' stand for?",a:["HyperText Markup Language","High Tech Modern Language","Home Tool Markup Language","HyperTransfer Markup Language"],c:0,d:"medium"},
+{q:"Which company developed the first commercially successful personal computer, the Apple II?",a:["IBM","Microsoft","Apple","Hewlett-Packard"],c:2,d:"medium"},
+{q:"What is the binary number system based on?",a:["0 and 1","0 through 9","0 through 7","1 through 10"],c:0,d:"medium"},
+{q:"GPS satellites orbit the Earth. What does GPS stand for?",a:["Global Positioning System","General Purpose Satellite","Ground Proximity Sensor","Geographic Placement Service"],c:0,d:"medium"},
+{q:"Which social media platform was originally called 'TheFacebook'?",a:["Twitter","Instagram","Facebook","Snapchat"],c:2,d:"medium"},
+{q:"Moore's Law predicts that the number of transistors on a chip does what?",a:["Halves every year","Doubles roughly every two years","Triples every five years","Stays constant"],c:1,d:"medium"},
+{q:"What was the first message sent over the internet (ARPANET)?",a:["HELLO","LOGIN","LO","TEST"],c:2,d:"medium"},
+{q:"Which company created the Android operating system?",a:["Apple","Samsung","Google","Microsoft"],c:2,d:"medium"},
+{q:"In computing, what does 'RAM' stand for?",a:["Random Access Memory","Read Access Module","Rapid Application Memory","Remote Access Management"],c:0,d:"medium"},
+{q:"Which encryption method is commonly used to secure websites (shown as a padlock icon)?",a:["FTP","SSH","SSL/TLS","VPN"],c:2,d:"medium"},
+{q:"The programming language Python was named after which comedy group?",a:["The Three Stooges","Monty Python","Marx Brothers","Fawlty Towers cast"],c:1,d:"medium"},
+{q:"What was the first widely used web browser?",a:["Internet Explorer","Firefox","Netscape Navigator","Chrome"],c:2,d:"medium"},
+{q:"Which country has the fastest average internet speed in the world?",a:["Japan","United States","South Korea","Singapore"],c:3,d:"medium"},
+{q:"Bluetooth technology was named after a medieval king from which country?",a:["Norway","Sweden","Denmark","Finland"],c:2,d:"medium"},
+{q:"What does 'IoT' stand for in technology?",a:["Internet of Things","Input/Output Technology","Integrated Online Tools","Internal Operations Terminal"],c:0,d:"medium"},
+{q:"The first electronic general-purpose computer, ENIAC, was built in which decade?",a:["1930s","1940s","1950s","1960s"],c:1,d:"hard"},
+{q:"Which protocol is used by email to send messages?",a:["HTTP","FTP","SMTP","TCP"],c:2,d:"hard"},
+{q:"Who is credited with inventing the concept of the stored-program computer?",a:["Alan Turing","John von Neumann","Charles Babbage","Konrad Zuse"],c:1,d:"hard"},
+{q:"What does 'CMOS' stand for in electronics?",a:["Central Memory Operating System","Complementary Metal-Oxide-Semiconductor","Computer-Managed Output Signal","Circuit Module Operating Standard"],c:1,d:"hard"},
+{q:"The RSA encryption algorithm is named after how many inventors?",a:["1","2","3","4"],c:2,d:"hard"},
+{q:"Which data structure uses LIFO (Last In, First Out) ordering?",a:["Queue","Stack","Array","Linked list"],c:1,d:"hard"},
+{q:"In which year was the first text message (SMS) sent?",a:["1989","1992","1995","1998"],c:1,d:"hard"},
+{q:"The 'Turing Test' measures a machine's ability to exhibit what?",a:["Processing speed","Mathematical accuracy","Intelligent behavior indistinguishable from a human","Data storage capacity"],c:2,d:"hard"},
+{q:"The Great Wall of China was primarily built to defend against invasions from which direction?",a:["South","East","West","North"],c:3,d:"easy"},
+{q:"Which queen of England ruled for over 63 years until 1901?",a:["Queen Elizabeth I","Queen Victoria","Queen Anne","Queen Mary"],c:1,d:"easy"},
+{q:"The Renaissance began in which country?",a:["France","Germany","Italy","England"],c:2,d:"easy"},
+{q:"Who was the first woman to fly solo across the Atlantic Ocean?",a:["Bessie Coleman","Amelia Earhart","Harriet Quimby","Jacqueline Cochran"],c:1,d:"easy"},
+{q:"Which ancient civilization built Machu Picchu?",a:["Aztec","Maya","Inca","Olmec"],c:2,d:"easy"},
+{q:"Nelson Mandela became president of which country in 1994?",a:["Kenya","Nigeria","South Africa","Zimbabwe"],c:2,d:"medium"},
+{q:"The Cold War was primarily between which two superpowers?",a:["USA and China","USA and Soviet Union","UK and Soviet Union","France and USA"],c:1,d:"medium"},
+{q:"Which empire was the largest contiguous land empire in history?",a:["Roman Empire","British Empire","Mongol Empire","Ottoman Empire"],c:2,d:"medium"},
+{q:"The Industrial Revolution began in which country?",a:["France","Germany","United States","Great Britain"],c:3,d:"medium"},
+{q:"Who was the leader of the Soviet Union during World War II?",a:["Lenin","Khrushchev","Stalin","Brezhnev"],c:2,d:"medium"},
+{q:"The Aztec Empire was centered in which modern country?",a:["Peru","Guatemala","Mexico","Colombia"],c:2,d:"medium"},
+{q:"Which document, signed in 1776, declared American independence?",a:["The Constitution","Bill of Rights","Declaration of Independence","Magna Carta"],c:2,d:"medium"},
+{q:"The Haitian Revolution resulted in the first successful slave revolt creating which nation?",a:["Jamaica","Cuba","Haiti","Dominican Republic"],c:2,d:"hard"},
+{q:"The Tokugawa Shogunate ruled Japan for approximately how many years?",a:["150","200","250","300"],c:2,d:"hard"},
+{q:"Which medieval kingdom in Southeast Asia built the temples of Bagan?",a:["Khmer Empire","Srivijaya","Pagan Kingdom","Majapahit"],c:2,d:"hard"},
+{q:"Which continent is the Sahara Desert located on?",a:["Asia","South America","Africa","Australia"],c:2,d:"easy"},
+{q:"What is the capital of Canada?",a:["Toronto","Vancouver","Montreal","Ottawa"],c:3,d:"easy"},
+{q:"Which country has the shape of a boot?",a:["Greece","Portugal","Italy","Spain"],c:2,d:"easy"},
+{q:"The Great Wall of China is visible from which nearby location?",a:["The Moon","Space (low orbit)","Mars","It is only visible from the ground"],c:3,d:"easy"},
+{q:"Which European city is known as the City of Canals?",a:["Amsterdam","Venice","Bruges","Stockholm"],c:1,d:"easy"},
+{q:"Mount Kilimanjaro is located in which African country?",a:["Kenya","Uganda","Ethiopia","Tanzania"],c:3,d:"medium"},
+{q:"Which river runs through the Grand Canyon?",a:["Missouri River","Rio Grande","Colorado River","Snake River"],c:2,d:"medium"},
+{q:"The Fjords are a famous geographical feature of which country?",a:["Iceland","Sweden","Norway","Scotland"],c:2,d:"medium"},
+{q:"Which is the only continent without a desert?",a:["Europe","South America","Antarctica","None — all have deserts"],c:0,d:"medium"},
+{q:"The Dead Sea borders Israel, Jordan, and which body of water is it?",a:["A freshwater lake","An ocean inlet","A hypersaline lake","A river delta"],c:2,d:"medium"},
+{q:"Which country has the most islands in the world?",a:["Indonesia","Philippines","Sweden","Norway"],c:2,d:"hard"},
+{q:"The Mariana Trench, the deepest point in the ocean, is in which ocean?",a:["Atlantic","Indian","Arctic","Pacific"],c:3,d:"medium"},
+{q:"What is the chemical formula for water?",a:["CO2","H2O","O2","NaCl"],c:1,d:"easy"},
+{q:"Which planet has rings visible through a telescope?",a:["Jupiter","Mars","Saturn","Neptune"],c:2,d:"easy"},
+{q:"Dinosaurs went extinct approximately how many years ago?",a:["6.5 million","65 million","650 million","6.5 billion"],c:1,d:"easy"},
+{q:"What gas do humans exhale that plants use?",a:["Oxygen","Nitrogen","Carbon dioxide","Methane"],c:2,d:"easy"},
+{q:"Which force is responsible for tides on Earth?",a:["Solar wind","Gravity of the Moon and Sun","Earth's rotation","Magnetism"],c:1,d:"medium"},
+{q:"What is the closest star to Earth?",a:["Proxima Centauri","Sirius","Alpha Centauri A","The Sun"],c:3,d:"medium"},
+{q:"What type of animal is a whale?",a:["Fish","Reptile","Amphibian","Mammal"],c:3,d:"easy"},
+{q:"How many chromosomes do humans typically have?",a:["23","44","46","48"],c:2,d:"medium"},
+{q:"Which gas makes up about 21% of Earth's atmosphere?",a:["Carbon dioxide","Nitrogen","Oxygen","Argon"],c:2,d:"medium"},
+{q:"The theory of evolution by natural selection was proposed by whom?",a:["Gregor Mendel","Charles Darwin","Louis Pasteur","Carl Linnaeus"],c:1,d:"medium"},
+{q:"What is the primary function of red blood cells?",a:["Fighting infection","Clotting blood","Carrying oxygen","Producing antibodies"],c:2,d:"medium"},
+{q:"Which planet rotates on its side, with an axial tilt of about 98 degrees?",a:["Venus","Neptune","Uranus","Pluto"],c:2,d:"hard"},
+{q:"The Doppler effect explains changes in what property of waves?",a:["Amplitude","Wavelength","Frequency","Speed"],c:2,d:"hard"},
+{q:"Which children's book begins with 'It was a dark and stormy night' as a running joke?",a:["A Series of Unfortunate Events","Charlie Brown/Peanuts","Winnie the Pooh","The Phantom Tollbooth"],c:1,d:"medium"},
+{q:"Who wrote 'The Great Gatsby'?",a:["Ernest Hemingway","F. Scott Fitzgerald","John Steinbeck","William Faulkner"],c:1,d:"easy"},
+{q:"In which language was 'The Little Prince' originally written?",a:["English","German","French","Italian"],c:2,d:"medium"},
+{q:"Which Shakespeare play features the characters Prospero and Ariel?",a:["A Midsummer Night's Dream","The Tempest","Hamlet","Othello"],c:1,d:"medium"},
+{q:"Who wrote 'The Catcher in the Rye'?",a:["Jack Kerouac","Kurt Vonnegut","J.D. Salinger","Truman Capote"],c:2,d:"medium"},
+{q:"Which author created the fictional detective Hercule Poirot?",a:["Arthur Conan Doyle","Dorothy L. Sayers","Agatha Christie","Raymond Chandler"],c:2,d:"easy"},
+{q:"'Anna Karenina' was written by which Russian author?",a:["Dostoevsky","Chekhov","Tolstoy","Turgenev"],c:2,d:"medium"},
+{q:"The epic 'Gilgamesh' originated in which ancient civilization?",a:["Egyptian","Greek","Mesopotamian","Chinese"],c:2,d:"hard"},
+{q:"Which African author won the Nobel Prize in Literature in 1986?",a:["Chinua Achebe","Ngugi wa Thiong'o","Wole Soyinka","Nadine Gordimer"],c:2,d:"hard"},
+{q:"Who wrote 'Invisible Man' (1952), about African American identity?",a:["James Baldwin","Richard Wright","Ralph Ellison","Langston Hughes"],c:2,d:"hard"},
+{q:"In which sport do you try to hit a small white ball into a hole?",a:["Cricket","Tennis","Golf","Polo"],c:2,d:"easy"},
+{q:"Which country hosted the 2022 FIFA World Cup?",a:["Russia","Japan","Qatar","United States"],c:2,d:"easy"},
+{q:"How many players are on a basketball team on the court?",a:["4","5","6","7"],c:1,d:"easy"},
+{q:"Which swimmer has won the most Olympic gold medals?",a:["Ian Thorpe","Mark Spitz","Ryan Lochte","Michael Phelps"],c:3,d:"medium"},
+{q:"In which sport is the term 'love' used to mean zero?",a:["Badminton","Table Tennis","Tennis","Squash"],c:2,d:"easy"},
+{q:"The NBA Finals MVP trophy is named after which player?",a:["Michael Jordan","Larry Bird","Bill Russell","Magic Johnson"],c:2,d:"medium"},
+{q:"Which martial art translates to 'the gentle way'?",a:["Karate","Taekwondo","Judo","Aikido"],c:2,d:"medium"},
+{q:"The Bledisloe Cup is contested between Australia and which country?",a:["England","South Africa","Fiji","New Zealand"],c:3,d:"medium"},
+{q:"Which country has won the most Cricket World Cup titles?",a:["India","England","West Indies","Australia"],c:3,d:"medium"},
+{q:"In which year did Usain Bolt set the 100m world record of 9.58 seconds?",a:["2008","2009","2012","2016"],c:1,d:"hard"},
+{q:"The sport of curling originated in which country?",a:["Canada","Norway","Sweden","Scotland"],c:3,d:"hard"},
+{q:"What is the name of Batman's butler?",a:["Jarvis","Jeeves","Alfred","Watson"],c:2,d:"easy"},
+{q:"Which fictional character lives in a pineapple under the sea?",a:["Nemo","SpongeBob SquarePants","Patrick Star","Squidward"],c:1,d:"easy"},
+{q:"In the game Minecraft, what material do you need to mine diamonds?",a:["Gold pickaxe","Stone pickaxe","Iron pickaxe","Wood pickaxe"],c:2,d:"medium"},
+{q:"Which company created the PlayStation console?",a:["Nintendo","Microsoft","Sega","Sony"],c:3,d:"easy"},
+{q:"The Pokémon franchise originated from which country?",a:["South Korea","United States","Japan","China"],c:2,d:"easy"},
+{q:"Which TV series is set in the fictional town of Hawkins, Indiana?",a:["Stranger Things","The X-Files","Twin Peaks","Dark"],c:0,d:"medium"},
+{q:"In the Marvel universe, what is Thor's hammer called?",a:["Stormbreaker","Gungnir","Mjolnir","Hofund"],c:2,d:"medium"},
+{q:"Which app became famous for disappearing photo messages?",a:["WhatsApp","Instagram","Snapchat","Telegram"],c:2,d:"medium"},
+{q:"The 'Dark Souls' video game series is made by a studio from which country?",a:["United States","South Korea","Japan","Sweden"],c:2,d:"hard"},
+{q:"What is the best-selling video game of all time?",a:["Tetris","Grand Theft Auto V","Minecraft","Wii Sports"],c:2,d:"medium"},
+{q:"Which film features the line 'Here's looking at you, kid'?",a:["Gone with the Wind","Casablanca","Citizen Kane","The Maltese Falcon"],c:1,d:"medium"},
+{q:"Who directed 'The Lord of the Rings' trilogy?",a:["Steven Spielberg","Peter Jackson","James Cameron","George Lucas"],c:1,d:"easy"},
+{q:"Which animated franchise features characters named Woody and Buzz Lightyear?",a:["Shrek","The Incredibles","Toy Story","Cars"],c:2,d:"easy"},
+{q:"'La La Land' (2017) is set in which city?",a:["New York","Chicago","San Francisco","Los Angeles"],c:3,d:"medium"},
+{q:"Which horror film franchise features a character named Freddy Krueger?",a:["Halloween","Friday the 13th","A Nightmare on Elm Street","The Texas Chainsaw Massacre"],c:2,d:"medium"},
+{q:"The film 'Slumdog Millionaire' is set primarily in which city?",a:["Delhi","Kolkata","Mumbai","Chennai"],c:2,d:"medium"},
+{q:"Which animated Disney film was the first to be produced in Cinemascope widescreen?",a:["Sleeping Beauty","Cinderella","Bambi","Lady and the Tramp"],c:3,d:"hard"},
+{q:"The 'Rashomon effect' in storytelling is named after a film by which director?",a:["Kurosawa","Bergman","Fellini","Hitchcock"],c:0,d:"hard"},
+{q:"Which country's cinema movement was called 'Nouvelle Vague'?",a:["Italy","Germany","France","Japan"],c:2,d:"medium"},
+{q:"Who was the first African American to win the Academy Award for Best Actor?",a:["Denzel Washington","Morgan Freeman","Sidney Poitier","Jamie Foxx"],c:2,d:"hard"},
+{q:"Which instrument does a drummer play?",a:["Strings","Keyboard","Percussion","Woodwind"],c:2,d:"easy"},
+{q:"'Imagine' is a famous song by which former Beatle?",a:["Paul McCartney","George Harrison","Ringo Starr","John Lennon"],c:3,d:"easy"},
+{q:"Country music is most associated with which US city?",a:["New York","Austin","Nashville","Memphis"],c:2,d:"easy"},
+{q:"Which instrument has keys, pedals, and strings inside a large wooden case?",a:["Harpsichord","Organ","Grand Piano","Synthesizer"],c:2,d:"easy"},
+{q:"The genre of 'Afrobeat' was pioneered by which Nigerian musician?",a:["King Sunny Ade","Burna Boy","Fela Kuti","Youssou N'Dour"],c:2,d:"medium"},
+{q:"Which classical composer became famous for his 'Moonlight Sonata'?",a:["Mozart","Beethoven","Chopin","Liszt"],c:1,d:"medium"},
+{q:"In an orchestra, the concertmaster plays which instrument?",a:["Cello","Piano","Violin","Flute"],c:2,d:"medium"},
+{q:"The blues genre originated in which region of the United States?",a:["Northeast","West Coast","Deep South","Midwest"],c:2,d:"medium"},
+{q:"Which instrument is Ravi Shankar famous for playing?",a:["Tabla","Sitar","Veena","Sarod"],c:1,d:"medium"},
+{q:"Grunge music emerged in which US city in the late 1980s?",a:["Los Angeles","Portland","New York","Seattle"],c:3,d:"medium"},
+{q:"The accordion is most associated with the folk music of which continent?",a:["Asia","Africa","Europe","South America"],c:2,d:"medium"},
+{q:"What does the 'S' in 'HTTPS' stand for?",a:["Simple","Standard","Secure","System"],c:2,d:"easy"},
+{q:"Which company makes Windows operating system?",a:["Apple","Google","Microsoft","IBM"],c:2,d:"easy"},
+{q:"What does 'CPU' stand for?",a:["Central Processing Unit","Computer Personal Unit","Central Program Utility","Core Processing Unit"],c:0,d:"easy"},
+{q:"Which company founded by Jeff Bezos started as an online bookstore?",a:["eBay","Alibaba","Amazon","Shopify"],c:2,d:"easy"},
+{q:"What is 'open source' software?",a:["Software that opens automatically","Software with publicly available source code","Software for opening files","Software that is always free"],c:1,d:"medium"},
+{q:"In which decade was the first email sent?",a:["1960s","1970s","1980s","1990s"],c:1,d:"medium"},
+{q:"What programming language is most commonly used for web page styling?",a:["JavaScript","HTML","CSS","Python"],c:2,d:"medium"},
+{q:"Which technology company has the motto 'Think Different'?",a:["Google","Microsoft","Apple","IBM"],c:2,d:"medium"},
+{q:"What does 'SSD' stand for in computer storage?",a:["Solid State Drive","Super Speed Disk","System Storage Device","Static Signal Drive"],c:0,d:"medium"},
+{q:"Which country leads the world in 5G network deployment?",a:["United States","Japan","South Korea","China"],c:3,d:"medium"},
+{q:"The Linux operating system kernel was created by whom?",a:["Richard Stallman","Dennis Ritchie","Linus Torvalds","Ken Thompson"],c:2,d:"hard"},
+{q:"What does the acronym 'API' stand for?",a:["Application Programming Interface","Automated Process Integration","Advanced Protocol Internet","Application Protocol Interface"],c:0,d:"medium"},
+{q:"What is the largest mammal on Earth?",a:["Elephant","Giraffe","Blue whale","Hippopotamus"],c:2,d:"easy"},
+{q:"Which planet is closest to the Sun?",a:["Venus","Mercury","Mars","Earth"],c:1,d:"easy"},
+{q:"What is the capital of France?",a:["Lyon","Marseille","Paris","Nice"],c:2,d:"easy"},
+{q:"Which sport is played at the Super Bowl?",a:["Baseball","Basketball","Ice hockey","American football"],c:3,d:"easy"},
+{q:"Who painted the ceiling of the Sistine Chapel?",a:["Leonardo da Vinci","Raphael","Michelangelo","Donatello"],c:2,d:"easy"},
+{q:"Which metal is liquid at room temperature?",a:["Lead","Mercury","Tin","Aluminum"],c:1,d:"easy"},
+{q:"What language is most widely spoken in Brazil?",a:["Spanish","English","French","Portuguese"],c:3,d:"easy"},
+{q:"In which city is the Colosseum located?",a:["Athens","Rome","Istanbul","Cairo"],c:1,d:"easy"},
+{q:"What is the tallest animal in the world?",a:["Elephant","Moose","Giraffe","Ostrich"],c:2,d:"easy"},
+{q:"Which country gave the Statue of Liberty to the United States?",a:["England","Spain","Germany","France"],c:3,d:"easy"},
+{q:"How many continents are there on Earth?",a:["5","6","7","8"],c:2,d:"easy"},
+{q:"What does a thermometer measure?",a:["Weight","Pressure","Temperature","Humidity"],c:2,d:"easy"},
+{q:"Which animal is the fastest on land?",a:["Lion","Cheetah","Horse","Gazelle"],c:1,d:"easy"},
+{q:"Which famous landmark is in Paris?",a:["Big Ben","Colosseum","Eiffel Tower","Sagrada Familia"],c:2,d:"easy"},
+{q:"What is the currency of Japan?",a:["Yuan","Won","Yen","Ringgit"],c:2,d:"easy"},
+{q:"Which fruit is traditionally associated with New Zealand?",a:["Mango","Kiwi","Papaya","Lychee"],c:1,d:"easy"},
+{q:"In which sport do players use a racket to hit a ball over a net?",a:["Soccer","Volleyball","Tennis","Rugby"],c:2,d:"easy"},
+{q:"Who wrote the play 'Hamlet'?",a:["Oscar Wilde","William Shakespeare","George Bernard Shaw","Christopher Marlowe"],c:1,d:"easy"},
+{q:"What is the primary color that you get by mixing red and blue?",a:["Green","Orange","Purple","Brown"],c:2,d:"easy"},
+{q:"Which planet is known for its Great Red Spot?",a:["Mars","Saturn","Neptune","Jupiter"],c:3,d:"easy"},
+{q:"What type of animal is a dolphin?",a:["Fish","Reptile","Mammal","Amphibian"],c:2,d:"easy"},
+{q:"Which country is famous for the Taj Mahal?",a:["Pakistan","Bangladesh","India","Nepal"],c:2,d:"easy"},
+{q:"In which city would you find the Tower of London?",a:["Edinburgh","Dublin","London","Cardiff"],c:2,d:"easy"},
+{q:"What is sushi traditionally wrapped in?",a:["Rice paper","Banana leaf","Seaweed","Lettuce"],c:2,d:"easy"},
+{q:"Which superhero is also known as Bruce Wayne?",a:["Spider-Man","Superman","Iron Man","Batman"],c:3,d:"easy"},
+{q:"How many sides does a hexagon have?",a:["5","6","7","8"],c:1,d:"easy"},
+{q:"Which country is home to the kangaroo?",a:["South Africa","New Zealand","Australia","Madagascar"],c:2,d:"easy"},
+{q:"What genre of music is Bob Marley most associated with?",a:["Jazz","Blues","Reggae","Soul"],c:2,d:"easy"},
+{q:"Which planet is known as Earth's twin due to similar size?",a:["Mars","Mercury","Venus","Neptune"],c:2,d:"easy"},
+{q:"What is the largest ocean on Earth?",a:["Atlantic","Indian","Arctic","Pacific"],c:3,d:"easy"},
+{q:"Which ancient wonder was located in Alexandria, Egypt?",a:["Colossus of Rhodes","Hanging Gardens","The Great Lighthouse","Temple of Artemis"],c:2,d:"easy"},
+{q:"What instrument does a violinist play?",a:["Cello","Viola","Violin","Double bass"],c:2,d:"easy"},
+{q:"Which gas is essential for human breathing?",a:["Carbon dioxide","Nitrogen","Helium","Oxygen"],c:3,d:"easy"},
+{q:"In which country would you find the Pyramids of Giza?",a:["Iraq","Sudan","Egypt","Libya"],c:2,d:"easy"},
+{q:"What sport does Tiger Woods play?",a:["Tennis","Cricket","Golf","Baseball"],c:2,d:"easy"},
+{q:"Which Disney character has a fairy named Tinker Bell?",a:["Snow White","Cinderella","Peter Pan","Aladdin"],c:2,d:"easy"},
+{q:"Which season comes after winter?",a:["Summer","Fall","Spring","Autumn"],c:2,d:"easy"},
+{q:"The Marshall Plan helped rebuild which continent after World War II?",a:["Asia","Africa","South America","Europe"],c:3,d:"medium"},
+{q:"Which element is the most abundant in the Earth's crust?",a:["Iron","Silicon","Oxygen","Aluminum"],c:2,d:"medium"},
+{q:"The Panama Canal connects which two oceans?",a:["Atlantic and Indian","Pacific and Indian","Atlantic and Pacific","Pacific and Arctic"],c:2,d:"medium"},
+{q:"Which legendary creature has the body of a lion and the head of a human?",a:["Minotaur","Griffin","Sphinx","Chimera"],c:2,d:"medium"},
+{q:"In basketball, what is the term for a shot worth 3 points?",a:["Free throw","Layup","Three-pointer","Dunk"],c:2,d:"medium"},
+{q:"Which planet has the most moons in our solar system?",a:["Jupiter","Saturn","Uranus","Neptune"],c:1,d:"medium"},
+{q:"'Guernica' is a famous painting by which artist?",a:["Salvador Dalí","Pablo Picasso","Joan Miró","Francisco Goya"],c:1,d:"medium"},
+{q:"The currency 'Rand' is used in which country?",a:["India","Brazil","South Africa","Australia"],c:2,d:"medium"},
+{q:"Which philosopher wrote 'The Republic'?",a:["Aristotle","Socrates","Plato","Seneca"],c:2,d:"medium"},
+{q:"The Eurovision Song Contest started in which decade?",a:["1940s","1950s","1960s","1970s"],c:1,d:"medium"},
+{q:"Which metal is most commonly used in electrical wiring?",a:["Iron","Aluminum","Silver","Copper"],c:3,d:"medium"},
+{q:"In tennis, what is a score of 40-40 called?",a:["Match point","Advantage","Deuce","Break point"],c:2,d:"medium"},
+{q:"Which director created the 'Lord of the Rings' and 'The Hobbit' trilogies?",a:["James Cameron","Ridley Scott","Peter Jackson","Christopher Nolan"],c:2,d:"medium"},
+{q:"The Bermuda Triangle is located in which ocean?",a:["Pacific","Indian","Arctic","Atlantic"],c:3,d:"medium"},
+{q:"Which composer wrote 'The Nutcracker' ballet?",a:["Stravinsky","Rachmaninoff","Tchaikovsky","Prokofiev"],c:2,d:"medium"},
+{q:"What is the smallest bone in the human body?",a:["Stapes (stirrup)","Incus (anvil)","Malleus (hammer)","Hyoid"],c:0,d:"medium"},
+{q:"Which programming language is named after a gemstone?",a:["Pearl","Ruby","Crystal","Jade"],c:1,d:"medium"},
+{q:"The Terracotta Army was discovered in which country?",a:["Japan","India","China","Vietnam"],c:2,d:"medium"},
+{q:"Which gas gives Mars its red appearance?",a:["Nitrogen","Methane","Iron oxide (rust)","Sulfur dioxide"],c:2,d:"medium"},
+{q:"In poker, which hand beats a full house?",a:["Flush","Straight","Four of a kind","Three of a kind"],c:2,d:"medium"},
+{q:"Which Nobel Prize-winning physicist developed the theory of quantum electrodynamics?",a:["Niels Bohr","Richard Feynman","Murray Gell-Mann","Enrico Fermi"],c:1,d:"hard"},
+{q:"The Treaty of Waitangi was signed in which country?",a:["Australia","Fiji","New Zealand","Samoa"],c:2,d:"medium"},
+{q:"Which sea is the saltiest in the world?",a:["Red Sea","Dead Sea","Caspian Sea","Mediterranean Sea"],c:1,d:"medium"},
+{q:"Who composed the opera 'Carmen'?",a:["Verdi","Puccini","Bizet","Wagner"],c:2,d:"medium"},
+{q:"What is the national sport of Canada?",a:["Ice hockey","Curling","Lacrosse","Baseball"],c:2,d:"medium"},
+{q:"Which vitamin deficiency causes scurvy?",a:["Vitamin A","Vitamin B","Vitamin C","Vitamin D"],c:2,d:"medium"},
+{q:"The Hanseatic League was a medieval trading alliance in which region?",a:["Mediterranean","Northern Europe","East Asia","Middle East"],c:1,d:"hard"},
+{q:"Which element is represented by the symbol 'Fe'?",a:["Fluorine","Francium","Fermium","Iron"],c:3,d:"medium"},
+{q:"In which decade did television become widespread in American homes?",a:["1930s","1940s","1950s","1960s"],c:2,d:"medium"},
+{q:"Which Caribbean island is divided between two countries: Haiti and the Dominican Republic?",a:["Cuba","Jamaica","Puerto Rico","Hispaniola"],c:3,d:"medium"},
+{q:"The Marathon race distance is based on a legendary run in which ancient country?",a:["Rome","Persia","Egypt","Greece"],c:3,d:"medium"},
+{q:"Which instrument is Yo-Yo Ma famous for playing?",a:["Violin","Piano","Cello","Flute"],c:2,d:"medium"},
+{q:"The Northern Lights are best seen near which geographic feature?",a:["Equator","Tropic of Cancer","Arctic Circle","International Date Line"],c:2,d:"medium"},
+{q:"Which cryptocurrency was the first to be created?",a:["Ethereum","Litecoin","Bitcoin","Ripple"],c:2,d:"medium"},
+{q:"Maori are the indigenous people of which country?",a:["Australia","Fiji","Papua New Guinea","New Zealand"],c:3,d:"medium"},
+{q:"Which playwright wrote 'Death of a Salesman'?",a:["Tennessee Williams","Eugene O'Neill","Arthur Miller","Edward Albee"],c:2,d:"medium"},
+{q:"The Hubble Space Telescope is named after an astronomer who discovered what?",a:["Pluto","Black holes","Expanding universe","Dark matter"],c:2,d:"medium"},
+{q:"Which ancient trade route connected East Africa, Arabia, and India by sea?",a:["Silk Road","Spice Route","Amber Road","Incense Route"],c:1,d:"medium"},
+{q:"In which city were the first modern Summer Olympics held in 1896?",a:["Paris","London","Rome","Athens"],c:3,d:"medium"},
+{q:"The Rosetta spacecraft made history by landing a probe on what?",a:["An asteroid","Mars","A comet","The Moon"],c:2,d:"hard"},
+{q:"Which empire controlled most of Southeast Asia's maritime trade in the 14th century?",a:["Srivijaya","Khmer Empire","Majapahit","Ayutthaya"],c:2,d:"hard"},
+{q:"In music theory, how many notes are in a chromatic scale?",a:["7","8","10","12"],c:3,d:"hard"},
+{q:"Which architect designed the Guggenheim Museum in Bilbao?",a:["Zaha Hadid","Frank Gehry","Renzo Piano","Norman Foster"],c:1,d:"hard"},
+{q:"The Tunguska event of 1908, a massive explosion over Siberia, was likely caused by what?",a:["Volcanic eruption","Nuclear test","Meteor or comet airburst","Earthquake"],c:2,d:"hard"},
+{q:"Which author wrote 'One Day in the Life of Ivan Denisovich'?",a:["Boris Pasternak","Mikhail Sholokhov","Aleksandr Solzhenitsyn","Maxim Gorky"],c:2,d:"hard"},
+{q:"The Antikythera mechanism, found in a shipwreck, is considered the world's first what?",a:["Clock","Compass","Analog computer","Telescope"],c:2,d:"hard"},
+{q:"Which battle in 1805 established British naval supremacy for a century?",a:["Battle of Jutland","Battle of the Nile","Battle of Trafalgar","Battle of Midway"],c:2,d:"hard"},
+{q:"Angkor Wat was originally built as a temple dedicated to which Hindu god?",a:["Shiva","Brahma","Vishnu","Ganesha"],c:2,d:"hard"},
+{q:"Which physicist proposed that black holes emit radiation?",a:["Albert Einstein","Stephen Hawking","Roger Penrose","Kip Thorne"],c:1,d:"hard"},
+{q:"In computing, what does the 'P vs NP' problem ask?",a:["Whether parallel computing equals normal computing","Whether every problem verifiable quickly can also be solved quickly","Whether quantum beats classical","Whether privacy equals network security"],c:1,d:"hard"},
+{q:"Which African language family is the largest by number of speakers?",a:["Afroasiatic","Niger-Congo","Nilo-Saharan","Khoisan"],c:1,d:"hard"},
+{q:"The Bauhaus school of art and design was founded in which country?",a:["France","Austria","Switzerland","Germany"],c:3,d:"hard"},
+{q:"Which neurotransmitter is primarily associated with the brain's reward system?",a:["Serotonin","Dopamine","GABA","Acetylcholine"],c:1,d:"hard"},
+{q:"Which Pacific island nation has the world's first legally binding climate change legislation?",a:["Tuvalu","Fiji","Marshall Islands","Palau"],c:0,d:"hard"},
+{q:"The Volapük language, created in 1879, was an early attempt at what?",a:["Computer programming","International auxiliary language","Musical notation","Sign language"],c:1,d:"hard"},
+{q:"Which South American country is named after the equator?",a:["Colombia","Peru","Ecuador","Venezuela"],c:2,d:"medium"},
+{q:"The Rosetta Stone was originally written in how many scripts?",a:["2","3","4","5"],c:1,d:"medium"},
+{q:"Which bone protects the human brain?",a:["Sternum","Pelvis","Skull","Spine"],c:2,d:"medium"},
+{q:"Which country produces the most coffee in the world?",a:["Colombia","Vietnam","Ethiopia","Brazil"],c:3,d:"medium"},
+{q:"What nationality was the composer Frédéric Chopin?",a:["French","Austrian","Polish","German"],c:2,d:"medium"},
+{q:"Which technology company was originally named 'BackRub'?",a:["Yahoo","Amazon","Google","Facebook"],c:2,d:"medium"},
+{q:"In the NATO phonetic alphabet, what word represents the letter 'A'?",a:["Adam","Alpha","Apex","Anchor"],c:1,d:"medium"},
+{q:"Which author wrote 'Wuthering Heights'?",a:["Jane Austen","Charlotte Brontë","Emily Brontë","Mary Shelley"],c:2,d:"medium"},
+{q:"In which country did the sport of polo originate?",a:["England","Argentina","India","Persia (Iran)"],c:3,d:"medium"}
 ];
 
 var AI_PROFILE={
@@ -235,7 +672,7 @@ var AI_PROFILE={
 var Q_TIME=5000;
 var LETTERS=['A','B','C','D'];
 
-var G={diff:'medium',phase:'idle',questions:[],qi:0,ys:0,cs:0,timerIv:null,qStart:0,aiIv:null,history:[],playerAnswered:false,compAnswered:false,compChosenIdx:-1};
+var G={diff:'medium',phase:'idle',questions:[],qi:0,ys:0,cs:0,timerIv:null,qStart:0,aiIv:null,history:[],playerAnswered:false,compAnswered:false,compChosenIdx:-1,usedIdx:new Set()};
 
 var el=function(id){return document.getElementById(id);};
 var ri=function(a,b){return Math.floor(Math.random()*(b-a+1))+a;};
@@ -245,16 +682,32 @@ var shuf=function(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=ri(
 el('rulesBtn').addEventListener('click',function(){el('rulesOv').classList.add('show');});
 el('rulesClose').addEventListener('click',function(){el('rulesOv').classList.remove('show');});
 
-// Difficulty
 (function(){var row=el('diff-row');['easy','medium','hard'].forEach(function(d){var b=document.createElement('button');b.textContent=d.charAt(0).toUpperCase()+d.slice(1);b.id='d_'+d;b.addEventListener('click',function(){if(G.phase==='playing')return;setDiff(d);});row.appendChild(b);});})();
 function setDiff(d){G.diff=d;['easy','medium','hard'].forEach(function(x){var b=el('d_'+x);if(b){if(x===d)b.classList.add('ON');else b.classList.remove('ON');}});}
 setDiff('medium');
 
+/* ── IMPROVED buildQ: random 3 easy + 5 medium + 2 hard, max category diversity, tracks used ── */
 function buildQ(){
-  var e=shuf(QDB.filter(function(q){return q.d==='easy';}));
-  var m=shuf(QDB.filter(function(q){return q.d==='medium';}));
-  var h=shuf(QDB.filter(function(q){return q.d==='hard';}));
-  return shuf(e.slice(0,3).concat(m.slice(0,5)).concat(h.slice(0,2))).slice(0,10);
+  /* collect unused questions by difficulty */
+  var pools={easy:[],medium:[],hard:[]};
+  QDB.forEach(function(q,i){if(!G.usedIdx.has(i))pools[q.d].push({q:q,i:i});});
+  /* if running low, reset used tracker */
+  if(pools.easy.length<3||pools.medium.length<5||pools.hard.length<2){G.usedIdx=new Set();pools={easy:[],medium:[],hard:[]};QDB.forEach(function(q,i){pools[q.d].push({q:q,i:i});});}
+  /* pick N from pool with max category diversity */
+  function pickDiv(pool,n){
+    var s=shuf(pool),picked=[],cats={};
+    /* pass 1: one per category */
+    for(var i=0;i<s.length&&picked.length<n;i++){var c=s[i].q.cat||'x';if(!cats[c]){picked.push(s[i]);cats[c]=true;}}
+    /* pass 2: fill rest */
+    for(var i=0;i<s.length&&picked.length<n;i++){if(picked.indexOf(s[i])===-1)picked.push(s[i]);}
+    return picked;
+  }
+  var e3=pickDiv(pools.easy,3);
+  var m5=pickDiv(pools.medium,5);
+  var h2=pickDiv(pools.hard,2);
+  var all=e3.concat(m5).concat(h2);
+  all.forEach(function(item){G.usedIdx.add(item.i);});
+  return shuf(all.map(function(item){return item.q;}));
 }
 
 el('startBtn').addEventListener('click',startGame);
@@ -358,21 +811,21 @@ function resolveRound(pIdx,aIdx,correct){
     status='Time up! No one scored.';
   } else if(pIdx===-1){
     if(aCorrect){G.cs+=10;status='Computer answered — correct! Computer +10';cls='status-bar bad';histItem='comp-ok';}
-    else{G.cs-=5;status='Computer answered — wrong! Computer \u22125';}
+    else{G.cs-=5;status='Computer answered — wrong! Computer −5';}
     el('scoreComp').textContent=G.cs;
   } else if(aIdx===-1){
     if(pCorrect){G.ys+=10;status='Correct! +10 points';cls='status-bar ok';histItem='you-ok';}
-    else{G.ys-=5;status='Wrong answer! \u22125 points';cls='status-bar bad';}
+    else{G.ys-=5;status='Wrong answer! −5 points';cls='status-bar bad';}
     el('scoreYou').textContent=G.ys;
   } else {
     var pT=parseFloat(el('rtYou').textContent)||99;
     var aT=parseFloat(el('rtComp').textContent)||99;
     if(pT<=aT){
-      if(pCorrect){G.ys+=10;status='You were faster \u2014 correct! +10';cls='status-bar ok';histItem='you-ok';}
-      else{G.ys-=5;status='Faster, but wrong! \u22125';cls='status-bar bad';if(aCorrect){G.cs+=10;status+='\u00a0\u00a0|\u00a0\u00a0Computer correct +10';histItem='comp-ok';}}
+      if(pCorrect){G.ys+=10;status='You were faster — correct! +10';cls='status-bar ok';histItem='you-ok';}
+      else{G.ys-=5;status='Faster, but wrong! −5';cls='status-bar bad';if(aCorrect){G.cs+=10;status+='  |  Computer correct +10';histItem='comp-ok';}}
     } else {
       if(aCorrect){G.cs+=10;histItem='comp-ok';status=pCorrect?'Computer was faster! Computer +10 (you were right but too slow)':'Computer faster and correct! Computer +10';cls='status-bar bad';}
-      else{G.cs-=5;if(pCorrect){G.ys+=10;status='Computer faster but wrong (\u22125) \u2014 you got it! +10';cls='status-bar ok';histItem='you-ok';}else{G.ys-=5;status='Both wrong! \u22125 each';cls='status-bar bad';}}
+      else{G.cs-=5;if(pCorrect){G.ys+=10;status='Computer faster but wrong (−5) — you got it! +10';cls='status-bar ok';histItem='you-ok';}else{G.ys-=5;status='Both wrong! −5 each';cls='status-bar bad';}}
     }
     el('scoreYou').textContent=G.ys;el('scoreComp').textContent=G.cs;
   }
@@ -398,17 +851,17 @@ function endGame(){
   el('ovYou').textContent=G.ys;el('ovComp').textContent=G.cs;
   if(G.ys>G.cs){el('ovTitle').textContent='You Win!';el('ovTitle').style.color='#64B5F6';el('ovSub').textContent='Great knowledge and fast reflexes!';}
   else if(G.cs>G.ys){el('ovTitle').textContent='Computer Wins';el('ovTitle').style.color='#EF9A9A';el('ovSub').textContent='The machine was faster today. Try again!';}
-  else{el('ovTitle').textContent="It's a Tie!";el('ovTitle').style.color='#ffb74d';el('ovSub').textContent='Dead even \u2014 rematch?';}
+  else{el('ovTitle').textContent="It's a Tie!";el('ovTitle').style.color='#ffb74d';el('ovSub').textContent='Dead even — rematch?';}
   G.phase='idle';
 }
 
 function resetGame(){
   el('ov').classList.remove('show');el('startBtn').style.display='block';G.phase='idle';
   el('q-history-row').innerHTML='';el('qText').textContent='Ready to test your knowledge?';
-  el('answersGrid').innerHTML='';el('timerFill').style.width='100%';el('timerLbl').textContent='\u2014';
+  el('answersGrid').innerHTML='';el('timerFill').style.width='100%';el('timerLbl').textContent='—';
   el('rtYou').textContent='';el('rtComp').textContent='';
-  el('statusBar').textContent='';el('qNum').textContent='QUESTION \u2014 / 10';
-  el('qDiff').textContent='\u2014';el('qDiff').className='q-diff';
+  el('statusBar').textContent='';el('qNum').textContent='QUESTION — / 10';
+  el('qDiff').textContent='—';el('qDiff').className='q-diff';
   el('scoreYou').textContent='0';el('scoreComp').textContent='0';
   el('rbadge').textContent='10 Questions';
   el('infoBar').innerHTML='Select difficulty and press <strong>Start Game</strong>';
