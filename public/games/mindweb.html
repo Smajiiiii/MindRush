@@ -210,15 +210,629 @@ body{background:linear-gradient(145deg,#1a0a02,#100800,#160c03);min-height:100vh
 <script>
 (function(){
 var CL="ABCD",MT=7,TT=240;
-var PZ=[
-{c:[{w:["KNIFE","FORK","SPOON","SPATULA"],a:"UTENSILS"},{w:["ROOT","STEM","LEAF","FLOWER"],a:"PLANT PARTS"},{w:["GUITAR","DRUM","VIOLIN","FLUTE"],a:"INSTRUMENTS"},{w:["WHALE","SHARK","DOLPHIN","OCTOPUS"],a:"SEA ANIMALS"}],f:"NATURE"},
-{c:[{w:["ACE","JOKER","TRUMP","SUIT"],a:"CARD TERMS"},{w:["KING","QUEEN","BISHOP","KNIGHT"],a:"CHESS PIECES"},{w:["SPRINT","JOG","DASH","MARATHON"],a:"RUNNING"},{w:["TENNIS","SOCCER","GOLF","POLO"],a:"BALL SPORTS"}],f:"GAMES"},
-{c:[{w:["MARS","VENUS","SATURN","JUPITER"],a:"PLANETS"},{w:["SUN","SIRIUS","VEGA","RIGEL"],a:"STARS"},{w:["APOLLO","GEMINI","VOYAGER","HUBBLE"],a:"MISSIONS"},{w:["ORION","LEO","DRACO","CANCER"],a:"CONSTELLATIONS"}],f:"ASTRONOMY"},
-{c:[{w:["HAMLET","OTHELLO","MACBETH","LEAR"],a:"SHAKESPEARE"},{w:["OLIVER","COPPERFIELD","DOMBEY","NICKLEBY"],a:"DICKENS"},{w:["ACHILLES","ODYSSEUS","HECTOR","AJAX"],a:"HEROES"},{w:["HOLMES","POIROT","MORSE","MARPLE"],a:"DETECTIVES"}],f:"LITERATURE"},
-{c:[{w:["FRANCE","ITALY","SPAIN","POLAND"],a:"COUNTRIES"},{w:["PARIS","ROME","BERLIN","MADRID"],a:"CAPITALS"},{w:["THAMES","RHINE","DANUBE","SEINE"],a:"RIVERS"},{w:["ALPS","PYRENEES","APENNINES","TATRAS"],a:"MOUNTAINS"}],f:"EUROPE"},
-{c:[{w:["AMAZON","NILE","MISSISSIPPI","YANGTZE"],a:"RIVERS"},{w:["ELEPHANT","RHINO","HIPPO","GIRAFFE"],a:"AFRICAN ANIMALS"},{w:["PYRAMID","SPHINX","PHARAOH","MUMMY"],a:"EGYPT"},{w:["DIAMOND","GOLD","OIL","COFFEE"],a:"EXPORTS"}],f:"AFRICA"},
-{c:[{w:["PIXEL","CURSOR","ICON","FOLDER"],a:"COMPUTER"},{w:["TWEET","POST","LIKE","SHARE"],a:"SOCIAL MEDIA"},{w:["APP","BYTE","CODE","BUG"],a:"PROGRAMMING"},{w:["WIFI","ROUTER","SERVER","CLOUD"],a:"INTERNET"}],f:"TECHNOLOGY"},
-{c:[{w:["RED","BLUE","YELLOW","GREEN"],a:"PRIMARY COLORS"},{w:["CIRCLE","SQUARE","TRIANGLE","OVAL"],a:"SHAPES"},{w:["CANVAS","BRUSH","PALETTE","EASEL"],a:"PAINTING"},{w:["SONATA","CONCERTO","SYMPHONY","FUGUE"],a:"MUSIC FORMS"}],f:"ART"}
+// ============================================================
+// MindWeb — 50 Premium Association Puzzles (Slagalica Style)
+// ============================================================
+// ASSOCIATION TYPES PER CELL:
+//   [C] Compound word:  FLOWER + POT = flowerpot
+//   [P] Phrase/idiom:   "break the ICE"
+//   [R] Cultural ref:   TITANIC → ship → ICE(berg)
+//   [L] Lateral link:   PENGUIN → lives on ICE
+//   [D] Double meaning: COLD → temperature + "cold shoulder"
+//
+// RULES FOLLOWED:
+//   - No cell word matches its column answer
+//   - All 4 column answers are different
+//   - FINAL connects all 4 column answers through a theme
+//   - Mix of association types within each column
+// ============================================================
+
+var PZ = [
+
+// ===== 1 ===== FINAL: ENERGY
+// SUN: sunburn[C], sunrise[C], solar[L], Egypt(Ra)[R]
+// WIND: windmill[C], tornado[L], sail[L], Chicago(Windy City)[R]
+// POWER: powerhouse[C], muscle[L], throne[L], outlet[C/L]
+// FUEL: fossil fuel[P], tank[C], rocket[L], price[L]
+{c:[
+{w:["BURN","RISE","SOLAR","EGYPT"],a:"SUN"},
+{w:["MILL","TORNADO","SAIL","CHICAGO"],a:"WIND"},
+{w:["HOUSE","MUSCLE","THRONE","OUTLET"],a:"POWER"},
+{w:["FOSSIL","TANK","ROCKET","PRICE"],a:"FUEL"}
+],f:"ENERGY"},
+
+// ===== 2 ===== FINAL: RING
+// GOLD: gold rush[P], silence is golden[P], Midas[R], trophy[L]
+// DIAMOND: baseball diamond[L], carat[L], Rihanna[R], rough[P]
+// BELL: doorbell[C], Liberty Bell[R], Taco Bell[R], Tinker[R]
+// BOXING: Muhammad Ali[R], glove[L], canvas[L], heavyweight[C]
+{c:[
+{w:["RUSH","MIDAS","TROPHY","SILENCE"],a:"GOLD"},
+{w:["BASEBALL","CARAT","RIHANNA","ROUGH"],a:"DIAMOND"},
+{w:["DOOR","LIBERTY","TACO","TINKER"],a:"BELL"},
+{w:["ALI","GLOVE","CANVAS","HEAVYWEIGHT"],a:"BOXING"}
+],f:"RING"},
+
+// ===== 3 ===== FINAL: HEART
+// BREAK: heartbreak[C], breakfast[C], outbreak[C], break a leg[P]
+// BEAT: heartbeat[C], drum[L], Michael Jackson[R], rhythm[L]
+// ATTACK: heart attack[C], panic[L], shark[L], Pearl Harbor[R]
+// BRAVE: Braveheart[R], lion[L], medal[L], Merida[R]
+{c:[
+{w:["FAST","OUT","LEG","DANCE"],a:"BREAK"},
+{w:["DRUM","JACKSON","RHYTHM","PULSE"],a:"BEAT"},
+{w:["PANIC","SHARK","HARBOR","SUDDEN"],a:"ATTACK"},
+{w:["LION","MEDAL","MERIDA","WARRIOR"],a:"BRAVE"}
+],f:"HEART"},
+
+// ===== 4 ===== FINAL: OCEAN
+// WAVE: Mexican wave[R], sound wave[L], goodbye[L], surfer[L]
+// DEEP: deep end[P], Adele(Rolling in the Deep)[R], sleep[L], secret[L]
+// BLUE: feeling blue[P], whale[L], Picasso(Blue Period)[R], sky[L]
+// PACIFIC: Pacific Ocean[C], peaceful[L], Rim[R], coast[L]
+{c:[
+{w:["MEXICAN","SOUND","GOODBYE","SURFER"],a:"WAVE"},
+{w:["END","ADELE","SLEEP","SECRET"],a:"DEEP"},
+{w:["FEELING","WHALE","PICASSO","SKY"],a:"BLUE"},
+{w:["PEACEFUL","RIM","COAST","ISLANDS"],a:"PACIFIC"}
+],f:"OCEAN"},
+
+// ===== 5 ===== FINAL: APPLE
+// TREE: family tree[P], oak[L], ring (tree rings)[L], bark[D]
+// SEED: sunflower seed[C], idea[L], doubt[P], bird[L]
+// CORE: hardcore[C], center[L], reactor[L], workout[L]
+// PIE: humble pie[P], magpie[L], pizza[L], American[R]
+{c:[
+{w:["FAMILY","OAK","BARK","RING"],a:"TREE"},
+{w:["SUNFLOWER","IDEA","DOUBT","BIRD"],a:"SEED"},
+{w:["HARD","CENTER","REACTOR","WORKOUT"],a:"CORE"},
+{w:["HUMBLE","MAGPIE","PIZZA","AMERICAN"],a:"PIE"}
+],f:"APPLE"},
+
+// ===== 6 ===== FINAL: BRIDGE
+// LONDON: London Bridge[R], Big Ben[R], fog[L], Buckingham[R]
+// CARD: card game bridge[L], deck[L], poker[L], shuffle[L]
+// GAP: bridge the gap[P], mind the gap[P], tooth[L], generation[L]
+// BURN: burn bridges[P], fire[L], calories[L], sunburn[C]
+{c:[
+{w:["BIG BEN","FOG","BUCKINGHAM","THAMES"],a:"LONDON"},
+{w:["DECK","POKER","SHUFFLE","DEALER"],a:"CARD"},
+{w:["MIND THE","TOOTH","GENERATION","WAGE"],a:"GAP"},
+{w:["BRIDGES","CALORIES","CANDLE","RUBBER"],a:"BURN"}
+],f:"BRIDGE"},
+
+// ===== 7 ===== FINAL: KEY
+// PIANO: keyboard[L], Beethoven[R], grand[C], pedal[L]
+// LOCK: padlock[C], Sherlock[R], canal[L], combination[L]
+// FLORIDA: Florida Keys[R], alligator[L], Miami[R], swamp[L]
+// MASTER: master key[C], Yoda[R], chess[L], degree[L]
+{c:[
+{w:["KEYBOARD","BEETHOVEN","GRAND","PEDAL"],a:"PIANO"},
+{w:["PAD","SHERLOCK","CANAL","COMBINATION"],a:"LOCK"},
+{w:["ALLIGATOR","MIAMI","SWAMP","DISNEY"],a:"FLORIDA"},
+{w:["YODA","CHESS","DEGREE","PIECE"],a:"MASTER"}
+],f:"KEY"},
+
+// ===== 8 ===== FINAL: IRON
+// PRESS: iron press[C], newspaper[L], bench press[L], freedom of[P]
+// CURTAIN: Iron Curtain[R], shower[L], call[L], rod[L]
+// GOLD: goldiron → not great. Let me use STEEL instead.
+// MAIDEN: Iron Maiden[R], voyage[L], name[L], speech[L]
+// MAN: Iron Man[R], spider[R], pac[R], best[L]
+{c:[
+{w:["NEWSPAPER","BENCH","FREEDOM","BUTTON"],a:"PRESS"},
+{w:["SHOWER","CALL","ROD","BAMBOO"],a:"CURTAIN"},
+{w:["VOYAGE","NAME","SPEECH","OVER"],a:"MAIDEN"},
+{w:["SPIDER","BEST","OLD","STUNT"],a:"MAN"}
+],f:"IRON"},
+
+// ===== 9 ===== FINAL: LIGHT
+// FLASH: flashlight[C], camera[L], lightning[L], Gordon(Flash Gordon)[R]
+// HOUSE: lighthouse[C], haunted[L], full house[R], cards[L]
+// SPEED: speed of light[P], bullet[L], Usain Bolt[R], ticket[L]
+// FEATHER: light as a feather[P], pillow[L], peacock[L], quill[L]
+{c:[
+{w:["CAMERA","LIGHTNING","GORDON","MOB"],a:"FLASH"},
+{w:["HAUNTED","FULL","CARDS","WIFE"],a:"HOUSE"},
+{w:["BULLET","BOLT","TICKET","LIMIT"],a:"SPEED"},
+{w:["PILLOW","PEACOCK","QUILL","DUSTER"],a:"FEATHER"}
+],f:"LIGHT"},
+
+// ===== 10 ===== FINAL: CROWN
+// JEWEL: crown jewels[C], ruby[L], heist[L], family[L]
+// QUEEN: crown → queen[L], Elizabeth[R], chess[L], bee[L]
+// TOOTH: crown (dental)[L], fairy[L], wisdom[L], ache[L]
+// PRINCE: crown prince[C], Fresh[R], charming[R], William[R]
+{c:[
+{w:["RUBY","HEIST","FAMILY","THIEF"],a:"JEWEL"},
+{w:["ELIZABETH","CHESS","BEE","BAND"],a:"QUEEN"},
+{w:["FAIRY","WISDOM","ACHE","PASTE"],a:"TOOTH"},
+{w:["FRESH","CHARMING","WILLIAM","HARRY"],a:"PRINCE"}
+],f:"CROWN"},
+
+// ===== 11 ===== FINAL: SPRING
+// WATER: spring water[C], fountain[L], hose[L], baptism[L]
+// BOARD: springboard[C], chess[L], surf[L], chairman[L]
+// CHICKEN: spring chicken[P], nugget[L], cross the road[P], coop[L]
+// ROLL: spring roll[C], rock and roll[P], dice[L], Swiss[L]
+{c:[
+{w:["FOUNTAIN","HOSE","BAPTISM","WELL"],a:"WATER"},
+{w:["CHESS","SURF","CHAIRMAN","DIVING"],a:"BOARD"},
+{w:["NUGGET","ROAD","COOP","EGG"],a:"CHICKEN"},
+{w:["ROCK","DICE","SWISS","DRUM"],a:"ROLL"}
+],f:"SPRING"},
+
+// ===== 12 ===== FINAL: GLASS
+// WINDOW: glass window[L], soul[P], opportunity[P], shopping[L]
+// CEILING: glass ceiling[P], fan[L], chandelier[L], Sistine[R]
+// SLIPPER: glass slipper[R/Cinderella], ballet[L], banana peel[L], ruby[R]
+// HALF: half full/half empty[P], time[L], brother[L], moon[L]
+{c:[
+{w:["SOUL","OPPORTUNITY","SHOPPING","LEDGE"],a:"WINDOW"},
+{w:["FAN","CHANDELIER","SISTINE","LIMIT"],a:"CEILING"},
+{w:["CINDERELLA","BALLET","BANANA","RUBY"],a:"SLIPPER"},
+{w:["FULL","BROTHER","MOON","DOZEN"],a:"HALF"}
+],f:"GLASS"},
+
+// ===== 13 ===== FINAL: COLD
+// WAR: Cold War[R], battle[L], zone[L], veteran[L]
+// BLOOD: cold-blooded[C], vampire[R], donation[L], type[L]
+// SHOULDER: cold shoulder[P], blade[L], tap[L], weight[L]
+// TURKEY: cold turkey[P], Thanksgiving[R], Istanbul[L], gobble[L]
+{c:[
+{w:["BATTLE","ZONE","VETERAN","TRENCH"],a:"WAR"},
+{w:["VAMPIRE","DONATION","TYPE","OATH"],a:"BLOOD"},
+{w:["BLADE","TAP","WEIGHT","CHIP"],a:"SHOULDER"},
+{w:["THANKSGIVING","ISTANBUL","GOBBLE","STUFFING"],a:"TURKEY"}
+],f:"COLD"},
+
+// ===== 14 ===== FINAL: BANK
+// RIVER: riverbank[C], Nile[R], current[D], mouth[D]
+// BLOOD: blood bank[C], vampire[R], pressure[L], red[L]
+// MEMORY: memory bank[C], elephant[L], Alzheimer[L], flashback[L]
+// ROB: bank robbery[L], hood (Robin Hood)[R], steal[L], mask[L]
+{c:[
+{w:["NILE","CURRENT","MOUTH","DELTA"],a:"RIVER"},
+{w:["VAMPIRE","PRESSURE","RED","CELL"],a:"BLOOD"},
+{w:["ELEPHANT","FLASHBACK","LANE","FOAM"],a:"MEMORY"},
+{w:["HOOD","STEAL","MASK","GETAWAY"],a:"ROB"}
+],f:"BANK"},
+
+// ===== 15 ===== FINAL: FIRE
+// ALARM: fire alarm[C], clock[L], panic[L], false[L]
+// DRILL: fire drill[C], dentist[L], sergeant[L], oil[L]
+// ESCAPE: fire escape[C], prison[L], Houdini[R], room[L]
+// ISLAND: Fireland → not great. 
+// FIGHTER: firefighter[C], jet[L], Rocky[R], street[R]
+{c:[
+{w:["CLOCK","PANIC","FALSE","SNOOZE"],a:"ALARM"},
+{w:["DENTIST","SERGEANT","OIL","PRACTICE"],a:"DRILL"},
+{w:["PRISON","HOUDINI","ROOM","ARTIST"],a:"ESCAPE"},
+{w:["JET","ROCKY","STREET","CHAMPION"],a:"FIGHTER"}
+],f:"FIRE"},
+
+// ===== 16 ===== FINAL: MOON
+// FULL: full moon[C], stomach[L], house[R], circle[L]
+// HONEY: honeymoon[C], bee[L], trap[L], badger[L]
+// WALK: moonwalk[C], Michael Jackson[R], dog[L], board[L]
+// TIDE: tide (moon causes tides)[L], laundry[L], turning[P], pod[L]
+{c:[
+{w:["STOMACH","HOUSE","CIRCLE","TANK"],a:"FULL"},
+{w:["BEE","TRAP","BADGER","COMB"],a:"HONEY"},
+{w:["JACKSON","DOG","BOARD","PLANK"],a:"WALK"},
+{w:["LAUNDRY","TURNING","POD","WAVE"],a:"TIDE"}
+],f:"MOON"},
+
+// ===== 17 ===== FINAL: ROCK
+// BOTTOM: rock bottom[P], ocean[L], barrel[L], scraping[P]
+// BAND: rock band[C], rubber[L], wedding[L], gap[L]
+// CLIMB: rock climbing[C], ladder[L], Everest[R], social[L]
+// PAPER: rock paper scissors[R], news[L], toilet[L], trail[L]
+{c:[
+{w:["OCEAN","BARREL","SCRAPING","FLOOR"],a:"BOTTOM"},
+{w:["RUBBER","WEDDING","GAP","MARCHING"],a:"BAND"},
+{w:["LADDER","EVEREST","SOCIAL","MONKEY"],a:"CLIMB"},
+{w:["SCISSORS","NEWS","TOILET","TRAIL"],a:"PAPER"}
+],f:"ROCK"},
+
+// ===== 18 ===== FINAL: HAND
+// SHAKE: handshake[C], earthquake[L], milkshake[C], nervous[L]
+// CLOCK: clock hand[L], tick[L], Big Ben[R], cuckoo[L]
+// SECOND: second hand[C], chance[L], place[L], fiddle[P]
+// UPPER: upper hand[P], class[L], lip[L], deck[L]
+{c:[
+{w:["EARTHQUAKE","MILKSHAKE","NERVOUS","RATTLE"],a:"SHAKE"},
+{w:["TICK","BIG BEN","CUCKOO","MIDNIGHT"],a:"CLOCK"},
+{w:["CHANCE","PLACE","FIDDLE","GUESS"],a:"SECOND"},
+{w:["CLASS","LIP","DECK","CUT"],a:"UPPER"}
+],f:"HAND"},
+
+// ===== 19 ===== FINAL: HORSE
+// DARK: dark horse[P], knight[L], chocolate[L], Vader[R]
+// POWER: horsepower[C], engine[L], nuclear[L], surge[L]
+// TROJAN: Trojan horse[R], virus[L], condom[L], war[L]
+// RACE: horse race[C], marathon[L], rat[P], NASCAR[R]
+{c:[
+{w:["KNIGHT","CHOCOLATE","VADER","MATTER"],a:"DARK"},
+{w:["ENGINE","NUCLEAR","SURGE","GRID"],a:"POWER"},
+{w:["VIRUS","CONDOM","WAR","TROY"],a:"TROJAN"},
+{w:["MARATHON","RAT","NASCAR","ARMS"],a:"RACE"}
+],f:"HORSE"},
+
+// ===== 20 ===== FINAL: HOUSE
+// CARD: house of cards[P/R], deck[L], poker[L], trick[L]
+// WHITE: White House[R], snow[L], flag[L], wedding[L]
+// DOG: doghouse[C], bone[L], fetch[L], loyalty[L]
+// FULL: full house[R/P], poker[L], stomach[L], bloom[L]
+{c:[
+{w:["DECK","POKER","TRICK","SHUFFLE"],a:"CARD"},
+{w:["SNOW","FLAG","WEDDING","DOVE"],a:"WHITE"},
+{w:["BONE","FETCH","LOYALTY","BARK"],a:"DOG"},
+{w:["POKER","STOMACH","BLOOM","TANK"],a:"FULL"}
+],f:"HOUSE"},
+
+// ===== 21 ===== FINAL: DREAM
+// PIPE: pipe dream[P], plumber[L], smoke[L], organ[L]
+// CATCHER: dreamcatcher[C], baseball[L], eye[L], net[L]
+// AMERICAN: American Dream[R], eagle[L], pie[R], football[L]
+// DAY: daydream[C], sunrise[L], Monday[L], planner[L]
+{c:[
+{w:["PLUMBER","SMOKE","ORGAN","BAGPIPE"],a:"PIPE"},
+{w:["BASEBALL","EYE","NET","BALL"],a:"CATCHER"},
+{w:["EAGLE","PIE","FOOTBALL","FLAG"],a:"AMERICAN"},
+{w:["SUNRISE","MONDAY","PLANNER","BREAK"],a:"DAY"}
+],f:"DREAM"},
+
+// ===== 22 ===== FINAL: MATCH
+// STICK: matchstick[C], drum[L], hockey[L], lipstick[C]
+// PERFECT: perfect match[P], ten[L], stranger[R], practice[P]
+// BOX: matchbox[C], boxing[L], Pandora[R], lunch[L]
+// POINT: match point[C], bullet[L], blank[P], needle[L]
+{c:[
+{w:["DRUM","HOCKEY","LIPSTICK","GLUE"],a:"STICK"},
+{w:["TEN","STRANGER","PRACTICE","SCORE"],a:"PERFECT"},
+{w:["BOXING","PANDORA","LUNCH","TOOL"],a:"BOX"},
+{w:["BULLET","BLANK","NEEDLE","TURNING"],a:"POINT"}
+],f:"MATCH"},
+
+// ===== 23 ===== FINAL: DIAMOND
+// ROUGH: diamond in the rough[P], sandpaper[L], sketch[L], tough[L]
+// BASE: baseball diamond[L], military[L], acid[L], camp[L]
+// NEIL: Neil Diamond[R], Armstrong[R], Young[R], deGrasse Tyson[R]
+// CARAT: carat (diamond measure)[L], carrot[D], gold[L], ring[L]
+{c:[
+{w:["SANDPAPER","SKETCH","TOUGH","EDGE"],a:"ROUGH"},
+{w:["MILITARY","ACID","CAMP","GUITAR"],a:"BASE"},
+{w:["ARMSTRONG","YOUNG","TYSON","SEDAKA"],a:"NEIL"},
+{w:["CARROT","GOLD","RING","WEIGHT"],a:"CARAT"}
+],f:"DIAMOND"},
+
+// ===== 24 ===== FINAL: SHADOW
+// DOUBT: shadow of a doubt[P], suspicion[L], Thomas[R], reasonable[L]
+// PUPPET: shadow puppet[C], Pinocchio[R], strings[L], master[L]
+// BOXING: shadowboxing[C], Ali[R], gym[L], mirror[L]
+// PETER: Peter Pan(shadow)[R], rabbit[R], Pan[R], Parker[R]
+{c:[
+{w:["SUSPICION","THOMAS","REASONABLE","BENEFIT"],a:"DOUBT"},
+{w:["PINOCCHIO","STRINGS","MASTER","SHOW"],a:"PUPPET"},
+{w:["ALI","GYM","MIRROR","PUNCH"],a:"BOXING"},
+{w:["PAN","RABBIT","PARKER","GRIFFIN"],a:"PETER"}
+],f:"SHADOW"},
+
+// ===== 25 ===== FINAL: GOLD
+// RUSH: gold rush[P], hour[P], adrenaline[L], sugar[L]
+// MEDAL: gold medal[C], Olympic[L], podium[L], courage[L]
+// SILENCE: silence is golden[P], library[L], mime[L], lamb[P]
+// FISH: goldfish[C], bowl[L], memory[L], aquarium[L]
+{c:[
+{w:["HOUR","ADRENALINE","SUGAR","TRAFFIC"],a:"RUSH"},
+{w:["OLYMPIC","PODIUM","COURAGE","BRONZE"],a:"MEDAL"},
+{w:["LIBRARY","MIME","LAMB","MONASTERY"],a:"SILENCE"},
+{w:["BOWL","MEMORY","AQUARIUM","CRACKER"],a:"FISH"}
+],f:"GOLD"},
+
+// ===== 26 ===== FINAL: CHAIR
+// ARM: armchair[C], sleeve[L], wrestle[L], octopus[L]
+// HIGH: highchair[C], five[L], noon[L], horse[P]
+// WHEEL: wheelchair[C], hamster[L], fortune[R], steering[L]
+// ROCK: rocking chair[C], music[L], cradle[L], Alcatraz[R]
+{c:[
+{w:["SLEEVE","WRESTLE","OCTOPUS","CANNON"],a:"ARM"},
+{w:["FIVE","NOON","HORSE","TOWER"],a:"HIGH"},
+{w:["HAMSTER","FORTUNE","STEERING","SPOKE"],a:"WHEEL"},
+{w:["MUSIC","CRADLE","ALCATRAZ","BOULDER"],a:"ROCK"}
+],f:"CHAIR"},
+
+// ===== 27 ===== FINAL: BOARD
+// SURF: surfboard[C], wave[L], California[R], internet[L]
+// CARD: cardboard[C], poker[L], birthday[L], Valentine[L]
+// CHALK: chalkboard[C], teacher[L], cliff[L], cheese[L]
+// CHESS: chessboard[C], king[L], strategy[L], Kasparov[R]
+{c:[
+{w:["WAVE","CALIFORNIA","INTERNET","BEACH"],a:"SURF"},
+{w:["POKER","BIRTHDAY","VALENTINE","TRICK"],a:"CARD"},
+{w:["TEACHER","CLIFF","CHEESE","DUST"],a:"CHALK"},
+{w:["KING","STRATEGY","KASPAROV","PAWN"],a:"CHESS"}
+],f:"BOARD"},
+
+// ===== 28 ===== FINAL: WALL STREET
+// BULL: bull market[L], matador[L], china shop[P], horns[L]
+// BEAR: bear market[L], grizzly[L], hibernation[L], Paddington[R]
+// WOLF: Wolf of Wall Street[R], pack[L], sheep's clothing[P], howl[L]
+// CRASH: stock market crash[L], car[L], landing[L], cymbal[L]
+{c:[
+{w:["MATADOR","CHINA SHOP","HORNS","RED"],a:"BULL"},
+{w:["GRIZZLY","HIBERNATION","PADDINGTON","CAVE"],a:"BEAR"},
+{w:["PACK","CLOTHING","HOWL","GRANDMOTHER"],a:"WOLF"},
+{w:["CAR","LANDING","CYMBAL","DUMMY"],a:"CRASH"}
+],f:"WALL STREET"},
+
+// ===== 29 ===== FINAL: STAGE
+// FRIGHT: stage fright[C], horror[L], deer in headlights[P], spider[L]
+// LEFT: stage left[C], right[L], behind[L], handed[L]
+// COACH: stagecoach[C], Cinderella[R], bus[L], sports[L]
+// NAME: stage name[C], celebrity[L], tag[L], brand[L]
+{c:[
+{w:["HORROR","HEADLIGHTS","SPIDER","GHOST"],a:"FRIGHT"},
+{w:["RIGHT","BEHIND","HANDED","OVERS"],a:"LEFT"},
+{w:["CINDERELLA","BUS","SPORTS","POTATO"],a:"COACH"},
+{w:["CELEBRITY","TAG","BRAND","SAKE"],a:"NAME"}
+],f:"STAGE"},
+
+// ===== 30 ===== FINAL: SNOW
+// BALL: snowball[C], crystal[L], Cinderella[R], wrecking[R]
+// WHITE: Snow White[R], flag[L], shark[L], Christmas[L]
+// DRIFT: snowdrift[C], fast and furious[R], sleep[L], apart[L]
+// FLAKE: snowflake[C], cereal[L], unique[L], dandruff[L]
+{c:[
+{w:["CRYSTAL","CINDERELLA","WRECKING","BOUNCING"],a:"BALL"},
+{w:["FLAG","SHARK","CHRISTMAS","TEETH"],a:"WHITE"},
+{w:["FURIOUS","SLEEP","APART","WOOD"],a:"DRIFT"},
+{w:["CEREAL","UNIQUE","DANDRUFF","CORN"],a:"FLAKE"}
+],f:"SNOW"},
+
+// ===== 31 ===== FINAL: BOOK
+// WORM: bookworm[C], early bird[P], compost[L], gummy[L]
+// COVER: book cover[C], undercover[C], magazine[L], blanket[L]
+// MARK: bookmark[C], question[L], birthmark[C], target[L]
+// COOK: cookbook[C], chef[L], Gordon Ramsay[R], kitchen[L]
+{c:[
+{w:["EARLY BIRD","COMPOST","GUMMY","APPLE"],a:"WORM"},
+{w:["UNDER","MAGAZINE","BLANKET","ALBUM"],a:"COVER"},
+{w:["QUESTION","BIRTH","TARGET","TRADE"],a:"MARK"},
+{w:["CHEF","RAMSAY","KITCHEN","RECIPE"],a:"COOK"}
+],f:"BOOK"},
+
+// ===== 32 ===== FINAL: FOOT
+// BALL: football[C], bounce[L], prom[L], Cinderella[R]
+// PRINT: footprint[C], carbon[L], finger[L], screen[L]
+// NOTE: footnote[C], music[L], dollar[L], sticky[L]
+// STEP: footstep[C], dance[L], stair[L], twelve[R]
+{c:[
+{w:["BOUNCE","PROM","CINDERELLA","BASKET"],a:"BALL"},
+{w:["CARBON","FINGER","SCREEN","BLUE"],a:"PRINT"},
+{w:["MUSIC","DOLLAR","STICKY","THANK YOU"],a:"NOTE"},
+{w:["DANCE","STAIR","TWELVE","QUICK"],a:"STEP"}
+],f:"FOOT"},
+
+// ===== 33 ===== FINAL: ROUND
+// TABLE: round table[R/King Arthur], dinner[L], pool[L], periodic[L]
+// TRIP: round trip[C], acid[L], guilt[L], road[L]
+// CLOCK: around the clock[P], midnight[L], tower[L], alarm[L]
+// ROBIN: round robin[C], Hood[R], bird[L], Batman[R]
+{c:[
+{w:["ARTHUR","DINNER","POOL","PERIODIC"],a:"TABLE"},
+{w:["ACID","GUILT","ROAD","FIELD"],a:"TRIP"},
+{w:["MIDNIGHT","TOWER","ALARM","WRIST"],a:"CLOCK"},
+{w:["HOOD","BIRD","BATMAN","NEST"],a:"ROBIN"}
+],f:"ROUND"},
+
+// ===== 34 ===== FINAL: SEASON
+// SALT: seasoning[L], ocean[L], wound[P], pretzel[L]
+// TICKET: season ticket[C], parking[L], lottery[L], golden[R]
+// FINALE: season finale[C], opera[L], fireworks[L], curtain[L]
+// GREETINGS: season's greetings[P], card[L], neighbor[L], wave[L]
+{c:[
+{w:["OCEAN","WOUND","PRETZEL","PEPPER"],a:"SALT"},
+{w:["PARKING","LOTTERY","GOLDEN","SPEEDING"],a:"TICKET"},
+{w:["OPERA","FIREWORKS","CURTAIN","ENCORE"],a:"FINALE"},
+{w:["CARD","NEIGHBOR","WAVE","HELLO"],a:"GREETINGS"}
+],f:"SEASON"},
+
+// ===== 35 ===== FINAL: BLACK
+// SHEEP: black sheep[P], flock[L], wool[L], silence of the lambs[R]
+// MARKET: black market[C], stock[L], flea[L], super[L]
+// HOLE: black hole[C], rabbit[R], donut[L], golf[L]
+// JACK: blackjack[C], casino[L], lumberjack[C], pirate[L]
+{c:[
+{w:["FLOCK","WOOL","LAMBS","SHEPHERD"],a:"SHEEP"},
+{w:["STOCK","FLEA","SUPER","CRASH"],a:"MARKET"},
+{w:["RABBIT","DONUT","GOLF","NEEDLE"],a:"HOLE"},
+{w:["CASINO","LUMBER","PIRATE","FLAG"],a:"JACK"}
+],f:"BLACK"},
+
+// ===== 36 ===== FINAL: STONE
+// ROLL: Rolling Stones[R], sushi[L], dice[L], drum[L]
+// COLD: cold as stone[P], ice[L], shoulder[P], storage[L]
+// MILE: milestone[C], marathon[L], smile[D], extra[P]
+// STEPPING: stepping stone[C], dance[L], toes[L], ladder[L]
+{c:[
+{w:["SUSHI","DICE","DRUM","BARREL"],a:"ROLL"},
+{w:["ICE","SHOULDER","STORAGE","CASE"],a:"COLD"},
+{w:["MARATHON","SMILE","EXTRA","GREEN"],a:"MILE"},
+{w:["DANCE","TOES","LADDER","FIRST"],a:"STEPPING"}
+],f:"STONE"},
+
+// ===== 37 ===== FINAL: TRAIN
+// THOUGHT: train of thought[P], deep[L], penny[P], shower[L]
+// TRACK: train track[C], running[L], record[L], lost[P]
+// STATION: train station[C], radio[L], space[L], gas[L]
+// WRECK: train wreck[C], ship[L], nervous[P], demolition[L]
+{c:[
+{w:["DEEP","PENNY","SHOWER","FOOD"],a:"THOUGHT"},
+{w:["RUNNING","RECORD","LOST","SOUND"],a:"TRACK"},
+{w:["RADIO","SPACE","GAS","POLICE"],a:"STATION"},
+{w:["SHIP","NERVOUS","DEMOLITION","BALL"],a:"WRECK"}
+],f:"TRAIN"},
+
+// ===== 38 ===== FINAL: LINE
+// PUNCH: punchline[C], boxing[L], fruit[L], ticket[L]
+// FINE: fine line[C], wine[L], art[L], penalty[L]
+// CLOTHES: clothesline[C], closet[L], emperor[R], fashion[L]
+// PICK UP: pick-up line[C], truck[L], phone[L], sticks[L]
+{c:[
+{w:["BOXING","FRUIT","TICKET","HAWAIIAN"],a:"PUNCH"},
+{w:["WINE","ART","PENALTY","DINING"],a:"FINE"},
+{w:["CLOSET","EMPEROR","FASHION","LAUNDRY"],a:"CLOTHES"},
+{w:["TRUCK","PHONE","STICKS","HITCHHIKE"],a:"PICK UP"}
+],f:"LINE"},
+
+// ===== 39 ===== FINAL: CAMP
+// FIRE: campfire[C], song[L], marshmallow[L], circle[L]
+// TENT: tent (camping)[L], circus[L], oxygen[L], pole[L]
+// BOOT: boot camp[C], cowboy[L], hiking[L], car[L]
+// SUMMER: summer camp[C], vacation[L], solstice[L], blockbuster[L]
+{c:[
+{w:["SONG","MARSHMALLOW","CIRCLE","GHOST"],a:"FIRE"},
+{w:["CIRCUS","OXYGEN","POLE","CANVAS"],a:"TENT"},
+{w:["COWBOY","HIKING","CAR","ANKLE"],a:"BOOT"},
+{w:["VACATION","SOLSTICE","BLOCKBUSTER","ICE CREAM"],a:"SUMMER"}
+],f:"CAMP"},
+
+// ===== 40 ===== FINAL: NET
+// BASKET: basketball net[L], picnic[L], Easter[L], bread[L]
+// SAFETY: safety net[C], belt[L], first[L], pin[L]
+// HAIR: hairnet[C], salon[L], Rapunzel[R], brush[L]
+// INTER: internet[C], national[L], view[L], stellar[L]
+{c:[
+{w:["PICNIC","EASTER","BREAD","WEAVE"],a:"BASKET"},
+{w:["BELT","FIRST","PIN","VALVE"],a:"SAFETY"},
+{w:["SALON","RAPUNZEL","BRUSH","CURL"],a:"HAIR"},
+{w:["NATIONAL","VIEW","STELLAR","MISSION"],a:"INTER"}
+],f:"NET"},
+
+// ===== 41 ===== FINAL: CHEST
+// TREASURE: treasure chest[C], map[L], pirate[L], hunt[L]
+// HAIR: chest hair[C], gorilla[L], shave[L], wig[L]
+// DRAWER: chest of drawers[C], sock[L], junk[L], kitchen[L]
+// MEDICINE: medicine chest[C], doctor[L], pill[L], bitter[P]
+{c:[
+{w:["MAP","PIRATE","HUNT","ISLAND"],a:"TREASURE"},
+{w:["GORILLA","SHAVE","WIG","BALD"],a:"HAIR"},
+{w:["SOCK","JUNK","KITCHEN","TOP"],a:"DRAWER"},
+{w:["DOCTOR","PILL","BITTER","DOSE"],a:"MEDICINE"}
+],f:"CHEST"},
+
+// ===== 42 ===== FINAL: PLATE
+// HOME: home plate[C/baseball], sweet[L], Dorothy[R], alone[R]
+// ARMOR: armor plate[C], knight[L], medieval[L], chink[P]
+// LICENSE: license plate[C], driver[L], James Bond[R], hunting[L]
+// GOLD: gold plate[C], Olympic[L], Midas[R], rush[P]
+{c:[
+{w:["SWEET","DOROTHY","ALONE","SICK"],a:"HOME"},
+{w:["KNIGHT","MEDIEVAL","CHINK","SHIELD"],a:"ARMOR"},
+{w:["DRIVER","BOND","HUNTING","FISHING"],a:"LICENSE"},
+{w:["OLYMPIC","MIDAS","RUSH","DIGGER"],a:"GOLD"}
+],f:"PLATE"},
+
+// ===== 43 ===== FINAL: RIVER
+// BANK: riverbank[C], money[L], piggy[L], vault[L]
+// BED: riverbed[C], pillow[L], breakfast[L], monster[L]
+// DEEP: deep river[P], ocean[L], thought[L], trouble[P]
+// NILE: Nile River[R], crocodile[L], Egypt[L], Cleopatra[R]
+{c:[
+{w:["MONEY","PIGGY","VAULT","HEIST"],a:"BANK"},
+{w:["PILLOW","BREAKFAST","MONSTER","BUNK"],a:"BED"},
+{w:["OCEAN","THOUGHT","TROUBLE","BREATH"],a:"DEEP"},
+{w:["CROCODILE","EGYPT","CLEOPATRA","PYRAMID"],a:"NILE"}
+],f:"RIVER"},
+
+// ===== 44 ===== FINAL: MARKET
+// FLEA: flea market[C], dog[L], circus[L], bite[L]
+// STOCK: stock market[C], soup[L], laughing[L], shelf[L]
+// BULL: bull market[L], china shop[P], rodeo[L], Lamborghini[R]
+// SUPER: supermarket[C], hero[L], bowl[R], natural[L]
+{c:[
+{w:["DOG","CIRCUS","BITE","COLLAR"],a:"FLEA"},
+{w:["SOUP","LAUGHING","SHELF","CUBE"],a:"STOCK"},
+{w:["CHINA SHOP","RODEO","LAMBORGHINI","HORNS"],a:"BULL"},
+{w:["HERO","BOWL","NATURAL","GLUE"],a:"SUPER"}
+],f:"MARKET"},
+
+// ===== 45 ===== FINAL: GROUND
+// COFFEE: coffee grounds[L], bean[L], filter[L], morning[L]
+// BREAK: groundbreaking[C], bone[L], egg[L], dawn[L]
+// PLAY: playground[C], child[L], fair[L], Shakespeare[R]
+// STAND: grandstand[C/close], last[L], comedy[L], united[L]
+// Actually let me use COMMON instead of STAND
+// COMMON: common ground[P], sense[L], cold[L], wealth[L]
+{c:[
+{w:["BEAN","FILTER","MORNING","ESPRESSO"],a:"COFFEE"},
+{w:["BONE","EGG","DAWN","RECORD"],a:"BREAK"},
+{w:["CHILD","FAIR","SHAKESPEARE","RECESS"],a:"PLAY"},
+{w:["SENSE","COLD","WEALTH","PEOPLE"],a:"COMMON"}
+],f:"GROUND"},
+
+// ===== 46 ===== FINAL: POINT
+// BLANK: point blank[C], canvas[L], stare[L], check[L]
+// VIEW: viewpoint[C], room[L], bird's eye[P], interview[C]
+// GUN: gunpoint[C], smoke[L], son of a[P], trigger[L]
+// NEEDLE: needlepoint[C], haystack[P], compass[L], tattoo[L]
+{c:[
+{w:["CANVAS","STARE","CHECK","SPACE"],a:"BLANK"},
+{w:["ROOM","BIRD'S EYE","INTERVIEW","SCENIC"],a:"VIEW"},
+{w:["SMOKE","TRIGGER","HOLSTER","POWDER"],a:"GUN"},
+{w:["HAYSTACK","COMPASS","TATTOO","PINE"],a:"NEEDLE"}
+],f:"POINT"},
+
+// ===== 47 ===== FINAL: GREEN
+// HOUSE: greenhouse[C], haunted[L], gingerbread[R], cards[L]
+// LIGHT: green light[P], traffic[L], permission[L], go[L]
+// PEACE: Greenpeace[R], dove[L], treaty[L], pipe[L]
+// ENVY: green with envy[P], jealousy[L], neighbor[L], Othello[R]
+{c:[
+{w:["HAUNTED","GINGERBREAD","CARDS","MOUSE"],a:"HOUSE"},
+{w:["TRAFFIC","PERMISSION","GO","STOP"],a:"LIGHT"},
+{w:["DOVE","TREATY","PIPE","OLIVE"],a:"PEACE"},
+{w:["JEALOUSY","NEIGHBOR","OTHELLO","MONSTER"],a:"ENVY"}
+],f:"GREEN"},
+
+// ===== 48 ===== FINAL: WOOD
+// DRIFT: driftwood[C], snow[L], apart[L], Tokyo[R]
+// HOLLY: Hollywood[C], Christmas[L], berry[L], Dolly[R]
+// FIRE: firewood[C], camp[L], alarm[L], breathing[L]
+// KNOCK: knock on wood[P], door[L], joke[L], boxing[L]
+{c:[
+{w:["SNOW","APART","TOKYO","CURRENT"],a:"DRIFT"},
+{w:["CHRISTMAS","BERRY","DOLLY","JOLLY"],a:"HOLLY"},
+{w:["CAMP","ALARM","BREATHING","DRAGON"],a:"FIRE"},
+{w:["DOOR","JOKE","BOXING","OPPORTUNITY"],a:"KNOCK"}
+],f:"WOOD"},
+
+// ===== 49 ===== FINAL: PASS
+// BOARD: boarding pass[L], chess[L], surf[L], diving[L]
+// MOUNTAIN: mountain pass[C], Everest[R], goat[L], climber[L]
+// WORD: password[C], crossword[C], bird is the word[R], mouth[L]
+// TIME: pastime[C], clock[L], flies[P], machine[R]
+{c:[
+{w:["CHESS","SURF","DIVING","IRONING"],a:"BOARD"},
+{w:["EVEREST","GOAT","CLIMBER","PEAK"],a:"MOUNTAIN"},
+{w:["CROSS","BIRD","MOUTH","SEARCH"],a:"WORD"},
+{w:["CLOCK","FLIES","MACHINE","DINNER"],a:"TIME"}
+],f:"PASS"},
+
+// ===== 50 ===== FINAL: CROSS
+// ROAD: crossroad[C], chicken[P], yellow brick[R], fork[L]
+// WORD: crossword[C], puzzle[L], riddle[L], clue[L]
+// BOW: crossbow[C], arrow[L], ribbon[L], violin[L]
+// RED: Red Cross[R], carpet[L], flag[L], riding hood[R]
+{c:[
+{w:["CHICKEN","YELLOW BRICK","FORK","DEAD END"],a:"ROAD"},
+{w:["PUZZLE","RIDDLE","CLUE","HINT"],a:"WORD"},
+{w:["ARROW","RIBBON","VIOLIN","TIE"],a:"BOW"},
+{w:["CARPET","FLAG","RIDING HOOD","ALERT"],a:"RED"}
+],f:"CROSS"}
+
 ];
 var WR=["SPORTS","MUSIC","HISTORY","ANIMALS","FOOD","SCIENCE","MOVIES","PLACES"];
 var DF={
